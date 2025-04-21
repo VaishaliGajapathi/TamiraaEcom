@@ -55,16 +55,38 @@ export default function NavbarFour() {
                             }`}
                         >
                             <ul className="text-lg leading-none text-title dark:text-white lg:flex lg:gap-[30px]">
-                                <li>
+                                <li
+                                    className={
+                                        current === '/' ? 'text-primary' : ''
+                                    }
+                                >
                                     <Link to="/">Home</Link>
                                 </li>
-                                <li>
+                                <li
+                                    className={
+                                        current === '/about'
+                                            ? 'text-primary'
+                                            : ''
+                                    }
+                                >
                                     <Link to="/about">About Us</Link>
                                 </li>
-                                <li>
+                                <li
+                                    className={
+                                        current === '/allproducts'
+                                            ? 'text-primary'
+                                            : ''
+                                    }
+                                >
                                     <Link to="/allproducts">Products</Link>
                                 </li>
-                                <li>
+                                <li
+                                    className={
+                                        current === '/contact'
+                                            ? 'text-primary'
+                                            : ''
+                                    }
+                                >
                                     <Link to="/contact">Contact</Link>
                                 </li>
                                 <li className="lg:hidden">
