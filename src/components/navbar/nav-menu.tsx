@@ -30,16 +30,10 @@ export default function NavMenu({ toggle, setToggle }: NavMenuProps) {
             </button>
 
             <Link to="/wishlist">
-                <span className="absolute w-[22px] h-[22px] bg-secondary -top-[10px] -right-[11px] rounded-full flex items-center justify-center text-xs leading-none text-white">
-                    14
-                </span>
                 <GoHeart className="text-title dark:text-white size-6" />
             </Link>
 
             <Link to="/cart">
-                <span className="absolute w-[22px] h-[22px] bg-secondary -top-[10px] -right-[11px] rounded-full flex items-center justify-center text-xs leading-none text-white">
-                    22
-                </span>
                 <RiShoppingBag4Line className="text-title dark:text-white size-6" />
             </Link>
 
