@@ -6,10 +6,9 @@ import BestSeller from '../../components/product/best-seller'
 import PartnerOne from '../../components/partner-one'
 import BlogFour from '../../components/blog/blog-four'
 import NewsTwo from '../../components/news-letter/news-two'
-import FooterFour from '../../components/footer/footer-four'
 import ScrollToTop from '../../components/scroll-to-top'
 
-import bg from '../../assets/img/home-v4/banner-bg.jpg'
+import bgnew from '../../assets/img/new_banner/new_banner1.jpg'
 
 import { servicesData } from '../../data/index-three'
 import { featureOne, productList } from '../../data/data'
@@ -20,6 +19,7 @@ import { GoStarFill } from 'react-icons/go'
 import { FaArrowRightLong } from 'react-icons/fa6'
 
 import Aos from 'aos'
+import FooterOne from '../../components/footer/footer-one'
 
 export default function IndexFour() {
     useEffect(() => {
@@ -30,45 +30,20 @@ export default function IndexFour() {
             <NavbarFour />
             <div
                 className="pt-40 sm:pt-52 lg:pt-[280px] pb-52 lg:pb-[350px] 2xl:pb-[450px] bg-overlay dark:before:bg-title dark:before:bg-opacity-70"
-                style={{ backgroundImage: `url(${bg})` }}
+                style={{ backgroundImage: `url(${bgnew})` }}
             >
                 <div
                     className="container"
                     data-aos="fade-up"
                     data-aos-delay="100"
                 >
-                    <div className="max-w-[751px] mx-auto">
-                        <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl leading-snug sm:leading-snug md:leading-snug lg:leading-snug">
-                            A Collection of World Top Class{' '}
-                            <span className="font-secondary text-primary font-normal">
-                                Furniture
-                            </span>
-                        </h2>
-                        <div>
-                            <Link
-                                to="/shop-v1"
-                                className="group md:text-lg font-medium leading-none text-title dark:text-white flex items-center gap-3 mt-3"
-                            >
-                                <span className="text-underline leading-none">
-                                    Go to Shop{' '}
-                                </span>
-                                <svg
-                                    className="fill-current text-title dark:text-white w-5 md:w-7"
-                                    viewBox="0 0 31 12"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path d="M30.2303 6.58892C30.5232 6.29603 30.5232 5.82116 30.2303 5.52826L25.4574 0.755293C25.1645 0.462399 24.6896 0.462399 24.3967 0.755293C24.1038 1.04819 24.1038 1.52306 24.3967 1.81595L28.6393 6.05859L24.3967 10.3012C24.1038 10.5941 24.1038 11.069 24.3967 11.3619C24.6896 11.6548 25.1645 11.6548 25.4574 11.3619L30.2303 6.58892ZM0 6.80859L29.7 6.80859V5.30859L0 5.30859L0 6.80859Z" />
-                                </svg>
-                            </Link>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
 
             <div className="container">
                 <div className="max-w-1366 mx-auto">
-                    <div className="hv3-service-wrapper bg-white dark:bg-title rounded-[10px] -mt-16 relative z-10 xl:flex xl:justify-between sm:gap-5 grid sm:grid-cols-2">
+                    <div className="hv3-service-wrapper bg-white dark:bg-title rounded-[10px] -mt-16 relative z-10 xl:flex xl:justify-evenly sm:gap-5 grid sm:grid-cols-2">
                         {servicesData.map((item, index) => {
                             return (
                                 <>
@@ -77,19 +52,7 @@ export default function IndexFour() {
                                         className="group flex items-center gap-5 p-6"
                                         key={index}
                                     >
-                                        <div className="w-14 md:w-[70px] h-14 p-[10px] md:h-[70px] flex items-center justify-center border border-primary rounded-[10px] group-hover:bg-primary duration-300">
-                                            <img
-                                                src={item.image}
-                                                alt=""
-                                                className="block group-hover:hidden"
-                                            />
-                                            <img
-                                                src={item.image2}
-                                                alt=""
-                                                className="hidden group-hover:block"
-                                            />
-                                        </div>
-                                        <div>
+                                        <div className="text-left">
                                             <h5 className="font-medium leading-none text-lg lg:text-xl">
                                                 {item.title}
                                             </h5>
@@ -412,7 +375,7 @@ export default function IndexFour() {
                 </div>
             </div>
             <NewsTwo />
-            <FooterFour />
+            <FooterOne />
             <ScrollToTop />
         </>
     )

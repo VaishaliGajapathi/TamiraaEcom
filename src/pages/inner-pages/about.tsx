@@ -195,40 +195,6 @@ export default function About() {
                     </div>
                 </div>
             </div>
-            <div
-                className="container-fluid"
-                data-aos="fade-up"
-                data-aos-delay="300"
-            >
-                <div
-                    className="bg-overlay before:bg-title before:bg-opacity-20 h-64 sm:h-96 lg:h-[650px] flex items-center justify-center max-w-[1720px] mx-auto"
-                    style={{ backgroundImage: `url(${bg4})` }}
-                >
-                    <Link
-                        to="#"
-                        onClick={() => setOpen(true)}
-                        className="popup-video w-12 sm:w-[70px] h-12 sm:h-[70px] rounded-full bg-white dark:bg-title flex items-center justify-center"
-                    >
-                        <svg
-                            className="fill-current text-title dark:text-white"
-                            width="15"
-                            height="17"
-                            viewBox="0 0 15 17"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path d="M2.58357 0.369445C1.15676 -0.497057 0 0.212792 0 1.95367V14.8006C0 16.5432 1.15676 17.2521 2.58357 16.3864L13.1895 9.94678C14.6168 9.07997 14.6168 7.67561 13.1895 6.80901L2.58357 0.369445Z" />
-                        </svg>
-                    </Link>
-                </div>
-                <ModalVideo
-                    channel="youtube"
-                    youtube={{ mute: 0, autoplay: 0 }}
-                    isOpen={isOpen}
-                    videoId="S_CGed6E610"
-                    onClose={() => setOpen(false)}
-                />
-            </div>
 
             <div className="s-py-100">
                 <div className="container-fluid">

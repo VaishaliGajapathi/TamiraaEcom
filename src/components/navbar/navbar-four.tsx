@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import logo from '../../assets/img/svg/logo.svg'
-import logoLight from '../../assets/img/svg/logo-light.svg'
+import logonew from '../../assets/img/new_logo/logo_new.png'
 import { Link } from 'react-router-dom'
 import NavMenu from './nav-menu'
 
@@ -36,16 +35,16 @@ export default function NavbarFour() {
         >
             <div className="container">
                 <div className="header-v4-wrapper relative flex items-center justify-between gap-5 bg-white lg:bg-opacity-80 rounded-[10px] dark:bg-title lg:dark:bg-opacity-80 px-5 py-3 md:py-5 lg:py-0">
-                    <Link to="/" aria-label="Furnixar">
+                    <Link to="/" aria-label="Nyra Sarees">
                         <img
-                            src={logo}
+                            src={logonew}
                             alt=""
-                            className="dark:hidden w-[120px] sm:w-[200px]"
+                            className="dark:hidden w-[120px] sm:w-[200px] h-[120px] sm:h-[120px] object-contain"
                         />
                         <img
-                            src={logoLight}
+                            src={logonew}
                             alt=""
-                            className="dark:block hidden w-[120px] sm:w-[200px]"
+                            className="dark:block hidden w-[120px] sm:w-[200px] h-[120px] sm:h-[120px] object-contain"
                         />
                     </Link>
                     <div className="flex items-center gap-12 2xl:gap-24">
