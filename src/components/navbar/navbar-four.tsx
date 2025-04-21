@@ -56,6 +56,15 @@ export default function NavbarFour() {
                             }`}
                         >
                             <ul className="text-lg leading-none text-title dark:text-white lg:flex lg:gap-[30px]">
+                                <li>
+                                    <Link to="/">Home</Link>
+                                </li>
+                                <li>
+                                    <Link to="/about">About Us</Link>
+                                </li>
+                                <li>
+                                    <Link to="/allproducts">Products</Link>
+                                </li>
                                 <li
                                     className={`relative ${
                                         [
