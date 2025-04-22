@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 
-import NavbarOne from '../../components/navbar/navbar-one'
 import FooterOne from '../../components/footer/footer-one'
 import ScrollToTop from '../../components/scroll-to-top'
 import AccountTab from '../../components/account/account-tab'
@@ -45,13 +44,6 @@ export default function Wishlist() {
             <div className="s-py-100">
                 <div className="container-fluid">
                     <div className="max-w-[1720px] mx-auto flex items-start gap-8 md:gap-12 2xl:gap-24 flex-col md:flex-row my-profile-navtab">
-                        <div
-                            className="w-full md:w-[200px] lg:w-[300px] flex-none"
-                            data-aos="fade-up"
-                            data-aos-delay="100"
-                        >
-                            <AccountTab />
-                        </div>
                         <div
                             className="w-full md:w-auto md:flex-1"
                             data-aos="fade-up"

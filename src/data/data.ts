@@ -386,15 +386,31 @@ export const productSlider = [
 export const teamData = [
     {
         image: team2,
-        name: 'Jennifer Smith',
-        location: 'Berminghum ,UK',
-        desc: `Furnixar exceeded my expectations with their exceptional furniture pieces. The quality craftsmanship and attention to detail truly shine through in every product. My home has been transformed into a stylish sanctuary thanks to Furnixar!`,
+        name: 'Jennifer',
+        location: 'Coimbatore ,India',
+        desc: `At Nyra Sarees, our story is woven with
+                                    tradition, elegance, and a passion for
+                                    timeless style. Born from a dream to
+                                    celebrate the beauty of Indian heritage, we
+                                    set out to create a boutique that brings
+                                    together grace, culture, and craftsmanship
+                                    under one roof. We believe every woman
+                                    deserves to feel confident and radiant in
+                                    what she wears!`,
     },
     {
         image: team3,
-        name: 'Jennifer Smith',
-        location: 'Berminghum ,UK',
-        desc: `Furnixar exceeded my expectations with their exceptional furniture pieces. The quality craftsmanship and attention to detail truly shine through in every product. My home has been transformed into a stylish sanctuary thanks to Furnixar!`,
+        name: 'Dharani',
+        location: 'Coimbatore ,India',
+        desc: `At Nyra Sarees, our story is woven with
+                                    tradition, elegance, and a passion for
+                                    timeless style. Born from a dream to
+                                    celebrate the beauty of Indian heritage, we
+                                    set out to create a boutique that brings
+                                    together grace, culture, and craftsmanship
+                                    under one roof. We believe every woman
+                                    deserves to feel confident and radiant in
+                                    what she wears!`,
     },
 ]
 export const blogTwoData = [

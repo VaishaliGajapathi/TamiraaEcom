@@ -3,10 +3,6 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import AOS from 'aos'
-import product1 from '../../assets/img/gallery/product-detls/product-01.jpg'
-import product2 from '../../assets/img/gallery/product-detls/product-02.jpg'
-import product3 from '../../assets/img/gallery/product-detls/product-03.jpg'
-import product4 from '../../assets/img/gallery/product-detls/product-04.jpg'
 
 import newprod1 from '../../assets/img/new_prods/prod_1.jpg'
 
@@ -16,7 +12,7 @@ import DetailTab from '../../components/product/detail-tab'
 import LayoutOne from '../../components/product/layout-one'
 import ScrollToTop from '../../components/scroll-to-top'
 
-import { productList, productTag } from '../../data/data'
+import { productList } from '../../data/data'
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa'
 import NavbarFour from '../../components/navbar/navbar-four'
 
@@ -177,16 +173,14 @@ export default function ProductDetails() {
                         <div className="lg:max-w-[635px] w-full">
                             <div className="pb-4 sm:pb-6 border-b border-bdr-clr dark:border-bdr-clr-drk">
                                 <h2 className="font-semibold leading-none">
-                                    {data?.name
-                                        ? data?.name
-                                        : 'Classic Relaxable Chair'}
+                                    {data?.name ? data?.name : 'Silk Saree'}
                                 </h2>
                                 <div className="flex gap-4 items-center mt-[15px]">
                                     <span className="text-lg sm:text-xl leading-none pb-[5px] text-title line-through pl-2 inline-block dark:text-white">
-                                        $140.99
+                                        ₹850.99
                                     </span>
                                     <span className="text-2xl sm:text-3xl text-primary leading-none block">
-                                        $85.00
+                                        ₹750.00
                                     </span>
                                 </div>
 
@@ -304,7 +298,7 @@ export default function ProductDetails() {
                                         SKU : CH_0015
                                     </h6>
                                     <h6 className="leading-none font-medium">
-                                        Category : Chair
+                                        Category : Saree
                                     </h6>
                                 </div>
                                 <div className="flex gap-x-12 lg:gap-x-24 gap-y-3 flex-wrap mt-5 sm:mt-10">

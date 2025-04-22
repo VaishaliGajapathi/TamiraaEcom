@@ -54,10 +54,14 @@ export default function FooterOne() {
                                 alt="logo"
                             />
                             <p className="mt-4 text-white-light max-w-[522px] sm:mx-auto">
-                                Furnixar is a modern furniture template for an
-                                eCommerce website designed to help you create an
-                                impressive online store for your furniture or
-                                home decor business.{' '}
+                                At Nyra Sarees, our story is woven with
+                                tradition, elegance, and a passion for timeless
+                                style. Born from a dream to celebrate the beauty
+                                of Indian heritage, we set out to create a
+                                boutique that brings together grace, culture,
+                                and craftsmanship under one roof. We believe
+                                every woman deserves to feel confident and
+                                radiant in what she wears.{' '}
                             </p>
                             <div className="flex items-center sm:justify-center gap-4 mt-6">
                                 <Link
