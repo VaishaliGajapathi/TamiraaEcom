@@ -11,6 +11,10 @@ import about from '../../assets/img/svg/about.svg'
 import like from '../../assets/img/svg/like.svg'
 import hand from '../../assets/img/svg/hand.svg'
 
+import newProd1 from '../../assets/img/new_prods/prod_1.jpg'
+import newProd2 from '../../assets/img/new_prods/prod_2.jpg'
+import newProd3 from '../../assets/img/new_prods/prod_3.jpg'
+
 import PartnerOne from '../../components/partner-one'
 import FooterOne from '../../components/footer/footer-one'
 import ScrollToTop from '../../components/scroll-to-top'
@@ -32,8 +36,8 @@ export default function About() {
         items: 1,
         margin: 0,
         stagePadding: 0,
-        autoplay: false,
-        dots: true,
+        autoplay: true,
+        dots: false,
         dotData: true,
     }
     useEffect(() => {
@@ -44,7 +48,7 @@ export default function About() {
         <>
             <NavbarFour />
             <div
-                className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70"
+                className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70 xl:pt-56"
                 style={{ backgroundImage: `url(${bg})` }}
             >
                 <div className="text-center w-full">
@@ -76,21 +80,21 @@ export default function About() {
                                 <div>
                                     <img
                                         className="object-cover w-full"
-                                        src={bg1}
+                                        src={newProd1}
                                         alt="about"
                                     />
                                 </div>
                                 <div>
                                     <img
                                         className="object-cover w-full"
-                                        src={bg2}
+                                        src={newProd2}
                                         alt="about"
                                     />
                                 </div>
                                 <div>
                                     <img
                                         className="object-cover w-full"
-                                        src={bg3}
+                                        src={newProd3}
                                         alt="about"
                                     />
                                 </div>
@@ -100,7 +104,7 @@ export default function About() {
                             <div className="lg:max-w-[600px]">
                                 <div>
                                     <img
-                                        src={about}
+                                        src={newProd1}
                                         alt=""
                                         className="size-16"
                                     />
@@ -109,29 +113,36 @@ export default function About() {
                                     Our Story Journey
                                 </h3>
                                 <p className="mt-3 text-base sm:text-lg">
-                                    At FurnXar, our story is one of passion,
-                                    craftsmanship, and a relentless pursuit of
-                                    excellence. It all began with a vision to
-                                    redefine the way people experience furniture
-                                    – not just as functional pieces, but as
-                                    expressions of personal style and comfort.
-                                    Driven by a love for design and a commitment
-                                    to quality, we embarked on a journey to
-                                    create furniture that transcends trends and
-                                    stands the test of time. Each piece in our
-                                    collection tells a story of meticulous
-                                    attention to detail, from the selection of
-                                    premium materials to the precision of
-                                    craftsmanship.
+                                    At Nyra Sarees, our story is woven with
+                                    tradition, elegance, and a passion for
+                                    timeless style. Born from a dream to
+                                    celebrate the beauty of Indian heritage, we
+                                    set out to create a boutique that brings
+                                    together grace, culture, and craftsmanship
+                                    under one roof. We believe every woman
+                                    deserves to feel confident and radiant in
+                                    what she wears. That’s why each saree,
+                                    kurti, and ensemble in our collection is
+                                    carefully selected and crafted — blending
+                                    classic designs with modern flair. From
+                                    everyday elegance to festive glam, every
+                                    piece at Nyra Sarees tells a story of
+                                    artistry, detail, and love. At Nyra, fashion
+                                    isn’t just about clothing — it’s about
+                                    expressing your identity with pride and
+                                    poise.
                                 </p>
                                 <p className="mt-3 text-base sm:text-lg">
-                                    Over the years, our dedication to innovation
-                                    and customer satisfaction has fueled our
-                                    growth and earned us a reputation for
-                                    excellence. From humble beginnings, we've
-                                    grown into a trusted name in the industry,
-                                    known for delivering furniture that exceeds
-                                    expectations.
+                                    Over the years, our dedication to quality,
+                                    style, and customer satisfaction has shaped
+                                    Nyra Sarees into a name women trust. What
+                                    began as a small passion project has
+                                    blossomed into a beloved boutique known for
+                                    curating elegant ethnic wear that exceeds
+                                    expectations. Our journey has always been
+                                    guided by a love for tradition, a flair for
+                                    design, and a promise to help every woman
+                                    feel beautiful and confident.
                                 </p>
                             </div>
                         </div>

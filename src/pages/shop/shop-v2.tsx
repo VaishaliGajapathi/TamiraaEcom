@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
-import cardImg from '../../assets/img/thumb/shop-card.jpg'
+import cardImg from '../../assets/img/new_prods/prod_1.jpg'
 
 import { productList } from '../../data/data'
 
@@ -82,7 +82,7 @@ export default function ShopV2() {
                                             </svg>
                                         </span>
                                         <span className="text-title dark:text-white block sm:leading-none transform translate-y-[1px] duration-300 select-none">
-                                            Chair (6)
+                                            Cotton sarees (6)
                                         </span>
                                     </label>
                                     <label className="categoryies-iteem flex items-center gap-[10px]">
@@ -107,7 +107,7 @@ export default function ShopV2() {
                                             </svg>
                                         </span>
                                         <span className="text-title dark:text-white block sm:leading-none transform translate-y-[1px] duration-300 select-none">
-                                            Table (12)
+                                            Silk sarees (12)
                                         </span>
                                     </label>
                                     <label className="categoryies-iteem flex items-center gap-[10px]">
@@ -132,7 +132,7 @@ export default function ShopV2() {
                                             </svg>
                                         </span>
                                         <span className="text-title dark:text-white block sm:leading-none transform translate-y-[1px] duration-300 select-none">
-                                            Sofa Set (19)
+                                            Half sarees (19)
                                         </span>
                                     </label>
                                     <label className="categoryies-iteem flex items-center gap-[10px]">
@@ -157,7 +157,7 @@ export default function ShopV2() {
                                             </svg>
                                         </span>
                                         <span className="text-title dark:text-white block sm:leading-none transform translate-y-[1px] duration-300 select-none">
-                                            Lamp (08)
+                                            Organza sarees (08)
                                         </span>
                                     </label>
                                     <label className="categoryies-iteem flex items-center gap-[10px]">
@@ -182,7 +182,7 @@ export default function ShopV2() {
                                             </svg>
                                         </span>
                                         <span className="text-title dark:text-white block sm:leading-none transform translate-y-[1px] duration-300 select-none">
-                                            Vases (25)
+                                            Linen sarees (25)
                                         </span>
                                     </label>
                                     <label className="categoryies-iteem flex items-center gap-[10px]">
@@ -207,7 +207,7 @@ export default function ShopV2() {
                                             </svg>
                                         </span>
                                         <span className="text-title dark:text-white block sm:leading-none transform translate-y-[1px] duration-300 select-none">
-                                            Mirror (14)
+                                            Designer sarees (14)
                                         </span>
                                     </label>
                                     <label className="categoryies-iteem flex items-center gap-[10px]">
@@ -232,7 +232,7 @@ export default function ShopV2() {
                                             </svg>
                                         </span>
                                         <span className="text-title dark:text-white block sm:leading-none transform translate-y-[1px] duration-300 select-none">
-                                            Art & Paint (07)
+                                            Printed sarees (07)
                                         </span>
                                     </label>
                                 </div>
@@ -363,12 +363,23 @@ export default function ShopV2() {
                                     </div>
                                 </div>
                             </div>
-                            <Link to="/shop-v1" className="hidden lg:block">
+                            <Link
+                                to="/shop-v1"
+                                className="relative hidden lg:block"
+                            >
                                 <img
                                     className="w-full"
                                     src={cardImg}
                                     alt="shop-card"
                                 />
+                                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-white text-center px-4">
+                                    <h2 className="text-2xl font-semibold mb-2 text-white">
+                                        Browse Exclusive Collections
+                                    </h2>
+                                    <p className="text-lg hover:underline">
+                                        Shop Now
+                                    </p>
+                                </div>
                             </Link>
                         </div>
                         <div

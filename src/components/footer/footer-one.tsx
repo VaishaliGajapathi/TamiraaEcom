@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 import bg from '../../assets/img/bg/footer.jpg'
 
-import logoLight from '../../assets/img/svg/logo-light.svg'
+import logoNew from '../../assets/img/new_logo/1234.png'
 
 import { footerLink1, footerLink4 } from '../../data/nav-data'
 import {
@@ -50,7 +50,7 @@ export default function FooterOne() {
                         <div className="lg:max-w-[522px] w-full sm:text-center -order-1 lg:order-none">
                             <img
                                 className="sm:mx-auto w-[201px] "
-                                src={logoLight}
+                                src={logoNew}
                                 alt="logo"
                             />
                             <p className="mt-4 text-white-light max-w-[522px] sm:mx-auto">

@@ -9,6 +9,8 @@ import NewsTwo from '../../components/news-letter/news-two'
 import ScrollToTop from '../../components/scroll-to-top'
 
 import bgnew from '../../assets/img/new_banner/new_banner1.jpg'
+import like from '../../assets/img/svg/like.svg'
+import bgUpdated from '../../assets/img/new_banner/new_project1.jpg'
 
 import { servicesData } from '../../data/index-three'
 import { featureOne, productList } from '../../data/data'
@@ -20,6 +22,8 @@ import { FaArrowRightLong } from 'react-icons/fa6'
 
 import Aos from 'aos'
 import FooterOne from '../../components/footer/footer-one'
+import ClientOne from '../../components/client/client-one'
+import NewsOne from '../../components/news-letter/news-one'
 
 export default function IndexFour() {
     useEffect(() => {
@@ -29,16 +33,14 @@ export default function IndexFour() {
         <>
             <NavbarFour />
             <div
-                className="pt-40 sm:pt-52 lg:pt-[280px] pb-52 lg:pb-[350px] 2xl:pb-[450px] bg-overlay dark:before:bg-title dark:before:bg-opacity-70"
+                className="pt-40 sm:pt-52 lg:pt-[280px] pb-52 lg:pb-[350px] 2xl:pb-[450px] bg-overlay dark:before:bg-title dark:before:bg-opacity-70 xl:pt-56"
                 style={{ backgroundImage: `url(${bgnew})` }}
             >
                 <div
                     className="container"
                     data-aos="fade-up"
                     data-aos-delay="100"
-                >
-                    
-                </div>
+                ></div>
             </div>
 
             <div className="container">
@@ -48,7 +50,7 @@ export default function IndexFour() {
                             return (
                                 <>
                                     <Link
-                                        to="/product-category"
+                                        to="/shop-v1"
                                         className="group flex items-center gap-5 p-6"
                                         key={index}
                                     >
@@ -81,7 +83,7 @@ export default function IndexFour() {
                                 New Arrival
                             </h2>
                             <Link
-                                to="/shop-v3"
+                                to="/shop-v1"
                                 className="group flex items-center gap-[10px] font-medium md:text-lg leading-none text-title dark:text-white"
                             >
                                 <span className="text-underline leading-none">
@@ -245,7 +247,7 @@ export default function IndexFour() {
                                 Trending
                             </h2>
                             <Link
-                                to="/shop-v3"
+                                to="/shop-v1"
                                 className="group flex items-center gap-[10px] font-medium md:text-lg leading-none text-title dark:text-white"
                             >
                                 <span className="text-underline leading-none">
@@ -341,7 +343,7 @@ export default function IndexFour() {
             </div>
 
             <div
-                className="s-py-100 bg-[#f5f5f5] dark:bg-dark-secondary"
+                className="s-py-100 bg-[#ffffff] dark:bg-dark-secondary"
                 data-aos="fade-up"
                 data-aos-delay="100"
             >
@@ -362,19 +364,33 @@ export default function IndexFour() {
                 </div>
             </div>
 
-            <div className="s-py-100" data-aos="fade-up" data-aos-delay="100">
-                <div className="container">
-                    <div className="max-w-1366 mx-auto">
-                        <div className="flex items-center justify-between gap-5 flex-wrap mb-6 pb-4 md:pb-6 border-b border-bdr-clr dark:border-bdr-clr-drk">
-                            <h2 className="font-semibold leading-none text-2xl sm:text-3xl lg:text-4xl">
-                                Latest Blog
-                            </h2>
-                        </div>
-                        <BlogFour />
+            <div className="bg-[#f5f5f5] dark:bg-dark-secondary s-py-100">
+                <div
+                    className="container max-w-[1365px] mx-auto"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                >
+                    <div className="text-center mb-8 md:mb-12 max-w-[548px] mx-auto">
+                        <img src={like} alt="" className="mx-auto size-16" />
+                        <h2 className="dark:text-white font-bold leading-none mt-4">
+                            Testimonial
+                        </h2>
+                        <p className="mt-3 md:mt-4">
+                            Discover what our customers are saying about us.
+                            Real stories, real experiences – find out why they
+                            choose us.{' '}
+                        </p>
                     </div>
+                    <ClientOne />
                 </div>
             </div>
-            <NewsTwo />
+            <div
+                className="s-py-50-100"
+                data-aos="fade-up"
+                data-aos-delay="100"
+            >
+                <NewsOne />
+            </div>
             <FooterOne />
             <ScrollToTop />
         </>

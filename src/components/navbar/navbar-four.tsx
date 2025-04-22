@@ -93,9 +93,8 @@ export default function NavbarFour() {
                                 </li>
                             </ul>
                         </div>
-
-                        <NavMenu toggle={toggle} setToggle={setToggle} />
                     </div>
+                    <NavMenu toggle={toggle} setToggle={setToggle} />
                 </div>
             </div>
         </div>

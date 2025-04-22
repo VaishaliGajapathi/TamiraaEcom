@@ -6,7 +6,7 @@ import FooterOne from '../../components/footer/footer-one'
 import ScrollToTop from '../../components/scroll-to-top'
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
-import contactImg from '../../assets/img/thumb/contact-thumb.jpg'
+import contactImg from '../../assets/img/new_prods/prod_5.jpg'
 import about from '../../assets/img/svg/about.svg'
 
 import Aos from 'aos'
@@ -20,7 +20,7 @@ export default function Contact() {
             <NavbarFour />
 
             <div
-                className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70"
+                className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70 xl:pt-52"
                 style={{ backgroundImage: `url(${bg})` }}
             >
                 <div className="text-center w-full">
@@ -108,13 +108,10 @@ export default function Contact() {
                                                     Payment Problem
                                                 </option>
                                                 <option value="2">
-                                                    Furniture Problem
+                                                    Damaged Product
                                                 </option>
                                                 <option value="2">
-                                                    Agreement Problem
-                                                </option>
-                                                <option value="2">
-                                                    Carrying Problem
+                                                    Shipping Problem
                                                 </option>
                                             </select>
                                         </div>
