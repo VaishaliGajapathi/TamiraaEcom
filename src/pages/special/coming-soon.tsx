@@ -7,7 +7,6 @@ import logo from '../../assets/img/svg/logo.svg'
 import logoLight from '../../assets/img/svg/logo-light.svg'
 import bg from '../../assets/img/bg/coming-soon-bg.jpg'
 import bg2 from '../../assets/img/thumb/coming-soon-shape.png'
-
 import Switcher from "../../components/switcher";
 import Aos from "aos";
 

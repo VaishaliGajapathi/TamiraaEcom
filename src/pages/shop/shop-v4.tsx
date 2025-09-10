@@ -12,7 +12,7 @@ import { productListTwo } from '../../data/data'
 import { GoStarFill } from 'react-icons/go'
 import { LuHeart } from 'react-icons/lu'
 import { RiShoppingBag2Line } from 'react-icons/ri'
-
+import { Price } from '../../context/CurrencyContext'
 import AOS from 'aos'
 
 export default function ShopV4() {
@@ -181,7 +181,7 @@ export default function ShopV4() {
                                             <div className="absolute z-10 top-0 left-0 w-full h-full items-start justify-end flex flex-col p-7">
                                                 <div>
                                                     <h4 className="text-lg font-medium leading-none text-white transition-all group-hover:duration-100 transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
-                                                        {item.price}
+                                                    <Price value={item.price} />
                                                         <span className="text-white/60 line-through pl-2 inline-block">
                                                             $140.99
                                                         </span>

@@ -27,7 +27,7 @@ import { GoStarFill } from 'react-icons/go'
 import OwlCarousel from 'react-owl-carousel'
 import { useEffect } from 'react'
 import Aos from 'aos'
-
+import { Price } from '../../context/CurrencyContext'
 export default function IndexTwo() {
     const options = {
         autoplay: true,
@@ -216,7 +216,7 @@ export default function IndexTwo() {
                                         </div>
                                         <div className="lg:pt-7 pt-5 flex gap-3 md:gap-4 flex-col">
                                             <h4 className="font-medium leading-none dark:text-white text-lg">
-                                                {item.price}
+                                            <Price value={item.price} />
                                             </h4>
                                             <div>
                                                 <h5 className="font-normal dark:text-white text-xl leading-[1.5]">
@@ -363,7 +363,7 @@ export default function IndexTwo() {
                                             </div>
                                             <div className="lg:pt-7 pt-5 flex gap-3 md:gap-4 flex-col">
                                                 <h4 className="font-medium leading-none dark:text-white text-lg">
-                                                    {item.price}
+                                                <Price value={item.price} />
                                                 </h4>
                                                 <div>
                                                     <h5 className="font-normal dark:text-white text-xl leading-[1.5]">
@@ -496,7 +496,7 @@ export default function IndexTwo() {
                                             </div>
                                             <div className="lg:pt-7 pt-5 flex gap-3 md:gap-4 flex-col">
                                                 <h4 className="font-medium leading-none dark:text-white text-lg">
-                                                    {item.price}
+                                                <Price value={item.price} />
                                                 </h4>
                                                 <div>
                                                     <h5 className="font-normal dark:text-white text-xl leading-[1.5]">

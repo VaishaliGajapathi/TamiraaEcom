@@ -25,7 +25,7 @@ export default function FooterOne() {
                         <div className="lg:max-w-[366px] sm:w-[45%] lg:w-full flex items-center justify-around gap-10 footer-inner-wrapper">
                             <div>
                                 <h4 className="text-white leading-none mb-5 md:mb-6 text-xl md:text-2xl">
-                                    Sitemap
+                                    Quick links
                                 </h4>
                                 <ul className="text-white leading-none flex flex-col gap-4">
                                     {footerLink1.map((item, index) => {
@@ -118,19 +118,20 @@ export default function FooterOne() {
                     </div>
 
                     <div className="max-w-[1722px] mx-auto border-t border-white border-opacity-10 py-5 md:py-7 text-center">
-                        <p className="text-white-light inline-flex align-middle">
-                            © {new Date().getFullYear()} Nyraa Sarees Develop
-                            with{' '}
-                            <FaHeart className="fa-solid fa-heart mx-1 text-red-500"></FaHeart>{' '}
-                            By{' '}
-                            <Link
-                                to="https://saitechnosolutions.com/"
-                                target="_blank"
-                                className="ms-1"
-                            >
-                                Sai Techno Solutions
-                            </Link>
-                        </p>
+                      <p className="text-white-light inline-flex flex-col md:flex-row items-center justify-center">
+                        <span className="mr-2">© {new Date().getFullYear()} Nyraa Sarees</span>
+                        
+                        <span className="flex items-center mt-2 md:mt-0">
+                          Develop with <FaHeart className="mx-1 text-red-500" /> By{' '}
+                          <Link
+                            to="https://saitechnosolutions.com/"
+                            target="_blank"
+                            className="ms-1"
+                          >
+                            Sai Techno Solutions
+                          </Link>
+                        </span>
+                      </p>
                     </div>
                 </div>
             </div>

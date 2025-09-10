@@ -18,7 +18,7 @@ import { productList } from "../../data/data";
 import { GoStarFill } from "react-icons/go";
 import { LuEye, LuHeart } from "react-icons/lu";
 import { RiShoppingBag2Line } from "react-icons/ri";
-
+import { Price } from '../../context/CurrencyContext'
 import Aos from "aos";
 
 export default function IndexThree() {
@@ -70,7 +70,7 @@ export default function IndexThree() {
                             </Link>
                             
                             <div className="flex flex-col items-start gap-3 md:gap-4 absolute z-20 w-11/12 bottom-3 xl:bottom-5 left-1/2 transform -translate-x-1/2 p-4 xl:p-5 bg-white dark:bg-title bg-opacity-[85%] dark:bg-opacity-[85%] group-hover:-translate-y-1/2 duration-500 group-hover:opacity-0 group-hover:invisible">
-                                <h4 className="font-medium leading-none dark:text-white text-lg">{item.price}</h4>
+                                <h4 className="font-medium leading-none dark:text-white text-lg"><Price value={item.price} /></h4>
                                 <div>
                                     <h5 className="font-normal dark:text-white text-paragraph leading-[1.5]">
                                         <Link to="/product-details">{item.name}</Link>

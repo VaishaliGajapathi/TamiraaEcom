@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { LuSearch, LuX } from 'react-icons/lu'
+import { LuX } from 'react-icons/lu'
 import { GoHeart } from 'react-icons/go'
 import { RiShoppingBag4Line } from 'react-icons/ri'
+import { useWishlist } from '../../context/WishlistContext'
+import { useCart } from '../../context/CartContext'
+import { useAuth } from '../../context/AuthContext'
+import { useNavigate } from "react-router-dom";
+import { GoLock, GoPerson } from "react-icons/go";
 
 interface NavMenuProps {
     toggle: boolean
@@ -11,31 +16,73 @@ interface NavMenuProps {
 }
 
 export default function NavMenu({ toggle, setToggle }: NavMenuProps) {
-    const [open, setOpen] = useState<boolean>(false)
+    const navigate = useNavigate();
+    const { isLoggedIn } = useAuth();
+    const [open, setOpen] = useState<boolean>(false);
+    const { wishlist } = useWishlist();
+    const { cart } = useCart();
+
+    const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    const handleWishlistClick = () => {
+        if (!isLoggedIn) {
+            navigate("/login");
+        } else {
+            navigate("/wishlist");
+        }
+    };
+
+    const handleCartClick = () => {
+        if (!isLoggedIn) {
+            navigate("/login");
+        } else {
+            navigate("/cart");
+        }
+    };
 
     return (
         <div className="flex items-center gap-4 sm:gap-6">
-            <Link
-                to="/login"
-                className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary hidden lg:block"
-            >
-                Login
-            </Link>
-            <button
+            {/* Login / My Account logic here */}
+            {!isLoggedIn ? (
+  <Link
+    to="/login"
+    className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary block"
+  >
+     <GoLock className="size-6" />
+  </Link>
+) : (
+  <Link
+    to="/my-profile"
+    className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary block"
+  >
+     <GoPerson className="size-6" />
+  </Link>
+)}
+            {/* <button
                 className="hdr_search_btn"
                 aria-label="search"
                 onClick={() => setOpen(!open)}
             >
                 <LuSearch className="text-title dark:text-white size-6" />
+            </button> */}
+
+            <button onClick={handleWishlistClick} className="relative">
+                <GoHeart className="text-title dark:text-white size-6" />
+                {wishlist.length > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full px-1.5">
+                        {wishlist.length}
+                    </span>
+                )}
             </button>
 
-            <Link to="/wishlist">
-                <GoHeart className="text-title dark:text-white size-6" />
-            </Link>
-
-            <Link to="/cart">
-                <RiShoppingBag4Line className="text-title dark:text-white size-6" />
-            </Link>
+            <button onClick={handleCartClick} className="relative">
+              <RiShoppingBag4Line className="text-title dark:text-white size-6" />
+              {totalCartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full px-1.5">
+                  {totalCartCount}
+                </span>
+              )}
+            </button>
 
             <button
                 className={`hamburger ${toggle ? 'opened' : ''}`}
@@ -80,6 +127,7 @@ export default function NavMenu({ toggle, setToggle }: NavMenuProps) {
                                     type="text"
                                     placeholder="Type your keyword"
                                 />
+                                {/* Wishlist and Cart */}
                                 <button className="absolute right-0 top-0">
                                     <svg
                                         className="fill-current text-title dark:text-white w-5 md:w-[30px]"

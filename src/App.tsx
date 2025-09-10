@@ -35,7 +35,7 @@ import PaymentConfirmation from './pages/shop/payment-confirmation'
 import PaymentSuccess from './pages/shop/payment-success'
 import PaymentFailure from './pages/shop/payment-failure'
 import Cart from './pages/shop/cart'
-import Checkout from './pages/shop/checkout'
+import Checkout from './pages/shop/checkout-test'
 import ShopV1 from './pages/shop/shop-v1'
 import ShopV2 from './pages/shop/shop-v2'
 import ShopV3 from './pages/shop/shop-v3'
@@ -49,6 +49,7 @@ import BlogDetailsV3 from './pages/blog/blog-details-v3'
 import BlogTag from './pages/blog/blog-tag'
 import Contact from './pages/inner-pages/contact'
 import ProductCategory from './pages/shop/product-category'
+
 
 function App() {
     return (
@@ -101,7 +102,8 @@ function App() {
                 <Route path="/thank-you" element={<ThankYou />} />
                 <Route path="/shipping-method" element={<ShippingMethod />} />
                 <Route path="/payment-method" element={<PaymentMethod />} />
-                <Route path="/invoice" element={<Invoice />} />
+                {/* <Route path="/invoice" element={<Invoice />} /> */}
+                <Route path="/invoice/:orderId" element={<Invoice />} />
                 <Route
                     path="/payment-confirmation"
                     element={<PaymentConfirmation />}
@@ -109,12 +111,14 @@ function App() {
                 <Route path="/payment-success" element={<PaymentSuccess />} />
                 <Route path="/payment-failure" element={<PaymentFailure />} />
                 <Route path="/cart" element={<Cart />} />
+                {/* <Route path="/checkout" element={<Checkout />} /> */}
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/shop-v1" element={<ShopV1 />} />
                 <Route path="/allproducts" element={<ShopV2 />} />
                 <Route path="/shop-v3" element={<ShopV3 />} />
                 <Route path="/shop-v4" element={<ShopV4 />} />
                 <Route path="/product-details" element={<ProductDetails />} />
+                
                 <Route
                     path="/product-details/:id"
                     element={<ProductDetails />}
@@ -135,6 +139,7 @@ function App() {
                 <Route path="/blog-tag" element={<BlogTag />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/product-category" element={<ProductCategory />} />
+                
             </Routes>
         </>
     )

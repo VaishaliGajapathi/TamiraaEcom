@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react'
 import logonew from '../../assets/img/new_logo/logo_new.png'
 import { Link } from 'react-router-dom'
 import NavMenu from './nav-menu'
+import { useCurrency, SupportedCurrency } from '../../context/CurrencyContext'
 
 export default function NavbarFour() {
     const [toggle, setToggle] = useState<boolean>(false)
     const [current, setCurrent] = useState<string>('')
     const [scroll, setScroll] = useState<boolean>(false)
+    const { currency, setCurrency } = useCurrency()
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -39,12 +41,12 @@ export default function NavbarFour() {
                         <img
                             src={logonew}
                             alt=""
-                            className="dark:hidden w-[120px] sm:w-[200px] h-[120px] sm:h-[120px] object-contain"
+                            className="dark:hidden w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] lg:w-[120px] lg:h-[120px] object-contain"
                         />
                         <img
                             src={logonew}
                             alt=""
-                            className="dark:block hidden w-[120px] sm:w-[200px] h-[120px] sm:h-[120px] object-contain"
+                            className="dark:block hidden w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] lg:w-[120px] lg:h-[120px] object-contain"
                         />
                     </Link>
                     <div className="flex items-center gap-12 2xl:gap-24">
@@ -88,9 +90,29 @@ export default function NavbarFour() {
                                 >
                                     <Link to="/contact">Contact</Link>
                                 </li>
-                                <li className="lg:hidden">
-                                    <Link to="/login">Login</Link>
-                                </li>
+
+                                <div className="flex items-center gap-4">
+                                    <label className="relative inline-flex items-center cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            checked={currency === 'USD'}
+                                            onChange={(e) => {
+                                                const newCurrency: SupportedCurrency =
+                                                    e.target.checked
+                                                        ? 'USD'
+                                                        : 'INR'
+                                                setCurrency(newCurrency)
+                                            }}
+                                            className="sr-only peer"
+                                        />
+                                        <div className="w-16 h-8 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:bg-[#BB976D] transition-colors duration-300"></div>
+                                        <span className="absolute left-1 top-1 bg-white w-6 h-6 rounded-full peer-checked:translate-x-8 transform transition-transform duration-300"></span>
+                                    </label>
+
+                                    <span className="text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        {currency === 'INR' ? 'INR ₹' : 'USD $'}
+                                    </span>
+                                </div>
                             </ul>
                         </div>
                     </div>

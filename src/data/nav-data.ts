@@ -65,9 +65,17 @@ export const cartList = [
 ]
 
 export const footerLink1 = [
+     {
+        name: 'Home',
+        link: '/',
+    },
     {
         name: 'About',
         link: '/about',
+    },
+    {
+        name: 'Product',
+        link: '/allproducts',
     },
     {
         name: 'Contact',

@@ -148,6 +148,7 @@ export const productList = [
         tag: 'Hot Sale',
         price: '₹525.75',
         name: 'Cotton sarees',
+        category: "sarees",
     },
     {
         id: 2,
@@ -155,6 +156,7 @@ export const productList = [
         tag: 'NEW',
         price: '₹522.75',
         name: 'Silk sarees',
+        category: "sarees",
     },
     {
         id: 3,
@@ -162,6 +164,7 @@ export const productList = [
         tag: '10% OFF',
         price: '₹540.99',
         name: 'Organza sarees',
+        category: "sarees",
     },
     {
         id: 4,
@@ -169,6 +172,7 @@ export const productList = [
         tag: '',
         price: '₹522.75',
         name: 'Linen sarees',
+        category: "sarees",
     },
     {
         id: 5,
@@ -176,6 +180,7 @@ export const productList = [
         tag: 'Hot Sale',
         price: '₹540.99',
         name: 'Designer sarees',
+        category: "sarees",
     },
     {
         id: 6,
@@ -183,6 +188,7 @@ export const productList = [
         tag: '',
         price: '₹622.75',
         name: 'Printed sarees',
+        category: "sarees",
     },
     {
         id: 7,
@@ -190,6 +196,7 @@ export const productList = [
         tag: '',
         price: '₹622.75 - ₹740.99',
         name: 'Lehenga-style sarees',
+        category: "sarees",
     },
     {
         id: 8,
@@ -197,6 +204,7 @@ export const productList = [
         tag: '10% OFF',
         price: '₹722.75',
         name: 'Anarkali kurtis',
+        category: "kurtis",
     },
     {
         id: 9,
@@ -204,6 +212,7 @@ export const productList = [
         tag: '',
         price: '₹822.75',
         name: 'Flared kurtas',
+        category: "kurtis",
     },
     {
         id: 10,
@@ -211,6 +220,7 @@ export const productList = [
         tag: '',
         price: '₹722.75',
         name: 'Kaftan-style kurtis',
+        category: "kurtis",
     },
     {
         id: 11,
@@ -218,6 +228,7 @@ export const productList = [
         tag: '',
         price: '₹522.75',
         name: 'Short kurtis',
+        category: "kurtis",
     },
     {
         id: 12,
@@ -225,6 +236,7 @@ export const productList = [
         tag: '',
         price: '₹922.75',
         name: 'A-line kurtis',
+        category: "kurtis",
     },
 ]
 
@@ -749,13 +761,7 @@ export const venderInfo = [
         mail: 'nyraasarees@gmail.com',
         call: '+91 - 01234 5678',
     },
-    {
-        name: 'Nyra Sarees',
-        vendor: 'John',
-        shop: 'Coimbatore west, IN, 641006',
-        mail: 'nyraasarees@gmail.com',
-        call: '+91 - 01234 5678',
-    },
+    
 ]
 
 export const detailReview = [

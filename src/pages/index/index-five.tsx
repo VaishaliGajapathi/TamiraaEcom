@@ -19,7 +19,7 @@ import { FaHeart } from "react-icons/fa";
 import { GoStarFill } from "react-icons/go";
 import { LuEye, LuHeart } from "react-icons/lu";
 import { RiShoppingBag2Line } from "react-icons/ri";
-
+import { Price } from '../../context/CurrencyContext'
 import Aos from "aos";
 
 export default function IndexFive() {
@@ -112,7 +112,7 @@ export default function IndexFive() {
                           <img className="w-full transform duration-300 group-hover:scale-110" src={item.image} alt="product-card"/>
                           <div className="absolute z-10 top-0 left-0 w-full h-full items-start justify-end flex flex-col p-7">
                               <div>
-                                  <h4 className="font-normal leading-none text-white transition-all group-hover:duration-100 transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">{item.price}</h4>
+                                  <h4 className="font-normal leading-none text-white transition-all group-hover:duration-100 transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100"><Price value={item.price}/></h4>
                                   <h6 className="font-normal mt-1 text-white transition-all group-hover:duration-300 transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 leading-[1.5]"><Link to="/product-details">{item.name}</Link></h6>
 
                                   <ul className="flex items-center gap-2 mt-1 transition-all group-hover:duration-500 transform translate-y-10 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">

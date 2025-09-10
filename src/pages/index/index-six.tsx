@@ -20,7 +20,7 @@ import { blogData2 } from "../../data/index-five";
 import { GoStarFill } from "react-icons/go";
 import { LuEye, LuHeart } from "react-icons/lu";
 import { RiShoppingBag2Line } from "react-icons/ri";
-
+import { Price } from '../../context/CurrencyContext'
 import Aos from "aos";
 
 export default function IndexSix() {
@@ -131,7 +131,7 @@ export default function IndexSix() {
                                     </div>
                                     <div className="mt-4 md:mt-6 flex items-start justify-between gap-4">
                                         <div>
-                                            <h5 className="leading-none mb-4 dark:text-white font-primary text-lg font-medium">{item.price}</h5>
+                                            <h5 className="leading-none mb-4 dark:text-white font-primary text-lg font-medium"><Price value={item.price} /></h5>
                                             <h5 className="text-lg md:text-xl font-normal dark:text-white leading-[1.5]"><Link to="/product-details">{item.name}</Link></h5>
                                         </div>
                                     </div>

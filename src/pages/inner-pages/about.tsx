@@ -1,45 +1,46 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from 'react'
+import { useEffect} from 'react'
 import { Link } from 'react-router-dom'
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
-import bg1 from '../../assets/img/about/about-banner-01.jpg'
-import bg2 from '../../assets/img/about/about-banner-02.jpg'
-import bg3 from '../../assets/img/about/about-banner-03.jpg'
-import bg4 from '../../assets/img/about/video-bg.jpg'
-import about from '../../assets/img/svg/about.svg'
+// import bg1 from '../../assets/img/about/about-banner-01.jpg'
+// import bg2 from '../../assets/img/about/about-banner-02.jpg'
+// import bg3 from '../../assets/img/about/about-banner-03.jpg'
+// import bg4 from '../../assets/img/about/video-bg.jpg'
+// import about from '../../assets/img/svg/about.svg'
 import like from '../../assets/img/svg/like.svg'
 import hand from '../../assets/img/svg/hand.svg'
 
 import newProd1 from '../../assets/img/new_prods/prod_1.jpg'
-import newProd2 from '../../assets/img/new_prods/prod_2.jpg'
-import newProd3 from '../../assets/img/new_prods/prod_3.jpg'
+import abosaree from '../../assets/img/new_prods/abosaree.jpg'
+// import newProd2 from '../../assets/img/new_prods/prod_2.jpg'
+// import newProd3 from '../../assets/img/new_prods/prod_3.jpg'
 
 import PartnerOne from '../../components/partner-one'
 import FooterOne from '../../components/footer/footer-one'
 import ScrollToTop from '../../components/scroll-to-top'
 
-import OwlCarousel from 'react-owl-carousel'
+// import OwlCarousel from 'react-owl-carousel'
 
 import { featureOne } from '../../data/data'
 
-import ModalVideo from 'react-modal-video'
+// import ModalVideo from 'react-modal-video'
 import '../../../node_modules/react-modal-video/css/modal-video.css'
 
 import Aos from 'aos'
 import NavbarFour from '../../components/navbar/navbar-four'
 
 export default function About() {
-    const [isOpen, setOpen] = useState(false)
+    // const [isOpen, setOpen] = useState(false)
 
-    const options = {
-        items: 1,
-        margin: 0,
-        stagePadding: 0,
-        autoplay: true,
-        dots: false,
-        dotData: true,
-    }
+    // const options = {
+    //     items: 1,
+    //     margin: 0,
+    //     stagePadding: 0,
+    //     autoplay: true,
+    //     dots: false,
+    //     dotData: true,
+    // }
     useEffect(() => {
         Aos.init()
     })
@@ -47,108 +48,67 @@ export default function About() {
     return (
         <>
             <NavbarFour />
-            <div
-                className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70 xl:pt-56"
+           <div
+                className="relative flex items-center justify-center gap-4 flex-wrap 
+                           w-full min-h-[250px] sm:min-h-[300px] md:min-h-[400px] lg:min-h-[500px] 
+                           bg-cover bg-center bg-no-repeat 
+                           pt-16 sm:pt-20 md:pt-24 lg:pt-32 
+                           before:absolute before:inset-0 before:bg-title before:bg-opacity-70"
                 style={{ backgroundImage: `url(${bg})` }}
-            >
-                <div className="text-center w-full">
-                    <h2 className="text-white text-8 md:text-[40px] font-normal leading-none text-center">
-                        About Us
-                    </h2>
-                    <ul className="flex items-center justify-center gap-[10px] text-base md:text-lg leading-none font-normal text-white mt-3 md:mt-4 flex-wrap">
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>/</li>
-                        <li className="text-primary">About</li>
-                    </ul>
+              >
+                <div className="relative text-center w-full z-10">
+                  <h2 className="text-white text-3xl sm:text-4xl md:text-[40px] font-normal leading-none">
+                    About Us
+                  </h2>
+                  <ul className="flex items-center justify-center gap-[10px] text-sm sm:text-base md:text-lg font-normal text-white mt-3 sm:mt-4 flex-wrap">
+                    <li>
+                      <Link to="/">Home</Link>
+                    </li>
+                    <li>/</li>
+                    <li className="text-primary">About</li>
+                  </ul>
                 </div>
-            </div>
+              </div>
 
-            <div className="s-pb-100 pt-12 md:pt-16">
-                <div
-                    className="container-fluid"
-                    data-aos="fade-up"
-                    data-aos-delay="100"
-                >
-                    <div className="max-w-[1720px] mx-auto flex flex-col-reverse lg:grid lg:grid-cols-2">
-                        <div className="lg:bg-[#F8F8F9] lg:dark:bg-dark-secondary lg:pr-10 2xl:pr-0">
-                            <OwlCarousel
-                                {...options}
-                                className="about-slider owl-carousel h-full"
-                            >
-                                <div>
-                                    <img
-                                        className="object-cover w-full"
-                                        src={newProd1}
-                                        alt="about"
-                                    />
-                                </div>
-                                <div>
-                                    <img
-                                        className="object-cover w-full"
-                                        src={newProd2}
-                                        alt="about"
-                                    />
-                                </div>
-                                <div>
-                                    <img
-                                        className="object-cover w-full"
-                                        src={newProd3}
-                                        alt="about"
-                                    />
-                                </div>
-                            </OwlCarousel>
-                        </div>
-                        <div className="flex items-center py-8 sm:py-12 px-5 sm:px-12 md:px-8 lg:pr-12 lg:pl-16 2xl:pl-[160px] bg-[#F8F8F9] dark:bg-dark-secondary">
-                            <div className="lg:max-w-[600px]">
-                                <div>
-                                    <img
-                                        src={newProd1}
-                                        alt=""
-                                        className="size-16"
-                                    />
-                                </div>
-                                <h3 className="font-medium leading-none mt-4 md:mt-6 text-2xl md:text-3xl">
-                                    Our Story Journey
-                                </h3>
-                                <p className="mt-3 text-base sm:text-lg">
-                                    At Nyra Sarees, our story is woven with
-                                    tradition, elegance, and a passion for
-                                    timeless style. Born from a dream to
-                                    celebrate the beauty of Indian heritage, we
-                                    set out to create a boutique that brings
-                                    together grace, culture, and craftsmanship
-                                    under one roof. We believe every woman
-                                    deserves to feel confident and radiant in
-                                    what she wears. That’s why each saree,
-                                    kurti, and ensemble in our collection is
-                                    carefully selected and crafted — blending
-                                    classic designs with modern flair. From
-                                    everyday elegance to festive glam, every
-                                    piece at Nyra Sarees tells a story of
-                                    artistry, detail, and love. At Nyra, fashion
-                                    isn’t just about clothing — it’s about
-                                    expressing your identity with pride and
-                                    poise.
-                                </p>
-                                <p className="mt-3 text-base sm:text-lg">
-                                    Over the years, our dedication to quality,
-                                    style, and customer satisfaction has shaped
-                                    Nyra Sarees into a name women trust. What
-                                    began as a small passion project has
-                                    blossomed into a beloved boutique known for
-                                    curating elegant ethnic wear that exceeds
-                                    expectations. Our journey has always been
-                                    guided by a love for tradition, a flair for
-                                    design, and a promise to help every woman
-                                    feel beautiful and confident.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+              <div className="s-pb-100 pt-12 md:pt-16">
+  <div
+    className="container-fluid"
+    data-aos="fade-up"
+    data-aos-delay="100"
+  >
+    <div className="max-w-[1720px] mx-auto flex flex-col-reverse lg:grid lg:grid-cols-2">
+      <div className="lg:bg-[#F8F8F9] lg:dark:bg-dark-secondary py-8 sm:py-12 lg:pr-10 2xl:pr-0">
+        {/* ✅ Just one image instead of OwlCarousel */}
+        <img
+          className="object-cover w-full"
+          src={abosaree}
+          alt="about"
+        />
+      </div>
+
+      <div className="flex items-center py-8 sm:py-12 px-5 sm:px-12 md:px-8 lg:pr-12 lg:pl-16 2xl:pl-[160px] bg-[#F8F8F9] dark:bg-dark-secondary">
+        <div className="lg:max-w-[600px]">
+          <div>
+            <img
+              src={newProd1}
+              alt=""
+              className="size-16"
+            />
+          </div>
+          <h3 className="font-medium leading-none mt-4 md:mt-6 text-2xl md:text-3xl">
+            Our Story Journey
+          </h3>
+          <p className="mt-3 text-base sm:text-lg">
+            At Nyra Sarees, our story is woven with tradition, elegance, and a passion for timeless style. Born from a dream to celebrate the beauty of Indian heritage, we set out to create a boutique that brings together grace, culture, and craftsmanship under one roof. We believe every woman deserves to feel confident and radiant in what she wears. That’s why each saree, kurti, and ensemble in our collection is carefully selected and crafted — blending classic designs with modern flair. From everyday elegance to festive glam, every piece at Nyra Sarees tells a story of artistry, detail, and love. At Nyra, fashion isn’t just about clothing — it’s about expressing your identity with pride and poise.
+          </p>
+          <p className="mt-3 text-base sm:text-lg">
+            Over the years, our dedication to quality, style, and customer satisfaction has shaped Nyra Sarees into a name women trust. What began as a small passion project has blossomed into a beloved boutique known for curating elegant ethnic wear that exceeds expectations. Our journey has always been guided by a love for tradition, a flair for design, and a promise to help every woman feel beautiful and confident.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
             <div className="s-pb-100">
                 <div className="container-fluid">
