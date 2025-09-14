@@ -8,7 +8,7 @@ import { LuEye, LuHeart } from 'react-icons/lu'
 import { RiShoppingBag2Line } from 'react-icons/ri'
 import { Price } from '../../context/CurrencyContext'
 import { useCurrency } from '../../context/CurrencyContext'
-import SelectOne from '../../components/product/select-one'
+// import SelectOne from '../../components/product/select-one'
 import NavbarFour from '../../components/navbar/navbar-four'
 import FooterOne from '../../components/footer/footer-one'
 import ScrollToTop from '../../components/scroll-to-top'
@@ -16,18 +16,39 @@ import { getStoredUser } from '../../utils/user';
 import MultiRangeSlider from 'multi-range-slider-react'
 import Aos from 'aos'
 
+
+interface SubCategory {
+  subCategoryId: number
+  subCategoryName: string
+}
+
+interface Product {
+  productId: number
+  productName: string
+  productOfferPrice: number
+  productImage: string
+  tag?: string
+  subCategoryId: number
+}
+
+interface Variant {
+  productVariantId: number
+  productVariantImage: string
+  Product: Product
+}
+
 export default function ShopV2() {
   const navigate = useNavigate();
   const [minValue, setMinValue] = useState(0)
   const [maxValue, setMaxValue] = useState(0)
   const [isPriceOpen, setIsPriceOpen] = useState(false)
   const [selectedCategories, setSelectedCategories] = useState<number[]>([])
-  const [subCategories, setSubCategories] = useState<any[]>([])
-  const [products, setProducts] = useState<any[]>([])
-  const [variants, setVariants] = useState<any[]>([])
+  const [subCategories, setSubCategories] = useState<SubCategory[]>([])
+  const [ ,setProducts] = useState<Product[]>([])
+  const [variants, setVariants] = useState<Variant[]>([])
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const { currency, convertPriceString } = useCurrency()
+  const { convertPriceString } = useCurrency()
     
 
 
@@ -69,7 +90,7 @@ export default function ShopV2() {
   })
 
 
-const handleAddToCart = async (variant: any) => {
+const handleAddToCart = async (variant: Variant) => {
   try {
     // const user = JSON.parse(localStorage.getItem("user") || "{}");
 
@@ -115,7 +136,7 @@ const handleAddToCart = async (variant: any) => {
 };
 
 // 🔹 Add to Wishlist
-const handleAddToWishlist = async (variant: any) => {
+const handleAddToWishlist = async (variant: Variant) => {
   try {
     // const user = JSON.parse(localStorage.getItem("user") || "{}");
 
@@ -181,7 +202,7 @@ const handleAddToWishlist = async (variant: any) => {
 
         if (productsData.length > 0) {
           const maxPrice = Math.max(
-            ...productsData.map((p) => p.productOfferPrice)
+            ...productsData.map((p: Product) => p.productOfferPrice)
           )
           setMaxValue(maxPrice)
         }

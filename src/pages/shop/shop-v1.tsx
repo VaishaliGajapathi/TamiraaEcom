@@ -11,7 +11,7 @@ import Aos from 'aos'
 import NavbarFour from '../../components/navbar/navbar-four'
 
 export default function ShopV1() {
-  const [category, setCategory] = useState<"sarees" | "kurtis" | "all">("all");
+  const [category] = useState<"sarees" | "kurtis" | "all">("all");
   const { products, loading, error } = useProducts();
 
   const filteredProducts =
@@ -96,8 +96,8 @@ export default function ShopV1() {
               {/* Sidebar */}
               <div className="lg:w-1/4">
                 <SelectOne
-                  category={category}
-                  setCategory={setCategory}
+                 
+                
                 />
               </div>
 

@@ -155,13 +155,34 @@
 // }
 
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
+
+// Define the type for a single product/order item
+interface OrderItem {
+  id: number;
+  productname: string;
+  product_variant_image: string;
+  product_price: number;
+  quantity: number;
+  total_price: number;
+  fullName: string;
+  addressLine1: string;
+  addressLine2: string;
+  townCity: string;
+  zipCode: string;
+  phoneNo: string;
+  orderId: string;
+  totalAmount: number;
+  grandTotalAmount: number;
+  couponCodeName?: string;
+}
+
 
 
 export default function Invoice() {
   const { orderId } = useParams();
-  const [orderHistory, setOrderHistory] = useState<any[]>([]);
+  const [orderHistory, setOrderHistory] = useState<OrderItem[]>([]);
 
   useEffect(() => {
     if (!orderId) return;

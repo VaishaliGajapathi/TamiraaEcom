@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import bg from "../../assets/img/bg/register.jpg";
+// import bg from "../../assets/img/bg/register.jpg";
 import NavbarFour from "../../components/navbar/navbar-four";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";

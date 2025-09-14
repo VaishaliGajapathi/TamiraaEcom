@@ -3,7 +3,7 @@ import axios from "axios";
 
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
-import bg from "../../assets/img/bg/register.jpg";
+// import bg from "../../assets/img/bg/register.jpg";
 import Aos from "aos";
 import NavbarFour from "../../components/navbar/navbar-four";
 import authImg from "../../assets/img/new_prods/authimage.jpg";
@@ -39,8 +39,12 @@ export default function ForgetPassword() {
       );
       setSuccess(res.data.message || "OTP sent to your email");
       setStep("otp");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Something went wrong");
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Something went wrong");
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -60,8 +64,12 @@ export default function ForgetPassword() {
       );
       setSuccess(res.data.message || "OTP verified");
       setStep("reset");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Invalid OTP");
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Invalid OTP");
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -101,8 +109,12 @@ export default function ForgetPassword() {
     navigate("/login");
   }, 1500);
 
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Something went wrong");
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || "Something went wrong");
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }

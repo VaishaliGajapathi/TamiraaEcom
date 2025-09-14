@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import bg from "../../assets/img/bg/register.jpg";
+// import bg from "../../assets/img/bg/register.jpg";
 import NavbarFour from "../../components/navbar/navbar-four";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 import { useAuth } from "../../context/AuthContext";
-import contactImg from "../../assets/img/new_prods/prod_5.jpg";
+// import contactImg from "../../assets/img/new_prods/prod_5.jpg";
 import authImg from "../../assets/img/new_prods/authimage.jpg";
 
 import Aos from "aos";

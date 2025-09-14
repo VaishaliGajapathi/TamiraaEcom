@@ -5,8 +5,7 @@ import logoLight from '../../assets/img/svg/logo-light.svg'
 
 import {
     footerLink1,
-    footerLink2,
-    footerLink3,
+    
     footerLink4,
 } from '../../data/nav-data'
 

@@ -7,8 +7,8 @@ import { RiShoppingBag4Line } from 'react-icons/ri'
 import { useWishlist } from '../../context/WishlistContext'
 import { useCart } from '../../context/CartContext'
 import { useAuth } from '../../context/AuthContext'
-import { useNavigate } from "react-router-dom";
-import { GoLock, GoPerson } from "react-icons/go";
+import { useNavigate } from 'react-router-dom'
+import { GoLock, GoPerson } from 'react-icons/go'
 
 interface NavMenuProps {
     toggle: boolean
@@ -16,48 +16,49 @@ interface NavMenuProps {
 }
 
 export default function NavMenu({ toggle, setToggle }: NavMenuProps) {
-    const navigate = useNavigate();
-    const { isLoggedIn } = useAuth();
-    const [open, setOpen] = useState<boolean>(false);
-    const { wishlist } = useWishlist();
-    const { cart } = useCart();
+    const navigate = useNavigate()
+    const { isLoggedIn } = useAuth()
+    const [open, setOpen] = useState<boolean>(false)
+    const { wishlist } = useWishlist()
+    const { cart } = useCart()
 
-    const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0)
+    const wishlistCount = wishlist.length
 
     const handleWishlistClick = () => {
         if (!isLoggedIn) {
-            navigate("/login");
+            navigate('/login')
         } else {
-            navigate("/wishlist");
+            navigate('/wishlist')
         }
-    };
+    }
 
     const handleCartClick = () => {
         if (!isLoggedIn) {
-            navigate("/login");
+            navigate('/login')
         } else {
-            navigate("/cart");
+            navigate('/cart')
         }
-    };
+    }
 
     return (
         <div className="flex items-center gap-4 sm:gap-6">
             {/* Login / My Account logic here */}
             {!isLoggedIn ? (
-  <Link
-    to="/login"
-    className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary block"
-  >
-     <GoLock className="size-6" />
-  </Link>
-) : (
-  <Link
-    to="/my-profile"
-    className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary block"
-  >
-     <GoPerson className="size-6" />
-  </Link>
-)}
+                <Link
+                    to="/login"
+                    className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary block"
+                >
+                    <GoLock className="size-6" />
+                </Link>
+            ) : (
+                <Link
+                    to="/my-profile"
+                    className="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary block"
+                >
+                    <GoPerson className="size-6" />
+                </Link>
+            )}
             {/* <button
                 className="hdr_search_btn"
                 aria-label="search"
@@ -68,20 +69,20 @@ export default function NavMenu({ toggle, setToggle }: NavMenuProps) {
 
             <button onClick={handleWishlistClick} className="relative">
                 <GoHeart className="text-title dark:text-white size-6" />
-                {wishlist.length > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full px-1.5">
-                        {wishlist.length}
-                    </span>
-                )}
+                {wishlistCount > 0 && (   //  use wishlistCount here
+    <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full px-1.5">
+      {wishlistCount}
+    </span>
+  )}
             </button>
 
             <button onClick={handleCartClick} className="relative">
-              <RiShoppingBag4Line className="text-title dark:text-white size-6" />
-              {totalCartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full px-1.5">
-                  {totalCartCount}
-                </span>
-              )}
+                <RiShoppingBag4Line className="text-title dark:text-white size-6" />
+                {totalCartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full px-1.5">
+                        {totalCartCount}
+                    </span>
+                )}
             </button>
 
             <button

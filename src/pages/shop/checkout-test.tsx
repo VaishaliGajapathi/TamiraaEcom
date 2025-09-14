@@ -11,14 +11,36 @@ import FooterOne from '../../components/footer/footer-one'
 import ScrollToTop from '../../components/scroll-to-top'
 import Aos from 'aos'
 import { Price } from '../../context/CurrencyContext'
-import IncreDre from '../../components/incre-dre'
+import { useCurrency } from '../../context/CurrencyContext'
+
+
+interface CartItem {
+  cartId: number;
+  quantity: number;
+  ProductVariant: {
+    productVariantImage?: string;
+    stockQuantity?: number;
+    Stock?: {
+      availableStock: number;
+    };
+    Product: {
+      productName: string;
+      productImage: string;
+      categoryName: string;
+      productOfferPrice: number;
+    };
+  };
+}
+
 
 const imageBaseUrl = `http://localhost:5000/uploads/`
 export default function Checkout() {
-    const [cartItems, setCartItems] = useState<any[]>([])
+    const [cartItems, setCartItems] = useState<CartItem[]>([])
     const [coupon, setCoupon] = useState("");
     const [couponDiscount, setCouponDiscount] = useState(0);
     const [error, setError] = useState("");
+
+    const { currency } = useCurrency();
 
     
     const subTotal = cartItems.reduce(
@@ -71,7 +93,7 @@ export default function Checkout() {
     // Final total
     const total = subTotal - couponDiscount + shipping
 
-    const [open, setOpen] = useState<boolean>(false)
+    // const [open, setOpen] = useState<boolean>(false)
     
     const [formData, setFormData] = useState({
         userId: '',
@@ -163,6 +185,7 @@ export default function Checkout() {
       products: cartItems,     // send cart items
       total: total,            // send total amount
       couponCodeName: coupon,
+      currency: currency,
     });
 
     if (res.data.success) {
@@ -171,10 +194,15 @@ export default function Checkout() {
     } else {
       alert("⚠️ Failed to place order");
     }
-  } catch (err: any) {
+  } catch (err: unknown) {
+  if (axios.isAxiosError(err)) {
     console.error("Error placing order:", err.response?.data || err.message);
     alert("❌ Something went wrong: " + (err.response?.data?.error || err.message));
+  } else {
+    console.error("Unexpected error:", err);
+    alert("❌ Something went wrong");
   }
+}
 };
     
 
@@ -406,13 +434,13 @@ export default function Checkout() {
                                 </div>
 
                                 {error && (
-  <p className="text-red-500 text-sm mt-2">{error}</p>
-)}
-{couponDiscount > 0 && (
-  <p className="text-green-600 text-sm mt-2">
-    ✅ Coupon applied! You saved ₹{couponDiscount}
-  </p>
-)}
+                                    <p className="text-red-500 text-sm mt-2">{error}</p>
+                                  )}
+                                  {couponDiscount > 0 && (
+                                    <p className="text-green-600 text-sm mt-2">
+                                      ✅ Coupon applied! You saved ₹{couponDiscount}
+                                    </p>
+                                  )}
 
                             <div
                                 className="bg-[#FAFAFA] dark:bg-dark-secondary pt-[30px] md:pt-[40px] lg:pt-[50px] px-[30px] md:px-[40px] lg:px-[50px] pb-[30px] border border-[#17243026] border-opacity-15 rounded-xl"

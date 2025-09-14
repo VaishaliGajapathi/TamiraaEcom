@@ -11,11 +11,32 @@ import FooterOne from '../../components/footer/footer-one'
 import ScrollToTop from '../../components/scroll-to-top'
 import Aos from 'aos'
 import { Price } from '../../context/CurrencyContext'
-import IncreDre from '../../components/incre-dre'
+// import IncreDre from '../../components/incre-dre'
+
+interface Product {
+  productName: string
+  productImage: string
+  productOfferPrice: number
+  categoryName: string
+}
+
+interface ProductVariant {
+  productVariantImage?: string
+  productColor?: string
+  stockQuantity?: number
+  Stock?: { availableStock: number }
+  Product: Product
+}
+
+interface CartItem {
+  cartId: number
+  quantity: number
+  ProductVariant: ProductVariant
+}
 
 const imageBaseUrl = `http://localhost:5000/uploads/`
 export default function Checkout() {
-    const [cartItems, setCartItems] = useState<any[]>([])
+    const [cartItems, setCartItems] = useState<CartItem[]>([])
     const subTotal = cartItems.reduce(
         (sum, item) =>
             sum + item.ProductVariant.Product.productOfferPrice * item.quantity,

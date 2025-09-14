@@ -3,7 +3,7 @@ import { RiShoppingBag2Line } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { Price } from '../../context/CurrencyContext';
 import { useWishlist } from "../../context/WishlistContext";
-import { useCart } from "../../context/CartContext";
+
 import toast from "react-hot-toast";
 
 interface Item {
@@ -14,17 +14,10 @@ interface Item {
     name: string;
 }
 
-interface CartItem {
-  productVariantId: number;
-  productName: string;
-  price: number;
-  image: string;
-  quantity: number;
-}
+
 
 export default function LayoutOne({ item }: { item: Item }) {
     const { addToWishlist, wishlist } = useWishlist();
-    const { addToCart, cart } = useCart();
 
     const handleAddToWishlist = (product: Item) => {
         if (!wishlist.some((w: Item) => w.id === product.id)) {
@@ -35,14 +28,7 @@ export default function LayoutOne({ item }: { item: Item }) {
         }
     };
 
-    const handleAddToCart = (product: Item) => {
-        if (!cart.some(c => c.id === product.id)) {
-            addToCart(product);
-            toast.success(`${product.name} added to cart!`);
-        } else {
-            toast.error(`${product.name} is already in cart!`);
-        }
-    };
+   
 
     return (
         <div className="group">
@@ -86,7 +72,7 @@ export default function LayoutOne({ item }: { item: Item }) {
 
                     {/* Add to Cart */}
                     <button
-                        onClick={() => handleAddToCart(item)}
+                        
                         className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
                     >
                         <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]" />

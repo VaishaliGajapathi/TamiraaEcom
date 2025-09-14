@@ -12,12 +12,34 @@ import { Price } from '../../context/CurrencyContext'
 import IncreDre from '../../components/incre-dre'
 import { getStoredUser } from '../../utils/user'
 
+
+interface Product {
+  productName: string
+  productImage: string
+  productOfferPrice: number
+  categoryName: string
+}
+
+interface ProductVariant {
+  productVariantImage?: string
+  productColor?: string
+  stockQuantity?: number
+  Stock?: { availableStock: number }
+  Product: Product
+}
+
+interface CartItem {
+  cartId: number
+  quantity: number
+  ProductVariant: ProductVariant
+}
+
 const imageBaseUrl = `http://localhost:5000/uploads/`
 export default function Cart() {
-    const [cartItems, setCartItems] = useState<any[]>([])
-    const [coupon, setCoupon] = useState('')
-    const [couponDiscount, setCouponDiscount] = useState(0)
-    const [error, setError] = useState('')
+    const [cartItems, setCartItems] = useState<CartItem[]>([])
+    // const [coupon,] = useState('')
+    const [couponDiscount, ] = useState(0)
+    // const [error, setError] = useState('')
 
     const subTotal = cartItems.reduce(
         (sum, item) =>
@@ -27,40 +49,40 @@ export default function Cart() {
 
     // Example: Apply coupon (for now, just hardcode or fetch from state)
     // change later if you implement coupon logic
-    const applyCoupon = async () => {
-        setError('')
-        if (!coupon) {
-            setError('Please enter a coupon code')
-            return
-        }
+    // const applyCoupon = async () => {
+    //     setError('')
+    //     if (!coupon) {
+    //         setError('Please enter a coupon code')
+    //         return
+    //     }
 
-        try {
-            const res = await fetch(
-                'http://localhost:5000/api/coupons/validate',
-                {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        couponCodeName: coupon,
-                        cartTotal: subTotal,
-                    }),
-                }
-            )
+    //     try {
+    //         const res = await fetch(
+    //             'http://localhost:5000/api/coupons/validate',
+    //             {
+    //                 method: 'POST',
+    //                 headers: { 'Content-Type': 'application/json' },
+    //                 body: JSON.stringify({
+    //                     couponCodeName: coupon,
+    //                     cartTotal: subTotal,
+    //                 }),
+    //             }
+    //         )
 
-            const data = await res.json()
+    //         const data = await res.json()
 
-            if (!data.success) {
-                setError(data.message || 'Invalid coupon')
-                setCouponDiscount(0)
-                return
-            }
+    //         if (!data.success) {
+    //             setError(data.message || 'Invalid coupon')
+    //             setCouponDiscount(0)
+    //             return
+    //         }
 
-            setCouponDiscount(data.discount) //  backend sends discount amount
-        } catch (err) {
-            console.error('Coupon apply failed:', err)
-            setError('Something went wrong')
-        }
-    }
+    //         setCouponDiscount(data.discount) //  backend sends discount amount
+    //     } catch (err) {
+    //         console.error('Coupon apply failed:', err)
+    //         setError('Something went wrong')
+    //     }
+    // }
 
     // Example: GST 5%
     // const gst = subTotal * 0.05;
@@ -161,7 +183,7 @@ export default function Cart() {
                                             </td>
                                         </tr>
                                     ) : (
-                                        cartItems.map((item: any) => (
+                                        cartItems.map((item) => (
                                             <tr key={item.cartId}>
                                                 <td className="md:w-[42%]">
                                                     <div className="flex items-center gap-3 md:gap-4 lg:gap-6 cart-product my-4">
@@ -270,12 +292,16 @@ export default function Cart() {
                                                                     .stockQuantity
 
                                                             if (q <= 0) return
-                                                            if (q > maxStock) {
-                                                                alert(
-                                                                    `Only ${maxStock} items available in stock`
-                                                                )
-                                                                return
-                                                            }
+                                                            
+                                                          if (maxStock === undefined) {
+                                                            alert("Stock information not available")
+                                                            return
+                                                          }
+                                                          
+                                                          if (q > maxStock) {
+                                                            alert(`Only ${maxStock} items available in stock`)
+                                                            return
+                                                          }
 
                                                             // Optimistic update
                                                             setCartItems(
