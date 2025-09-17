@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
-import logo from '../../assets/img/svg/logo.svg'
-import logoLight from '../../assets/img/svg/logo-light.svg'
+import logonew from '../../assets/img/new_logo/logo_new.png'
 import { Link } from 'react-router-dom'
 import NavMenu from './nav-menu'
-import add from '../../assets//img/thumb/add.png'
+import { useCurrency, SupportedCurrency } from '../../context/CurrencyContext'
 
 export default function NavbarFour() {
     const [toggle, setToggle] = useState<boolean>(false)
     const [current, setCurrent] = useState<string>('')
     const [scroll, setScroll] = useState<boolean>(false)
+    const { currency, setCurrency } = useCurrency()
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -30,23 +30,24 @@ export default function NavbarFour() {
     }, [])
 
     return (
-        <div
-            className={`header-area header-v3-area header-v4 absolute z-50 left-0 right-0 top-[10px] sm:top-5 lg:top-7 ${
-                scroll ? 'sticky-header bg-white' : 'lg:bg-transparent'
-            }`}
-        >
+       <div
+  className={`header-area header-v3-area header-v4
+    fixed top-0 left-0 right-0 z-50
+    lg:absolute lg:top-7
+    ${scroll ? 'sticky-header bg-white' : 'lg:bg-transparent'}`}
+>
             <div className="container">
                 <div className="header-v4-wrapper relative flex items-center justify-between gap-5 bg-white lg:bg-opacity-80 rounded-[10px] dark:bg-title lg:dark:bg-opacity-80 px-5 py-3 md:py-5 lg:py-0">
-                    <Link to="/" aria-label="Furnixar">
+                    <Link to="/" aria-label="Nyra Sarees">
                         <img
-                            src={logo}
+                            src={logonew}
                             alt=""
-                            className="dark:hidden w-[120px] sm:w-[200px]"
+                            className="dark:hidden w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] lg:w-[120px] lg:h-[120px] object-contain"
                         />
                         <img
-                            src={logoLight}
+                            src={logonew}
                             alt=""
-                            className="dark:block hidden w-[120px] sm:w-[200px]"
+                            className="dark:block hidden w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] lg:w-[120px] lg:h-[120px] object-contain"
                         />
                     </Link>
                     <div className="flex items-center gap-12 2xl:gap-24">
@@ -57,341 +58,66 @@ export default function NavbarFour() {
                         >
                             <ul className="text-lg leading-none text-title dark:text-white lg:flex lg:gap-[30px]">
                                 <li
-                                    className={`relative ${
-                                        [
-                                            '/',
-                                            '/index-v2',
-                                            '/index-v3',
-                                            '/index-v4',
-                                            '/index-v5',
-                                            '/index-v6',
-                                        ].includes(current)
-                                            ? 'active'
-                                            : ''
-                                    }`}
+                                    className={
+                                        current === '/' ? 'text-primary' : ''
+                                    }
                                 >
-                                    <Link to="#">
-                                        Home<span></span>
-                                    </Link>
-                                    <ul className="sub-menu lg:absolute z-50 lg:top-full lg:left-0 lg:min-w-[220px] lg:invisible lg:transition-all lg:bg-white lg:dark:bg-title lg:py-[15px] lg:pr-[30px]">
-                                        <li
-                                            className={`${
-                                                current === '/' ? 'active' : ''
-                                            }`}
-                                        >
-                                            <Link to="/" className="menu-item">
-                                                Home Minimal
-                                            </Link>
-                                        </li>
-                                        <li
-                                            className={`${
-                                                current === '/index-v2'
-                                                    ? 'active'
-                                                    : ''
-                                            }`}
-                                        >
-                                            <Link
-                                                to="/index-v2"
-                                                className="menu-item"
-                                            >
-                                                Home Stylish
-                                            </Link>
-                                        </li>
-                                        <li
-                                            className={`${
-                                                current === '/index-v3'
-                                                    ? 'active'
-                                                    : ''
-                                            }`}
-                                        >
-                                            <Link
-                                                to="/index-v3"
-                                                className="menu-item"
-                                            >
-                                                Home Accessories
-                                            </Link>
-                                        </li>
-                                        <li
-                                            className={`${
-                                                current === '/index-v4'
-                                                    ? 'active'
-                                                    : ''
-                                            }`}
-                                        >
-                                            <Link
-                                                to="/index-v4"
-                                                className="menu-item"
-                                            >
-                                                Home Collection
-                                            </Link>
-                                        </li>
-                                        <li
-                                            className={`${
-                                                current === '/index-v5'
-                                                    ? 'active'
-                                                    : ''
-                                            }`}
-                                        >
-                                            <Link
-                                                to="/index-v5"
-                                                className="menu-item"
-                                            >
-                                                Home Luxury
-                                            </Link>
-                                        </li>
-                                        <li
-                                            className={`${
-                                                current === '/index-v6'
-                                                    ? 'active'
-                                                    : ''
-                                            }`}
-                                        >
-                                            <Link
-                                                to="/index-v6"
-                                                className="menu-item"
-                                            >
-                                                Home Retro
-                                            </Link>
-                                        </li>
-                                    </ul>
+                                    <Link to="/">Home</Link>
                                 </li>
-                                <li>
-                                    <Link to="">
-                                        Pages<span></span>
-                                    </Link>
-                                    <div className="mega-menu lg:absolute z-50 lg:top-full lg:left-1/2 lg:transform lg:-translate-x-1/2 lg:max-w-[1100px] lg:w-full lg:bg-white lg:dark:bg-title lg:px-[30px] lg:py-[15px] lg:flex lg:items-start lg:justify-between gap-[30px] lg:invisible lg:transition-all lg:duration-300">
-                                        <div className="lg:grid lg:grid-cols-4 lg:items-start gap-x-5 2xl:gap-x-[25px] lg:flex-1">
-                                            <div className="megamenu-item">
-                                                <ul>
-                                                    <li>
-                                                        <Link to="/about">
-                                                            About Us
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/pricing">
-                                                            Price Plan
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/team">
-                                                            Team Member
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/our-clients">
-                                                            Clients
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/faq">
-                                                            FAQs
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/terms-and-conditions">
-                                                            Terms & conditions
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div className="megamenu-item">
-                                                <ul>
-                                                    <li>
-                                                        <Link to="/portfolio-v1">
-                                                            Portolfio 1
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/portfolio-v2">
-                                                            Portolfio 2
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/portfolio-v3">
-                                                            Portolfio 3
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/portfolio-details-v1">
-                                                            Portolfio details 1
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/portfolio-details-v2">
-                                                            Portolfio details 2
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/error">
-                                                            404 Error
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div className="megamenu-item">
-                                                <ul>
-                                                    <li>
-                                                        <Link to="/my-profile">
-                                                            My Profile
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/login">
-                                                            Login
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/register">
-                                                            Register
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/forger-password">
-                                                            Forget Password
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="coming-soon">
-                                                            Coming Soon
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/thank-you">
-                                                            Thank you
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div className="megamenu-item">
-                                                <ul>
-                                                    <li>
-                                                        <Link to="/shipping-method">
-                                                            Shipping Method
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="payment-method">
-                                                            Payment Method
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/invoice">
-                                                            Invoice
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/payment-confirmation">
-                                                            Payment Confirmation
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/payment-success">
-                                                            Payment Completed
-                                                        </Link>
-                                                    </li>
-                                                    <li>
-                                                        <Link to="/payment-failure">
-                                                            Payment Failure
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div className="lg:py-[15px] lg:max-w-[280px] w-full hidden lg:block">
-                                            <Link to="/shop-v1">
-                                                <img
-                                                    src={add}
-                                                    alt="mega-menu-add"
-                                                />
-                                            </Link>
-                                        </div>
-                                    </div>
+                                <li
+                                    className={
+                                        current === '/about'
+                                            ? 'text-primary'
+                                            : ''
+                                    }
+                                >
+                                    <Link to="/about">About Us</Link>
                                 </li>
-                                <li className="relative">
-                                    <Link to="#">
-                                        Shop<span></span>
-                                    </Link>
-                                    <ul className="sub-menu lg:absolute z-50 lg:top-full lg:left-0 lg:min-w-[220px] lg:invisible lg:transition-all lg:bg-white lg:dark:bg-title lg:py-[15px] lg:pr-[30px]">
-                                        <li>
-                                            <Link to="/shop-v1">
-                                                Shop Layout 01
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/shop-v2">
-                                                Shop Layout 02
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/shop-v3">
-                                                Shop Layout 03
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/shop-v4">
-                                                Shop Layout 04
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/product-details">
-                                                Product Details
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/cart">My Cart</Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/checkout">Checkout</Link>
-                                        </li>
-                                    </ul>
+                                <li
+                                    className={
+                                        current === '/allproducts'
+                                            ? 'text-primary'
+                                            : ''
+                                    }
+                                >
+                                    <Link to="/allproducts">Products</Link>
                                 </li>
-                                <li className="relative">
-                                    <Link to="#">
-                                        Blog<span></span>
-                                    </Link>
-                                    <ul className="sub-menu lg:absolute z-50 lg:top-full lg:left-0 lg:min-w-[220px] lg:invisible lg:transition-all lg:bg-white lg:dark:bg-title lg:py-[15px] lg:pr-[30px]">
-                                        <li>
-                                            <Link to="/blog-v1">
-                                                Blog Layout 1
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/blog-v2">
-                                                Blog Layout 2
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/blog-details-v1">
-                                                Blog Details 1
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/blog-details-v2">
-                                                Blog Details 2
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/blog-details-v3">
-                                                Blog Details 3
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to="/blog-tag">Blog Tag</Link>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
+                                <li
+                                    className={
+                                        current === '/contact'
+                                            ? 'text-primary'
+                                            : ''
+                                    }
+                                >
                                     <Link to="/contact">Contact</Link>
                                 </li>
-                                <li className="lg:hidden">
-                                    <Link to="/login">Login</Link>
-                                </li>
+
+                                <div className="flex items-center gap-4">
+                                    <label className="relative inline-flex items-center cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            checked={currency === 'USD'}
+                                            onChange={(e) => {
+                                                const newCurrency: SupportedCurrency =
+                                                    e.target.checked
+                                                        ? 'USD'
+                                                        : 'INR'
+                                                setCurrency(newCurrency)
+                                            }}
+                                            className="sr-only peer"
+                                        />
+                                        <div className="w-16 h-8 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:bg-[#BB976D] transition-colors duration-300"></div>
+                                        <span className="absolute left-1 top-1 bg-white w-6 h-6 rounded-full peer-checked:translate-x-8 transform transition-transform duration-300"></span>
+                                    </label>
+
+                                    <span className="text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        {currency === 'INR' ? 'INR ₹' : 'USD $'}
+                                    </span>
+                                </div>
                             </ul>
                         </div>
-
-                        <NavMenu toggle={toggle} setToggle={setToggle} />
                     </div>
+                    <NavMenu toggle={toggle} setToggle={setToggle} />
                 </div>
             </div>
         </div>

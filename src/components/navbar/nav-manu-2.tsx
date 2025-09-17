@@ -8,7 +8,7 @@ import { LuSearch,LuX,LuMinus,LuPlus } from "react-icons/lu";
 import { GoHeart } from "react-icons/go";
 import {RiShoppingBag4Line} from 'react-icons/ri'
 import Switcher from '../switcher';
-
+import { Price } from '../../context/CurrencyContext'
 export default function NavMenuTwo() {  
     const [wishList, setWishList] = useState<boolean>(false)
     const [cart, setCart] = useState<boolean>(false)
@@ -37,7 +37,7 @@ export default function NavMenuTwo() {
                                     <div className="flex items-center gap-2">
                                         <span className="text-[14px] md:text-[15px] leading-none block">{item.name}</span>
                                         <span className="w-[6px] h-[6px] rounded-full bg-primary"></span>
-                                        <span className="text-[14px] md:text-[15px] leading-none block">{item.price}</span>
+                                        <span className="text-[14px] md:text-[15px] leading-none block"><Price value={item.price} /></span>
                                     </div>
                                     <h6 className="text-base md:text-lg font-semibold leading-none mt-3">{item.desc}</h6>
                                 </div>

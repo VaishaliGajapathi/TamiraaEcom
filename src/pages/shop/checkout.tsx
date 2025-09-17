@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import NavbarOne from "../../components/navbar/navbar-one";
+import NavbarOne from "../../components/navbar/navbar-four";
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
 import cart1 from '../../assets/img/gallery/cart/cart-01.jpg'
@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 import Aos from "aos";
+import { Price } from '../../context/CurrencyContext'
 
 export default function Checkout() {
 
@@ -112,7 +113,9 @@ export default function Checkout() {
                                 </div>
                             </div>
                             
-                            <h6 className="leading-none">$74</h6>
+                            <h6 className="leading-none">
+                                <Price value={74.00} />
+                            </h6>
                             </div>
                             <div className="flex items-center justify-between gap-5">
                             <div className="flex items-center gap-3 md:gap-4 lg:gap-6 cart-product flex-wrap">
@@ -127,7 +130,7 @@ export default function Checkout() {
                                 </div>
                             </div>
                             
-                            <h6 className="leading-none">$124</h6>
+                            <h6 className="leading-none"><Price value={124.00} /></h6>
                             </div>
                             <div className="flex items-center justify-between gap-5">
                             <div className="flex items-center gap-3 md:gap-4 lg:gap-6 cart-product flex-wrap">
@@ -141,21 +144,21 @@ export default function Checkout() {
                                     </h5>
                                 </div>
                             </div>
-                            <h6 className="leading-none">$241</h6>
+                            <h6 className="leading-none"><Price value={241.00} /></h6>
                             </div>
                         </div>
                         <div className="mt-6 pt-6 border-t border-bdr-clr dark:border-bdr-clr-drk text-right flex justify-end flex-col w-full ml-auto mr-0">
                             <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium">
                                 <span>Sub Total:</span>
-                                <span>$870</span>
+                                <span><Price value={870.00} /></span>
                             </div>
                             <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
                                 <span>Coupon Discount:</span>
-                                <span>-$20</span>
+                                <span><Price value={-20.00} /></span>
                             </div>
                             <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
                                 <span>VAT:</span>
-                                <span> $5</span>
+                                <span> <Price value={5.00} /></span>
                             </div>
                             
                         </div>
@@ -172,7 +175,7 @@ export default function Checkout() {
                                         <span className="sm:text-lg text-title dark:text-white block sm:leading-none transform translate-y-[3px] select-none">Free Shipping:</span>
                                     </label>
                                 </div>
-                                <span> $0</span>
+                                <span> <Price value={0.00} /></span>
                             </div>
                             <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
                                 <div>
@@ -186,7 +189,7 @@ export default function Checkout() {
                                         <span className="sm:text-lg text-title dark:text-white block sm:leading-none transform translate-y-[3px] select-none">Fast Shipping:</span>
                                     </label>
                                 </div>
-                                <span>$10</span>
+                                <span><Price value={10.00} /></span>
                             </div>
                             <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
                                 <div>
@@ -200,13 +203,13 @@ export default function Checkout() {
                                         <span className="sm:text-lg text-title dark:text-white block sm:leading-none transform translate-y-[3px] select-none"> Local Pickup:</span>
                                     </label>
                                 </div>
-                                <span>$15</span>
+                                <span><Price value={15.00} /></span>
                             </div>
                         </div>
                         <div className="mt-6 pt-6 border-t border-bdr-clr dark:border-bdr-clr-drk">
                             <div className="flex justify-between flex-wrap font-semibold leading-none text-2xl md:text-3xl">
                                 <span>Total:</span>
-                                <span>&nbsp;$850</span>
+                                <span>&nbsp;<Price value={850.00} /></span>
                             </div>
                         </div>
                     </div> 
@@ -250,7 +253,7 @@ export default function Checkout() {
                             </label>
                         </div>
                         <div className="mt-4 md:mt-6 flex flex-wrap gap-3">
-                            <Link to="#" className="btn btn-outline" data-text="Back to Cart"><span>Back to Cart</span></Link>
+                            <Link to="/cart" className="btn btn-outline" data-text="Back to Cart"><span>Back to Cart</span></Link>
                             <Link to="#" className="btn btn-theme-solid" data-text="Place to Order"><span>Place to Order</span></Link>
                         </div>
                     </div>

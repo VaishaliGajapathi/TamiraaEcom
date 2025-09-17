@@ -1,61 +1,154 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
-
-import NavbarOne from "../../components/navbar/navbar-one";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+// import bg from "../../assets/img/bg/register.jpg";
+import NavbarFour from "../../components/navbar/navbar-four";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
-
-import bg from '../../assets/img/bg/login.jpg'
+import { useAuth } from "../../context/AuthContext";
+// import contactImg from "../../assets/img/new_prods/prod_5.jpg";
+import authImg from "../../assets/img/new_prods/authimage.jpg";
 
 import Aos from "aos";
 
 export default function Login() {
-    useEffect(()=>{
-        Aos.init()
-    })
+
+    const { login } = useAuth();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    Aos.init();
+  }, []);
+
+  const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError("");
+
+  try {
+    const res = await axios.post("http://localhost:5000/api/users/login", {
+      email,
+      password,
+    });
+
+    // Save token in localStorage
+    localStorage.setItem("token", res.data.token);
+
+    // (optional) save user info if backend returns it
+    if (res.data.user) {
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+    }
+    
+    login();
+    // Redirect user to dashboard/home
+    navigate("/");
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err)) {
+      setError(err.response?.data?.message || "Something went wrong");
+    } else {
+      setError("An unexpected error occurred");
+    }
+  }
+};
+
   return (
     <>
-        <NavbarOne/>
+      <NavbarFour />
 
-        <div className="flex">
-            <div className="w-1/2 hidden md:block lg:flex-1">
-                <img className="h-full object-cover" src={bg} alt="login"/>
-            </div>
-            <div className="w-full md:w-1/2 lg:max-w-lg xl:max-w-3xl lg:w-full py-16 px-[20px] sm:px-8 lg:p-16 xl:p-24 relative z-10 flex items-center overflow-hidden">
-                
-                <div className="mx-auto md:mx-0 max-w-md">
-                    <h2 className="leading-none" data-aos="fade-up" data-aos-delay="100">Welcome back !</h2>
-                    <p className="text-lg mt-[15px]" data-aos="fade-up" data-aos-delay="200">Buy & sale your exclusive product only on Furnixar</p>
-                    <div className="mt-7" data-aos="fade-up" data-aos-delay="300">
-                        <label className="text-base sm:text-lg font-medium leading-none mb-2.5 block dark:text-white">Email</label>
-                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300" type="email" placeholder="Enter your email address"/>
-                    </div>
-                    <div className="mt-5" data-aos="fade-up" data-aos-delay="400">
-                        <label className="text-base sm:text-lg font-medium leading-none mb-2.5 block dark:text-white">Password</label>
-                        <input className="w-full h-12 md:h-14 bg-white dark:bg-transparent border border-bdr-clr focus:border-primary p-4 outline-none duration-300 placeholder:text-xl placeholder:transform placeholder:translate-y-[10px]" type="password" placeholder="* * * * * * * *"/>
-                    </div>
-                    <div className="mt-7" data-aos="fade-up" data-aos-delay="500">
-                        <label className="flex items-center gap-2 iam-agree">
-                            <input className="appearance-none hidden" type="checkbox" name="categories"/>
-                            <span className="w-[18px] h-[18px] rounded-[5px] border-2 border-title dark:border-white flex items-center justify-center duration-300">
-                                <svg className="duration-300 opacity-0 fill-current text-title dark:text-white" width="9" height="8" viewBox="0 0 9 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3.05203 7.04122C2.87283 7.04122 2.69433 6.97322 2.5562 6.83864L0.532492 4.8553C0.253409 4.58189 0.249159 4.13351 0.522576 3.85372C0.796701 3.57393 1.24578 3.57039 1.52416 3.84309L3.05203 5.34122L7.61512 0.868804C7.89491 0.595387 8.34328 0.59822 8.6167 0.87872C8.89082 1.1578 8.88657 1.60689 8.60749 1.8803L3.54787 6.83864C3.40974 6.97322 3.23124 7.04122 3.05203 7.04122Z"/>
-                                </svg>
-                            </span>
-                            <span className="text-base sm:text-lg text-title dark:text-white leading-none sm:leading-none select-none inline-block transform translate-y-[3px]">Remember Me</span> 
-                        </label>
-                    </div>
-                    <div data-aos="fade-up" data-aos-delay="600">
-                        <Link to="#" className="btn btn-theme-solid mt-[15px]" data-text="Login"><span>Login</span></Link>
-                    </div>
-                    <p className="text-lg mt-[15px]" data-aos="fade-up" data-aos-delay="700">Don't have an account yet? <Link to="/register" className="text-primary font-medium ml-1 inline-block">Register</Link></p>
-                </div>
-            </div>
+      <div className="flex ">
+       <div className="w-1/2 hidden md:block lg:flex-1">
+          <img className="h-full object-cover" src={authImg} alt="register" />
         </div>
+        <div
+          className="
+           bg-[#f1ecec]
+            w-full 
+            md:w-1/2 
+            lg:max-w-lg 
+            xl:max-w-3xl 
+            lg:w-full 
+            
+            py-28 sm:py-12 md:py-40 lg:py-28 xl:py-24 
+            px-4 sm:px-8 md:px-12 lg:p-16 xl:p-24      
+            
+            relative z-10 flex items-center overflow-hidden
+          "
+        >
+          <div className="mx-auto max-w-md w-full ">
+            <h2 className="leading-none" data-aos="fade-up">
+              Welcome back !
+            </h2>
+            <p className="text-lg mt-[15px]" data-aos="fade-up" data-aos-delay="200">
+              Elevating your style with timeless and elegant sarees at Nyra Sarees.
+            </p>
 
-        <FooterOne/>
+            {/* Error Message */}
+            {error && <p className="text-red-500 mt-3">{error}</p>}
 
-        <ScrollToTop/>
+            <form onSubmit={handleLogin}>
+              <div className="mt-7">
+                <label className="text-base sm:text-lg font-medium mb-2.5 block">
+                  Email
+                </label>
+                <input
+                  className="w-full h-12 md:h-14 border p-4"
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="mt-5">
+                <label className="text-base sm:text-lg font-medium mb-2.5 block">
+                  Password
+                </label>
+                <input
+                  className="w-full h-12 md:h-14 border p-4"
+                  type="password"
+                  placeholder="********"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="mt-2 text-right">
+  <Link 
+    to="/forger-password" 
+    className="text-sm text-primary hover:underline"
+  >
+    Forgot Password?
+  </Link>
+</div>
+
+              <div className="mt-7">
+                <button
+                  type="submit"
+                  className="btn btn-theme-solid w-full"
+                  data-text="Login"
+                >
+                  <span>Login</span>
+                </button>
+              </div>
+            </form>
+
+            <p className="text-lg mt-[15px]">
+              Don't have an account yet?{" "}
+              <Link to="/register" className="text-primary font-medium ml-1">
+                Register
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <FooterOne />
+      <ScrollToTop />
     </>
-  )
+  );
 }

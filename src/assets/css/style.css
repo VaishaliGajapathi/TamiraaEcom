@@ -18060,3 +18060,15 @@ body.quick-view-popup-overlay::before{
 .multi-range-slider .caption{
   display: none !important;
 } 
+
+
+/* Simple spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loader {
+    border-top-color: #3498db;
+    animation: spin 1s linear infinite;
+}
