@@ -30,11 +30,12 @@ export default function NavbarFour() {
     }, [])
 
     return (
-        <div
-            className={`header-area header-v3-area header-v4 absolute z-50 left-0 right-0 top-[10px] sm:top-5 lg:top-7 ${
-                scroll ? 'sticky-header bg-white' : 'lg:bg-transparent'
-            }`}
-        >
+       <div
+  className={`header-area header-v3-area header-v4
+    fixed top-0 left-0 right-0 z-50
+    lg:absolute lg:top-7
+    ${scroll ? 'sticky-header bg-white' : 'lg:bg-transparent'}`}
+>
             <div className="container">
                 <div className="header-v4-wrapper relative flex items-center justify-between gap-5 bg-white lg:bg-opacity-80 rounded-[10px] dark:bg-title lg:dark:bg-opacity-80 px-5 py-3 md:py-5 lg:py-0">
                     <Link to="/" aria-label="Nyra Sarees">

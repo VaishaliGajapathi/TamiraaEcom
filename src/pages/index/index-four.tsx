@@ -221,40 +221,46 @@ export default function IndexFour() {
     return (
         <>
             <NavbarFour />
-            <Swiper
-                modules={[Autoplay]}
-                autoplay={{ delay: 4000, disableOnInteraction: false }}
-                loop={true}
-                className="w-full"
-            >
-                {banners.map((item) => (
-                    <SwiperSlide key={item.id}>
-                        <div
-                            className="
-    pt-32 sm:pt-52 lg:pt-[280px] 
-    pb-52 lg:pb-[350px] 2xl:pb-[450px]
-    bg-no-repeat bg-center 
-    bg-contain lg:bg-cover  
-    dark:before:bg-title dark:before:bg-opacity-70 xl:pt-56
-  "
-                            style={{
-                                backgroundImage: `url(http://localhost:5000/uploads/${item.bannerImage})`,
-                            }}
-                        >
-                            <div
-                                className="container"
-                                data-aos="fade-up"
-                                data-aos-delay="100"
-                            ></div>
-                        </div>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
+            <div className="pt-[50px] sm:pt-[96px] lg:pt-0"> 
+    {/* Only add padding for small devices, remove for desktop */}
+    <Swiper
+      modules={[Autoplay]}
+      autoplay={{ delay: 4000, disableOnInteraction: false }}
+      loop={true}
+      className="w-full"
+    >
+      {banners.map((item) => (
+        <SwiperSlide key={item.id}>
+          <div
+            className="
+              pt-2 sm:pt-52 lg:pt-[280px] xl:pt-56
+              pb-52 lg:pb-[350px] 2xl:pb-[450px]
+              bg-no-repeat bg-center
+              bg-contain lg:bg-cover
+              dark:before:bg-title dark:before:bg-opacity-70 xl:pt-56
+
+            
+
+            "
+            style={{
+              backgroundImage: `url(http://localhost:5000/uploads/${item.bannerImage})`,
+            }}
+          >
+            <div
+              className="container"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            ></div>
+          </div>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  </div>
 
             {/* ✅ Keep your services section same */}
             <div className="container">
                 <div className="max-w-1366 mx-auto">
-                    <div className="hv3-service-wrapper bg-white dark:bg-title rounded-[10px] -mt-16 relative z-10 xl:flex xl:justify-evenly sm:gap-5 grid sm:grid-cols-2">
+                    <div className="hv3-service-wrapper bg-white dark:bg-title rounded-[10px] mt-4 lg:-mt-16  relative z-10 xl:flex xl:justify-evenly sm:gap-5 grid sm:grid-cols-2">
                         {servicesData.map((item, index) => (
                             <>
                                 <div

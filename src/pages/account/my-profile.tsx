@@ -7,7 +7,7 @@ import AccountTab from "../../components/account/account-tab";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 
-import { LuMail, LuMapPin, LuPhoneCall } from "react-icons/lu";
+import { LuMail, LuPhoneCall } from "react-icons/lu";
 import Aos from "aos";
 import NavbarFour from "../../components/navbar/navbar-four";
 
@@ -91,7 +91,7 @@ export default function MyProfile() {
                   <>
                     <div data-aos="fade-up" data-aos-delay="200">
                       <h3 className="font-semibold leading-none">{user.username}</h3>
-                      <span className="leading-none mt-3">User ID: {user.userId}</span>
+                      {/* <span className="leading-none mt-3">User ID: {user.userId}</span> */}
                     </div>
 
                     <div 
@@ -111,12 +111,12 @@ export default function MyProfile() {
                           {user.email}
                         </span>
                       </Link>
-                      <Link to="#" className="flex items-center gap-2">
+                      {/* <Link to="#" className="flex items-center gap-2">
                         <LuMapPin className="text-primary size-5"/>
                         <span className="leading-none font-medium text-base sm:text-lg">
                           Registered on: {new Date(user.createdAt).toLocaleDateString()}
                         </span>
-                      </Link>
+                      </Link> */}
                     </div>
                   </>
                 ) : (

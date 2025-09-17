@@ -131,6 +131,7 @@ export default function OrderHistory() {
                           <td className="px-4 py-2">
                             <Link
                               to={`/invoice/${order.orderId}`}  // Link to invoice page
+                              target="_blank"
                               className="bg-blue-500 text-white px-3 py-1 rounded text-sm"
                             >
                               View

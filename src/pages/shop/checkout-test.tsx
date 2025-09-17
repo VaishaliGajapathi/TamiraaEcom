@@ -2,9 +2,6 @@ import { Link } from 'react-router-dom'
 import NavbarOne from '../../components/navbar/navbar-four'
 import axios from 'axios'
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
-// import cart1 from '../../assets/img/gallery/cart/cart-01.jpg'
-// import cart2 from '../../assets/img/gallery/cart/cart-02.jpg'
-// import cart3 from '../../assets/img/gallery/cart/cart-03.jpg'
 import { getStoredUser } from '../../utils/user';
 import { useEffect, useState } from 'react'
 import FooterOne from '../../components/footer/footer-one'
@@ -39,6 +36,7 @@ export default function Checkout() {
     const [coupon, setCoupon] = useState("");
     const [couponDiscount, setCouponDiscount] = useState(0);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const { currency } = useCurrency();
 
@@ -124,43 +122,12 @@ export default function Checkout() {
         Aos.init()
     }, [])
 
-    // useEffect(() => {
-    //     const storedUser = localStorage.getItem('user')
-    //     if (storedUser) {
-    //         try {
-    //             const parsedUser = JSON.parse(storedUser)
-    //             setFormData((prev) => ({ ...prev, userId: parsedUser.id })) // dynamically set
-    //         } catch (err) {
-    //             console.error('Error parsing user:', err)
-    //         }
-    //     }
-    // }, [])
-
     useEffect(() => {
     const user = getStoredUser();
     if (user?.id) {
         setFormData((prev) => ({ ...prev, userId: user.id }));
     }
 }, []);
-
-    // useEffect(() => {
-    //     const storedUser = localStorage.getItem('user')
-    //     if (!storedUser) return
-
-    //     try {
-    //         const user = JSON.parse(storedUser)
-    //         if (!user?.id) return
-
-    //         fetch(`http://localhost:5000/api/cart/${user.id}`)
-    //             .then((res) => res.json())
-    //             .then((data) => {
-    //                 if (Array.isArray(data)) setCartItems(data)
-    //             })
-    //             .catch((err) => console.error('Error fetching cart:', err))
-    //     } catch (e) {
-    //         console.error('Invalid user in localStorage:', e)
-    //     }
-    // }, [])
 
     useEffect(() => {
     const user = getStoredUser();
@@ -177,6 +144,11 @@ export default function Checkout() {
     
    const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
+
+  if (loading) return; // Prevent multiple clicks
+
+    setLoading(true);  // Start loading
+
 
   try {
     const res = await axios.post("http://localhost:5000/api/orders/checkout", {
@@ -202,7 +174,9 @@ export default function Checkout() {
     console.error("Unexpected error:", err);
     alert("❌ Something went wrong");
   }
-}
+}finally {
+        setLoading(false);  // Stop loading
+    }
 };
     
 
@@ -223,7 +197,11 @@ export default function Checkout() {
             )}
 
             <NavbarOne />
-
+             {loading && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+            <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-24 w-24"></div>
+                </div>
+            )}
             <div
                 className="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70 xl:pt-56"
                 style={{ backgroundImage: `url(${bg})` }}
@@ -252,40 +230,6 @@ export default function Checkout() {
                             data-aos="fade-up"
                             data-aos-delay="100"
                         >
-                            {/* <p className="mb-5 w-full bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300 whitespace-normal">
-                                Are you missing your coupon code ?
-                                <button
-                                    className="ml-1 add-coupon-code underline text-[#209A60]"
-                                    onClick={() => setOpen(!open)}
-                                >
-                                    {' '}
-                                    Click here to add
-                                </button>
-                            </p> */}
-
-                            {/* <div
-                                className={`coupon-wrapper gap-3 flex mb-[30px] ${
-                                    open ? '' : 'hidden'
-                                }`}
-                            >
-                                <input
-                                    className="max-w-[220px] w-full h-12 md:h-14 bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300"
-                                    type="text"
-                                    placeholder="Coupon code"
-                                        value={coupon}
-                                        onChange={(e) => setCoupon(e.target.value)}
-                                />
-                                <Link
-                                    to="#"
-                                    className="btn btn-sm-px btn-theme-solid "
-
-                                    
-                                     data-text="Apply"
-                                     onClick={applyCoupon}
-                                >
-                                    <span>Apply coupon</span>
-                                </Link>
-                            </div> */}
 
                             <h4 className="font-semibold leading-none text-xl md:text-2xl mb-6 md:mb-[30px]">
                                 Billing Information
@@ -403,15 +347,6 @@ export default function Checkout() {
                                         placeholder="Type your message"
                                     ></textarea>
                                 </div>
-                                {/* <div>
-                                    <button
-                                        onClick={handleSubmit}
-                                        className="btn btn-theme-solid"
-                                        data-text="Submit"
-                                    >
-                                        <span>Submit</span>
-                                    </button>
-                                </div> */}
                             </div>
                         </div>
 
@@ -536,13 +471,6 @@ export default function Checkout() {
                                             <Price value={couponDiscount} />
                                         </span>
                                     </div>
-                                    {/* <div className="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
-                                        <span>VAT:</span>
-                                        <span>
-                                            {' '}
-                                            <Price value={5.0} />
-                                        </span>
-                                    </div> */}
                                 </div>
                                 
                                 <div className="mt-6 pt-6 border-t border-bdr-clr dark:border-bdr-clr-drk">
@@ -564,72 +492,9 @@ export default function Checkout() {
                                     Payment
                                 </h4>
                                 <div className="flex gap-5 sm:gap-8 md:gap-12 flex-wrap">
-                                    {/* <div>
-                                        <label className="flex items-center gap-[10px] categoryies-iteem">
-                                            <input
-                                                className="appearance-none hidden"
-                                                type="radio"
-                                                name="item-type"
-                                            />
-                                            <span className="w-4 h-4 rounded-full border border-title dark:border-white flex items-center justify-center duration-300">
-                                                <svg
-                                                    className="duration-300 opacity-0"
-                                                    width="8"
-                                                    height="8"
-                                                    viewBox="0 0 10 10"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <rect
-                                                        width="10"
-                                                        height="10"
-                                                        rx="5"
-                                                        fill="#BB976D"
-                                                    />
-                                                </svg>
-                                            </span>
-                                            <span className="sm:text-lg text-title dark:text-white block sm:leading-none transform translate-y-[3px] select-none">
-                                                Cash On Delivery
-                                            </span>
-                                        </label>
-                                        <p className="ml-6 text-[15px] leading-none mt-2">
-                                            Time ( 07 - 10 ) Days
-                                        </p>
-                                    </div> */}
-                                    {/* <div>
-                                        <label className="flex items-center gap-[10px] categoryies-iteem">
-                                            <input
-                                                className="appearance-none hidden"
-                                                type="radio"
-                                                name="item-type"
-                                            />
-                                            <span className="w-4 h-4 rounded-full border border-title dark:border-white flex items-center justify-center duration-300">
-                                                <svg
-                                                    className="duration-300 opacity-0"
-                                                    width="8"
-                                                    height="8"
-                                                    viewBox="0 0 10 10"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <rect
-                                                        width="10"
-                                                        height="10"
-                                                        rx="5"
-                                                        fill="#BB976D"
-                                                    />
-                                                </svg>
-                                            </span>
-                                            <span className="sm:text-lg text-title dark:text-white block sm:leading-none transform translate-y-[3px] select-none">
-                                                Debit / Credit Card
-                                            </span>
-                                        </label>
-                                        <p className="ml-6 text-[15px] leading-none mt-2">
-                                            Time ( 07 - 10 ) Days
-                                        </p>
-                                    </div> */}
+                                  
                                 </div>
-                                <div className="mt-6 sm:mt-8 md:mt-10">
+                                {/* <div className="mt-6 sm:mt-8 md:mt-10">
                                     <label className="flex items-center gap-2 iam-agree">
                                         <input
                                             className="appearance-none hidden"
@@ -652,7 +517,7 @@ export default function Checkout() {
                                             I Agree all terms & Conditions
                                         </span>
                                     </label>
-                                </div>
+                                </div> */}
                                 <div className="mt-4 md:mt-6 flex flex-wrap gap-3">
                                     <Link
                                         to="/cart"
@@ -663,6 +528,7 @@ export default function Checkout() {
                                     </Link>
                                     <button
                                         onClick={handleSubmit}
+                                        disabled={loading}
                                         className="btn btn-theme-solid"
                                         data-text="Place to Order"
                                     >
@@ -674,6 +540,7 @@ export default function Checkout() {
                     </div>
                 </div>
             </div>
+       
 
             <FooterOne />
 
