@@ -11,7 +11,7 @@ import NavbarFour from '../../components/navbar/navbar-four'
 import { Price } from '../../context/CurrencyContext'
 import IncreDre from '../../components/incre-dre'
 import { getStoredUser } from '../../utils/user'
-
+import { API_BASE_URL } from "../../utils/api";
 
 interface Product {
   productName: string
@@ -34,7 +34,7 @@ interface CartItem {
   ProductVariant: ProductVariant
 }
 
-const imageBaseUrl = `http://localhost:5000/uploads/`
+const imageBaseUrl = `${API_BASE_URL}/uploads/`
 export default function Cart() {
     const [cartItems, setCartItems] = useState<CartItem[]>([])
     // const [coupon,] = useState('')
@@ -58,7 +58,7 @@ export default function Cart() {
 
     //     try {
     //         const res = await fetch(
-    //             'http://localhost:5000/api/coupons/validate',
+    //             'https://tamiraaapi.tamiraa.com/api/coupons/validate',
     //             {
     //                 method: 'POST',
     //                 headers: { 'Content-Type': 'application/json' },
@@ -99,7 +99,7 @@ export default function Cart() {
         const user = getStoredUser()
         if (!user?.id) return
 
-        fetch(`http://localhost:5000/api/cart/${user.id}`)
+        fetch(`${API_BASE_URL}/api/cart/${user.id}`)
             .then((res) => res.json())
             .then((data) => {
                 console.log('Cart API response:', data)
@@ -321,7 +321,7 @@ export default function Cart() {
 
                                                             // Sync with backend
                                                             fetch(
-                                                                `http://localhost:5000/api/cart/update/${item.cartId}`,
+                                                                `${API_BASE_URL}/api/cart/update/${item.cartId}`,
                                                                 {
                                                                     method: 'PUT',
                                                                     headers: {
@@ -366,7 +366,7 @@ export default function Cart() {
                                                         onClick={() => {
                                                             // remove from cart
                                                             fetch(
-                                                                `http://localhost:5000/api/cart/${item.cartId}`,
+                                                                `${API_BASE_URL}/api/cart/${item.cartId}`,
                                                                 {
                                                                     method: 'DELETE',
                                                                 }
@@ -452,7 +452,7 @@ export default function Cart() {
                             </div>
                             <div className="sm:mt-[10px] py-5 flex items-end gap-3 flex-wrap justify-end">
                                 <Link
-                                    to="/shop-v1"
+                                    to="/allproducts"
                                     className="btn btn-sm btn-outline !text-title hover:!text-white before:!z-[-1] dark:!text-white dark:hover:!text-title"
                                 >
                                     Continue Shopping

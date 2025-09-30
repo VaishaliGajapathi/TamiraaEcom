@@ -130,7 +130,7 @@ export default function FooterFour() {
                     </div>
                 </div>
                 <p className="max-w-1366 mx-auto mt-12 flex ">
-                    © {new Date().getFullYear()} Nyraa Sarees Develop with{' '}
+                    © {new Date().getFullYear()} Tamiraa Sarees Develop with{' '}
                     <FaHeart className="fa-solid fa-heart mx-1 text-red-500"></FaHeart>{' '}
                     By{' '}
                     <Link

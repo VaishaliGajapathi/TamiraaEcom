@@ -19,7 +19,8 @@ const CurrencyContext = createContext<CurrencyContextValue | undefined>(
     undefined
 )
 
-const INR_TO_USD = 0.0114
+const USD_TO_INR = 87.72;
+const INR_TO_USD = 1 / USD_TO_INR;
 
 function formatINR(amount: number): string {
     return amount.toLocaleString('en-IN', {

@@ -16,7 +16,7 @@ import { getStoredUser } from '../../utils/user'
 import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa'
 import NavbarFour from '../../components/navbar/navbar-four'
 import { Price } from '../../context/CurrencyContext'
-
+import { API_BASE_URL } from "../../utils/api";
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import { Autoplay, Navigation } from 'swiper/modules'
@@ -36,7 +36,7 @@ export default function ProductDetails() {
     const [currentVariant, setCurrentVariant] = useState<any>(null)
     const [modalOpen, setModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
-    const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
+    const [, setRelatedProducts] = useState<any[]>([]);
 
     useEffect(() => {
         if (currentVariant) {
@@ -64,7 +64,7 @@ export default function ProductDetails() {
     const variantId = parseInt(searchParams.get('variant') || '0')
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/product-variants')
+        fetch(`${API_BASE_URL}/api/product-variants`)
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data.data)) {
@@ -77,7 +77,7 @@ export default function ProductDetails() {
     //   useEffect(() => {
     //        AOS.init()
 
-    //        fetch("http://localhost:5000/api/products")
+    //        fetch("https://tamiraaapi.tamiraa.com/api/products")
     //     .then((res) => res.json())
     //     .then((data) => {
     //       const list = Array.isArray(data) ? data : data.data;
@@ -93,7 +93,7 @@ export default function ProductDetails() {
     // }, [id]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/products')
+        fetch(`${API_BASE_URL}/api/products`)
             .then((res) => res.json())
             .then((data) => {
                 const list = Array.isArray(data) ? data : data.data
@@ -116,7 +116,7 @@ export default function ProductDetails() {
     const stock = currentVariant?.stockQuantity || 0
 
     const variantImageUrl = currentVariant
-        ? `http://localhost:5000/uploads/${currentVariant.productVariantImage}`
+        ? `${API_BASE_URL}/uploads/${currentVariant.productVariantImage}`
         : '' // fallback image
 
     //   const handleAddToWishlist = async () => {
@@ -134,7 +134,7 @@ export default function ProductDetails() {
     //       return;
     //     }
 
-    //     const res = await fetch("http://localhost:5000/api/wishlist/add", {
+    //     const res = await fetch("https://tamiraaapi.tamiraa.com/api/wishlist/add", {
     //       method: "POST",
     //       headers: { "Content-Type": "application/json" },
     //       body: JSON.stringify({
@@ -173,7 +173,7 @@ export default function ProductDetails() {
                 return
             }
 
-            const res = await fetch('http://localhost:5000/api/wishlist/add', {
+            const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -215,7 +215,7 @@ export default function ProductDetails() {
                 return
             }
 
-            const res = await fetch('http://localhost:5000/api/cart/add', {
+            const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -250,7 +250,7 @@ export default function ProductDetails() {
     useEffect(() => {
         if (currentVariant?.productVariantId) {
             fetch(
-                `http://localhost:5000/api/product-variant-images/${currentVariant.productVariantId}`
+                `${API_BASE_URL}/api/product-variant-images/${currentVariant.productVariantId}`
             )
                 .then((res) => res.json())
                 .then((data) => {
@@ -273,7 +273,7 @@ export default function ProductDetails() {
 
     useEffect(() => {
   if (id) {
-    fetch(`http://localhost:5000/api/products/${id}/related`)
+    fetch(`${API_BASE_URL}/api/products/${id}/related`)
       .then((res) => res.json())
       .then((data) => {
         // ✅ only take the array part
@@ -357,7 +357,7 @@ export default function ProductDetails() {
                                                 }
                                             >
                                                 <img
-                                                    src={`http://localhost:5000/uploads/${img.childImage}`}
+                                                    src={`${API_BASE_URL}/uploads/${img.childImage}`}
                                                     alt={`Variant ${currentVariant?.productId}`}
                                                     className="w-full"
                                                 />
@@ -405,7 +405,7 @@ export default function ProductDetails() {
                                                     }
                                                 >
                                                     <img
-                                                        src={`http://localhost:5000/uploads/${img.childImage}`}
+                                                        src={`${API_BASE_URL}/uploads/${img.childImage}`}
                                                         alt={`Variant ${
                                                             currentVariant?.productVariantId
                                                         } - ${index + 1}`}
@@ -679,49 +679,95 @@ export default function ProductDetails() {
                         </p>
                     </div>
                     <Swiper
-  spaceBetween={20}
-  slidesPerView={1}
-  autoplay={{
-    delay: 2500,
-    disableOnInteraction: false,
-  }}
-  breakpoints={{
-    640: { slidesPerView: 2 },
-    1024: { slidesPerView: 3 },
-    1280: { slidesPerView: 4 },
-  }}
-  modules={[Autoplay, Navigation]}
->
-  {relatedProducts.map((product: any) => (
-    <SwiperSlide key={product.productId}>
-      <div className="group">
-        <div className="relative overflow-hidden">
-          <Link
-            to={`/product-details/${product.productId}?variant=${product.Variants?.[0]?.productVariantId}`}
-            onClick={() =>
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              })
-            }
-          >
-            <img
-              src={`http://localhost:5000/uploads/${product.Variants?.[0]?.productVariantImage}`}
-              alt={product.productName}
-              className="w-full transform group-hover:scale-110 duration-300 mt-4"
-            />
-          </Link>
-        </div>
-        <h3 className="text-lg font-semibold mt-4">
-          ₹{product.productOfferPrice}
-        </h3>
-        <h3 className="text-lg font-semibold">
-          {product.productName}
-        </h3>
-      </div>
-    </SwiperSlide>
-  ))}
-</Swiper>
+//   spaceBetween={20}
+//   slidesPerView={1}
+//   autoplay={{
+//     delay: 2500,
+//     disableOnInteraction: false,
+//   }}
+//   breakpoints={{
+//     640: { slidesPerView: 2 },
+//     1024: { slidesPerView: 3 },
+//     1280: { slidesPerView: 4 },
+//   }}
+//   modules={[Autoplay, Navigation]}
+// >
+//   {relatedProducts.map((product: any) => (
+//     <SwiperSlide key={product.productId}>
+//       <div className="group">
+//         <div className="relative overflow-hidden">
+//           <Link
+//             to={`/product-details/${product.productId}?variant=${product.Variants?.[0]?.productVariantId}`}
+//             onClick={() =>
+//               window.scrollTo({
+//                 top: 0,
+//                 behavior: "smooth",
+//               })
+//             }
+//           >
+//             <img
+//               src={`https://tamiraaapi.tamiraa.com/uploads/${product.Variants?.[0]?.productVariantImage}`}
+//               alt={product.productName}
+//               className="w-full transform group-hover:scale-110 duration-300 mt-4"
+//             />
+//           </Link>
+//         </div>
+//         <h3 className="text-lg font-semibold mt-4">
+//           ₹{product.productOfferPrice}
+//         </h3>
+//         <h3 className="text-lg font-semibold">
+//           {product.productName}
+//         </h3>
+//       </div>
+//     </SwiperSlide>
+                        spaceBetween={20}
+                        slidesPerView={1}
+                        autoplay={{
+                            delay: 2500, // 2.5 seconds
+                            disableOnInteraction: false, // keeps autoplay after user interaction
+                        }}
+                        breakpoints={{
+                            640: { slidesPerView: 2 },
+                            1024: { slidesPerView: 3 },
+                            1280: { slidesPerView: 4 },
+                        }}
+                        modules={[Autoplay, Navigation]}
+                    >
+                        {variants.map((variant: any) => (
+                            <SwiperSlide key={variant.productVariantId}>
+                                <div className="group">
+                                    <div className="relative overflow-hidden">
+                                        <Link
+                                            to={`/product-details/${variant.productId}?variant=${variant.productVariantId}`}
+                                            onClick={() =>
+                                                window.scrollTo({
+                                                    top: 0,
+                                                    behavior: 'smooth',
+                                                })
+                                            }
+                                        >
+                                            <img
+                                                src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
+                                                alt={
+                                                    variant.Product.productName
+                                                }
+                                                className="w-full transform group-hover:scale-110 duration-300 mt-4"
+                                            />
+                                        </Link>
+                                    </div>
+                                    <h3 className="text-lg font-semibold mt-4">
+                                        <Price
+                                            value={variant.Product.productOfferPrice || 0}
+                                        />
+                                        
+                                    </h3>
+                                    <h3 className="text-lg font-semibold">
+                                        {variant.Product.productName}
+                                    </h3>
+                                </div>
+                            </SwiperSlide>
+                      ))}
+                    </Swiper>
                 </div>
             </div>
 

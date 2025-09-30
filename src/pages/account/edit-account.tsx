@@ -8,7 +8,7 @@ import AccountTab from "../../components/account/account-tab";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 import NavbarFour from "../../components/navbar/navbar-four";
-
+import { API_BASE_URL } from "../../utils/api";
 import Aos from "aos";
 
 // interface for user
@@ -42,7 +42,7 @@ export default function EditAccount() {
 
     // fetch current user details
     axios
-      .get(`http://localhost:5000/api/users/${userId}`)
+      .get(`${API_BASE_URL}/api/users/${userId}`)
       .then((res) => {
         setFormData(res.data);
         setLoading(false);
@@ -64,14 +64,14 @@ export default function EditAccount() {
   if (!formData) return;
   try {
     // Send update request
-    await axios.put(`http://localhost:5000/api/users/${formData.userId}`, {
+    await axios.put(`${API_BASE_URL}/api/users/${formData.userId}`, {
       username: formData.username,
       phonenumber: formData.phonenumber,
       email: formData.email,
     });
 
     // Fetch fresh user data from API
-    const res = await axios.get(`http://localhost:5000/api/users/${formData.userId}`);
+    const res = await axios.get(`${API_BASE_URL}/api/users/${formData.userId}`);
     const updatedUser = res.data;
 
     // Update form and localStorage with fresh data

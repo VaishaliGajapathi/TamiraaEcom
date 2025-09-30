@@ -5,7 +5,7 @@ import NavbarFour from "../../components/navbar/navbar-four";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 
-
+import { API_BASE_URL } from "../../utils/api";
 import bg from "../../assets/img/shortcode/breadcumb.jpg";
 import { RiShoppingBag2Line } from "react-icons/ri";
 import { FaHeart } from "react-icons/fa";
@@ -15,6 +15,8 @@ export default function Wishlist() {
   const [wishlist, setWishlist] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   // const user = JSON.parse(localStorage.getItem("user") || "{}");
   const user = getStoredUser();
@@ -27,7 +29,7 @@ export default function Wishlist() {
   //     return;
   //   }
   //   try {
-  //     const res = await fetch(`http://localhost:5000/api/wishlist/${user.id}`);
+  //     const res = await fetch(`https://tamiraaapi.tamiraa.com/api/wishlist/${user.id}`);
   //     const data = await res.json();
   //     if (Array.isArray(data)) {
   //       setWishlist(data);
@@ -47,7 +49,7 @@ export default function Wishlist() {
   }
 
   try {
-    const res = await fetch(`http://localhost:5000/api/wishlist/${user.id}`);
+    const res = await fetch(`${API_BASE_URL}/api/wishlist/${user.id}`);
     const data = await res.json();
     if (Array.isArray(data)) {
       setWishlist(data);
@@ -63,7 +65,7 @@ export default function Wishlist() {
   const handleRemove = async (wishlistId: number) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/wishlist/${wishlistId}`,
+        `${API_BASE_URL}/api/wishlist/${wishlistId}`,
         { method: "DELETE" }
       );
       if (res.ok) {
@@ -86,7 +88,7 @@ export default function Wishlist() {
 
 //   try {
 //     // 1️⃣ Add to Cart
-//     const res = await fetch("http://localhost:5000/api/cart/add", {
+//     const res = await fetch("https://tamiraaapi.tamiraa.com/api/cart/add", {
 //       method: "POST",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify({
@@ -101,7 +103,7 @@ export default function Wishlist() {
 //       alert("Moved to cart!");
 
 //       // 2️⃣ Remove from Wishlist immediately
-//       await fetch(`http://localhost:5000/api/wishlist/${wishlistId}`, {
+//       await fetch(`https://tamiraaapi.tamiraa.com/api/wishlist/${wishlistId}`, {
 //         method: "DELETE",
 //       });
 
@@ -127,7 +129,7 @@ const handleMoveToCart = async (variantId: number, wishlistId: number) => {
   }
 
   try {
-    const res = await fetch("http://localhost:5000/api/cart/add", {
+    const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -139,9 +141,10 @@ const handleMoveToCart = async (variantId: number, wishlistId: number) => {
     const data = await res.json();
 
     if (res.ok) {
-      alert("Moved to cart!");
+      setModalMessage("Item moved to cart successfully!");
+      setShowModal(true);
 
-      await fetch(`http://localhost:5000/api/wishlist/${wishlistId}`, {
+      await fetch(`${API_BASE_URL}/api/wishlist/${wishlistId}`, {
         method: "DELETE",
       });
 
@@ -149,10 +152,13 @@ const handleMoveToCart = async (variantId: number, wishlistId: number) => {
         prev.filter((item) => item.wishlistId !== wishlistId)
       );
     } else {
-      alert(data.message || "Failed to move to cart");
+      setModalMessage(data.message || "Failed to move to cart");
+      setShowModal(true);
     }
   } catch (err) {
     console.error("Error moving to cart:", err);
+    setModalMessage("Something went wrong");
+    setShowModal(true);
   }
 };
 
@@ -210,7 +216,7 @@ const handleMoveToCart = async (variantId: number, wishlistId: number) => {
                         <div className="relative overflow-hidden group z-[5] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:bg-title before:opacity-0 before:duration-300 before:z-[5] hover:before:opacity-80">
                           <img
                             className="w-full transform duration-300 group-hover:scale-110"
-                            src={`http://localhost:5000/uploads/${variant.productVariantImage}`}
+                            src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
                             alt="product-card"
                           />
 
@@ -254,6 +260,19 @@ const handleMoveToCart = async (variantId: number, wishlistId: number) => {
 
       <FooterOne />
       <ScrollToTop />
+      {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-sm w-full text-center">
+              <p className="mb-4 text-gray-800 dark:text-white">{modalMessage}</p>
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                onClick={() => setShowModal(false)}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        )}
     </>
   );
 }

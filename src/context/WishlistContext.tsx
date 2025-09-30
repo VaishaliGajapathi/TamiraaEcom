@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../utils/api";
 
 const WishlistContext = createContext<any>(null);
 
@@ -14,7 +15,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const fetchWishlist = async () => {
     if (!userId) return;
     try {
-      const res = await axios.get(`http://localhost:5000/api/wishlist/${userId}`);
+      const res = await axios.get(`${API_BASE_URL}/api/wishlist/${userId}`);
       console.log("Fetched wishlist:", res.data);
       setWishlist(res.data?.wishlist || res.data || []); // adjust based on API shape
     } catch (err) {
@@ -24,7 +25,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
   const addToWishlist = async (productVariantId: number) => {
     try {
-      await axios.post("http://localhost:5000/api/wishlist/add", {
+      await axios.post(`${API_BASE_URL}/api/wishlist/add`, {
         userId,
         productVariantId,
       });
@@ -36,7 +37,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
 
   const removeFromWishlist = async (wishlistId: number) => {
     try {
-      await axios.delete(`http://localhost:5000/api/wishlist/${wishlistId}`);
+      await axios.delete(`${API_BASE_URL}/api/wishlist/${wishlistId}`);
       fetchWishlist();
     } catch (err) {
       console.error("Error removing from wishlist", err);

@@ -15,7 +15,7 @@ import ScrollToTop from '../../components/scroll-to-top'
 import { getStoredUser } from '../../utils/user'; 
 import MultiRangeSlider from 'multi-range-slider-react'
 import Aos from 'aos'
-
+import { API_BASE_URL } from "../../utils/api";
 
 interface SubCategory {
   subCategoryId: number
@@ -106,7 +106,7 @@ const handleAddToCart = async (variant: Variant) => {
       return;
     }
 
-    const res = await fetch("http://localhost:5000/api/cart/add", {
+    const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -152,7 +152,7 @@ const handleAddToWishlist = async (variant: Variant) => {
       return;
     }
 
-    const res = await fetch("http://localhost:5000/api/wishlist/add", {
+    const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -181,7 +181,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 
   // 🔹 Fetch Variants
   useEffect(() => {
-    fetch('http://localhost:5000/api/product-variants')
+    fetch(`${API_BASE_URL}/api/product-variants`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.data)) {
@@ -194,7 +194,7 @@ const handleAddToWishlist = async (variant: Variant) => {
   // 🔹 Fetch Products (only to set price range & category matching)
   useEffect(() => {
     Aos.init()
-    fetch('http://localhost:5000/api/products')
+    fetch(`${API_BASE_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => {
         const productsData = Array.isArray(data) ? data : data.data || []
@@ -212,7 +212,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 
   // 🔹 Fetch Subcategories
   useEffect(() => {
-    fetch('http://localhost:5000/api/subcategories')
+    fetch(`${API_BASE_URL}/api/subcategories`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -387,7 +387,7 @@ const handleAddToWishlist = async (variant: Variant) => {
                           to={`/product-details/${product.productId}?variant=${variant.productVariantId}`}
                         >
                           <img
-                            src={`http://localhost:5000/uploads/${
+                            src={`${API_BASE_URL}/uploads/${
                               variant.productVariantImage ||
                               product.productImage
                             }`}
@@ -536,7 +536,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 //       });
 
 //       useEffect(() => {
-//               fetch("http://localhost:5000/api/product-variants")
+//               fetch("https://tamiraaapi.tamiraa.com/api/product-variants")
 //                 .then(res => res.json())
 //                 .then(data => {
 //                   if (Array.isArray(data.data)) {
@@ -551,7 +551,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 //      useEffect(() => {
 //          Aos.init()    
 //          // Fetch products from API
-//          fetch('http://localhost:5000/api/products')
+//          fetch('https://tamiraaapi.tamiraa.com/api/products')
 //              .then((res) => res.json())
 //              .then((data) => {
 //                  if (Array.isArray(data)) {
@@ -564,7 +564,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 //      }, [])
 
 //      useEffect(() => {
-//       fetch('http://localhost:5000/api/products')
+//       fetch('https://tamiraaapi.tamiraa.com/api/products')
 //         .then((res) => res.json())
 //         .then((data) => {
 //           const productsData = Array.isArray(data) ? data : data.data || [];
@@ -582,7 +582,7 @@ const handleAddToWishlist = async (variant: Variant) => {
      
 
 //      useEffect(() => {
-//          fetch("http://localhost:5000/api/subcategories")
+//          fetch("https://tamiraaapi.tamiraa.com/api/subcategories")
 //            .then((res) => res.json())
 //            .then((data) => {
 //              if (Array.isArray(data)) {
@@ -853,7 +853,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 //                                    <div className="relative overflow-hidden">
 //                                      <Link to={`/product-details/${item.productId}`}>
 //                                        <img
-//                                          src={`http://localhost:5000/uploads/${item.productImage}`}
+//                                          src={`https://tamiraaapi.tamiraa.com/uploads/${item.productImage}`}
 //                                          alt={item.productName}
 //                                          className="w-full transform group-hover:scale-110 duration-300"
 //                                        />

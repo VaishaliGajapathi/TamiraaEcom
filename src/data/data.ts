@@ -400,7 +400,7 @@ export const teamData = [
         image: team2,
         name: 'Jennifer',
         location: 'Coimbatore ,India',
-        desc: `At Nyra Sarees, our story is woven with
+        desc: `At Tamiraa Sarees, our story is woven with
                                     tradition, elegance, and a passion for
                                     timeless style. Born from a dream to
                                     celebrate the beauty of Indian heritage, we
@@ -414,7 +414,7 @@ export const teamData = [
         image: team3,
         name: 'Dharani',
         location: 'Coimbatore ,India',
-        desc: `At Nyra Sarees, our story is woven with
+        desc: `At Tamiraa Sarees, our story is woven with
                                     tradition, elegance, and a passion for
                                     timeless style. Born from a dream to
                                     celebrate the beauty of Indian heritage, we
@@ -755,7 +755,7 @@ export const productTag = ['sarees', 'Silk Sarees', 'Mirror', 'Table', 'Lamp']
 
 export const venderInfo = [
     {
-        name: 'Nyra Sarees',
+        name: 'Tamiraa Sarees',
         vendor: 'John',
         shop: 'Coimbatore west, IN, 641006',
         mail: 'nyraasarees@gmail.com',
@@ -767,15 +767,15 @@ export const venderInfo = [
 export const detailReview = [
     {
         name: 'Varsha',
-        desc: `Nyra Sarees has completely transformed my wardrobe — every piece is elegant, beautifully crafted, and makes me feel confident and graceful.`,
+        desc: `Tamiraa Sarees has completely transformed my wardrobe — every piece is elegant, beautifully crafted, and makes me feel confident and graceful.`,
     },
     {
         name: 'Nikitha',
-        desc: `I was blown away by the quality and detail in my saree from Nyra. It looked even more stunning in person — perfect for any special occasion!`,
+        desc: `I was blown away by the quality and detail in my saree from Tamiraa. It looked even more stunning in person — perfect for any special occasion!`,
     },
     {
         name: 'Anushya',
-        desc: `From the fabric to the fit, Nyra Sarees never disappoints. Their collection blends tradition with a modern twist, and I always get compliments when I wear them!`,
+        desc: `From the fabric to the fit, Tamiraa Sarees never disappoints. Their collection blends tradition with a modern twist, and I always get compliments when I wear them!`,
     },
 ]
 

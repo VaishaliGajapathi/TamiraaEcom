@@ -6,15 +6,15 @@ import NavbarFour from "../../components/navbar/navbar-four";
 import FooterOne from "../../components/footer/footer-one";
 import ScrollToTop from "../../components/scroll-to-top";
 import { useAuth } from "../../context/AuthContext";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 // import contactImg from "../../assets/img/new_prods/prod_5.jpg";
 import authImg from "../../assets/img/new_prods/authimage.jpg";
-
+import { API_BASE_URL } from "../../utils/api";
 import Aos from "aos";
 
 export default function Login() {
-
-    const { login } = useAuth();
-
+  const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,7 +29,7 @@ export default function Login() {
   setError("");
 
   try {
-    const res = await axios.post("http://localhost:5000/api/users/login", {
+    const res = await axios.post(`${API_BASE_URL}/api/users/login`, {
       email,
       password,
     });
@@ -72,7 +72,8 @@ export default function Login() {
             lg:w-full 
             
             py-28 sm:py-12 md:py-40 lg:py-28 xl:py-24 
-            px-4 sm:px-8 md:px-12 lg:p-16 xl:p-24      
+            px-4 sm:px-8 md:px-12 lg:p-16 xl:p-24  
+            lg:pt-48 xl:pt-60    
             
             relative z-10 flex items-center overflow-hidden
           "
@@ -82,7 +83,7 @@ export default function Login() {
               Welcome back !
             </h2>
             <p className="text-lg mt-[15px]" data-aos="fade-up" data-aos-delay="200">
-              Elevating your style with timeless and elegant sarees at Nyra Sarees.
+              Elevating your style with timeless and elegant sarees at Tamiraa Sarees.
             </p>
 
             {/* Error Message */}
@@ -103,7 +104,7 @@ export default function Login() {
                 />
               </div>
 
-              <div className="mt-5">
+              {/* <div className="mt-5">
                 <label className="text-base sm:text-lg font-medium mb-2.5 block">
                   Password
                 </label>
@@ -115,16 +116,37 @@ export default function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+              </div> */}
+              <div className="mt-5 relative">
+                <label className="text-base sm:text-lg font-medium mb-2.5 block">
+                  Password
+                </label>
+                <input
+                  className="w-full h-12 md:h-14 border p-4 pr-12"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="********"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                
+                {/* Eye icon */}
+                <span
+                  className="absolute right-4 top-2/3 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <AiOutlineEye size={22} /> : <AiOutlineEyeInvisible size={22} />}
+                </span>
               </div>
-
+              
               <div className="mt-2 text-right">
-  <Link 
-    to="/forger-password" 
-    className="text-sm text-primary hover:underline"
-  >
-    Forgot Password?
-  </Link>
-</div>
+                <Link 
+                  to="/forger-password" 
+                  className="text-sm text-primary hover:underline"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
 
               <div className="mt-7">
                 <button

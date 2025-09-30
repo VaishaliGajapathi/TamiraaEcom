@@ -22,7 +22,7 @@ import { LuEye, LuHeart } from 'react-icons/lu'
 import { RiShoppingBag2Line } from 'react-icons/ri'
 // import { GoStarFill } from 'react-icons/go'
 import { FaArrowRightLong } from 'react-icons/fa6'
-
+import { API_BASE_URL } from "../../utils/api";
 import Aos from 'aos'
 import FooterOne from '../../components/footer/footer-one'
 import ClientOne from '../../components/client/client-one'
@@ -95,7 +95,7 @@ export default function IndexFour() {
                 return
             }
 
-            const res = await fetch('http://localhost:5000/api/cart/add', {
+            const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -139,7 +139,7 @@ export default function IndexFour() {
                 return
             }
 
-            const res = await fetch('http://localhost:5000/api/wishlist/add', {
+            const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -168,7 +168,7 @@ export default function IndexFour() {
         Aos.init()
 
         // Fetch banners from backend
-        fetch('http://localhost:5000/api/home-banners') // adjust URL if deployed
+        fetch(`${API_BASE_URL}/api/home-banners`) // adjust URL if deployed
             .then((res) => res.json())
             .then((data) => {
                 if (data.length > 0) {
@@ -182,7 +182,7 @@ export default function IndexFour() {
     useEffect(() => {
         Aos.init()
 
-        fetch('http://localhost:5000/api/product-variants')
+        fetch(`${API_BASE_URL}/api/product-variants`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success && Array.isArray(data.data)) {
@@ -204,7 +204,7 @@ export default function IndexFour() {
         const fetchCollectionBanners = async () => {
             try {
                 const res = await fetch(
-                    'http://localhost:5000/api/collection-banners'
+                    `${API_BASE_URL}/api/collection-banners`
                 )
                 const data = await res.json()
 
@@ -243,7 +243,7 @@ export default function IndexFour() {
 
             "
             style={{
-              backgroundImage: `url(http://localhost:5000/uploads/${item.bannerImage})`,
+              backgroundImage: `url(${API_BASE_URL}/uploads/${item.bannerImage})`,
             }}
           >
             <div
@@ -325,7 +325,7 @@ export default function IndexFour() {
                                             >
                                                 <img
                                                     className="w-full transform duration-300 group-hover:scale-110"
-                                                    src={`http://localhost:5000/uploads/${variant.productVariantImage}`}
+                                                    src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
                                                     alt={
                                                         variant.Product
                                                             .productName
@@ -488,7 +488,7 @@ export default function IndexFour() {
                                         <div className="relative overflow-hidden before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:opacity-0 group-hover:before:opacity-100 before:duration-300">
                                             <img
                                                 className="w-full transform duration-300 group-hover:scale-110"
-                                                src={`http://localhost:5000/uploads/${banner.bannerImage}`}
+                                                src={`${API_BASE_URL}/uploads/${banner.bannerImage}`}
                                                 alt="Collection Banner"
                                             />
                                         </div>
@@ -552,7 +552,7 @@ export default function IndexFour() {
                                             >
                                                 <img
                                                     className="w-full transform duration-300 group-hover:scale-110"
-                                                    src={`http://localhost:5000/uploads/${variant.productVariantImage}`}
+                                                    src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
                                                     alt={
                                                         variant.Product
                                                             .productName

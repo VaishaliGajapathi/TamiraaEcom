@@ -99,10 +99,10 @@ export default function About() {
             Our Story Journey
           </h3>
           <p className="mt-3 text-base sm:text-lg">
-            At Nyra Sarees, our story is woven with tradition, elegance, and a passion for timeless style. Born from a dream to celebrate the beauty of Indian heritage, we set out to create a boutique that brings together grace, culture, and craftsmanship under one roof. We believe every woman deserves to feel confident and radiant in what she wears. That’s why each saree, kurti, and ensemble in our collection is carefully selected and crafted — blending classic designs with modern flair. From everyday elegance to festive glam, every piece at Nyra Sarees tells a story of artistry, detail, and love. At Nyra, fashion isn’t just about clothing — it’s about expressing your identity with pride and poise.
+            At Tamiraa Sarees, our story is woven with tradition, elegance, and a passion for timeless style. Born from a dream to celebrate the beauty of Indian heritage, we set out to create a boutique that brings together grace, culture, and craftsmanship under one roof. We believe every woman deserves to feel confident and radiant in what she wears. That’s why each saree, kurti, and ensemble in our collection is carefully selected and crafted — blending classic designs with modern flair. From everyday elegance to festive glam, every piece at Tamiraa Sarees tells a story of artistry, detail, and love. At Tamiraa, fashion isn’t just about clothing — it’s about expressing your identity with pride and poise.
           </p>
           <p className="mt-3 text-base sm:text-lg">
-            Over the years, our dedication to quality, style, and customer satisfaction has shaped Nyra Sarees into a name women trust. What began as a small passion project has blossomed into a beloved boutique known for curating elegant ethnic wear that exceeds expectations. Our journey has always been guided by a love for tradition, a flair for design, and a promise to help every woman feel beautiful and confident.
+            Over the years, our dedication to quality, style, and customer satisfaction has shaped Tamiraa Sarees into a name women trust. What began as a small passion project has blossomed into a beloved boutique known for curating elegant ethnic wear that exceeds expectations. Our journey has always been guided by a love for tradition, a flair for design, and a promise to help every woman feel beautiful and confident.
           </p>
         </div>
       </div>

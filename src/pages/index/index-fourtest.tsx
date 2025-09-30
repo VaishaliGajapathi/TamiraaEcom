@@ -54,7 +54,7 @@
 //     Aos.init();
 
 //     // Fetch banners from backend
-//     fetch("http://localhost:5000/api/home-banners") // adjust URL if deployed
+//     fetch("https://tamiraaapi.tamiraa.com/api/home-banners") // adjust URL if deployed
 //       .then((res) => res.json())
 //       .then((data) => {
 //         if (data.length > 0) {
@@ -69,7 +69,7 @@
 //   useEffect(() => {
 //     Aos.init();
 
-//     fetch("http://localhost:5000/api/product-variants")
+//     fetch("https://tamiraaapi.tamiraa.com/api/product-variants")
 //       .then((res) => res.json())
 //       .then((data) => {
 //         if (data.success && Array.isArray(data.data)) {
@@ -87,7 +87,7 @@
 //                 className="pt-40 sm:pt-52 lg:pt-[280px] pb-52 lg:pb-[350px] 2xl:pb-[450px] bg-overlay dark:before:bg-title dark:before:bg-opacity-70 xl:pt-56"
 //                 style={{
 //           backgroundImage: banner
-//             ? `url(http://localhost:5000/uploads/${banner.bannerImage})`
+//             ? `url(https://tamiraaapi.tamiraa.com/uploads/${banner.bannerImage})`
 //             : "none",
 //         }}
 //             >

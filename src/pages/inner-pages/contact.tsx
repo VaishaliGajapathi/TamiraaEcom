@@ -9,7 +9,7 @@ import newProd1 from '../../assets/img/new_prods/prod_1.jpg'
 import bg from "../../assets/img/shortcode/breadcumb.jpg"
 // import contactImg from "../../assets/img/new_prods/prod_5.jpg"
 import about from "../../assets/img/svg/about.svg"
-
+import { API_BASE_URL } from "../../utils/api";
 import Aos from "aos"
 
 // ---- Types ----
@@ -119,7 +119,7 @@ export default function Contact() {
     if (!validate()) return
 
     try {
-      const res = await axios.post("http://localhost:5000/api/contacts", formData)
+      const res = await axios.post(`${API_BASE_URL}/api/contacts`, formData)
       console.log(res.data)
 
       // show modal instead of alert
@@ -354,7 +354,7 @@ export default function Contact() {
             </h2>
             <p style={{ marginBottom: "8px" }}>
               Your message has been successfully sent to{" "}
-              <strong>NYRA Sarees</strong>.
+              <strong>Tamiraa Sarees</strong>.
             </p>
             <p style={{ marginBottom: "8px" }}>
               Our team will get back to you shortly with the details.

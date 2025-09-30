@@ -8,6 +8,7 @@ import Aos from "aos";
 import NavbarFour from "../../components/navbar/navbar-four";
 import authImg from "../../assets/img/new_prods/authimage.jpg";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../../utils/api";
 
 export default function ForgetPassword() {
   const [email, setEmail] = useState("");
@@ -34,7 +35,7 @@ export default function ForgetPassword() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/users/forgot-password",
+        `${API_BASE_URL}/api/users/forgot-password`,
         { email }
       );
       setSuccess(res.data.message || "OTP sent to your email");
@@ -59,7 +60,7 @@ export default function ForgetPassword() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/users/verify-otp",
+        `${API_BASE_URL}/api/users/verify-otp`,
         { email, otp }
       );
       setSuccess(res.data.message || "OTP verified");
@@ -90,7 +91,7 @@ export default function ForgetPassword() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/users/reset-password",
+        `${API_BASE_URL}/api/users/reset-password`,
         { email, newPassword: password }
       );
       setSuccess(res.data.message || "Password reset successfully");
@@ -141,7 +142,8 @@ export default function ForgetPassword() {
             lg:w-full 
             
             py-28 sm:py-12 md:py-40 lg:py-28 xl:py-24 
-            px-4 sm:px-8 md:px-12 lg:p-16 xl:p-24      
+            px-4 sm:px-8 md:px-12 lg:p-16 xl:p-24    
+            lg:pt-48 xl:pt-60  
             
             relative z-10 flex items-center overflow-hidden
           "
@@ -159,7 +161,7 @@ export default function ForgetPassword() {
               data-aos="fade-up"
               data-aos-delay="200"
             >
-              Elevating your style with timeless and elegant sarees at Nyra Sarees.
+              Elevating your style with timeless and elegant sarees at Tamiraa Sarees.
             </p>
 
             <form

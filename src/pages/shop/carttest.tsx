@@ -12,6 +12,8 @@ import ScrollToTop from '../../components/scroll-to-top'
 import Aos from 'aos'
 import { Price } from '../../context/CurrencyContext'
 // import IncreDre from '../../components/incre-dre'
+import { API_BASE_URL } from "../../utils/api";
+
 
 interface Product {
   productName: string
@@ -34,7 +36,7 @@ interface CartItem {
   ProductVariant: ProductVariant
 }
 
-const imageBaseUrl = `http://localhost:5000/uploads/`
+const imageBaseUrl = `${API_BASE_URL}/uploads/`
 export default function Checkout() {
     const [cartItems, setCartItems] = useState<CartItem[]>([])
     const subTotal = cartItems.reduce(
@@ -85,7 +87,7 @@ export default function Checkout() {
                 userId: Number(formData.userId) || null,
             }
             const response = await axios.post(
-                'http://localhost:5000/api/bill',
+                `${API_BASE_URL}/api/bill`,
                 dataToSend
             )
             alert('Bill created successfully!')
@@ -120,7 +122,7 @@ export default function Checkout() {
             const user = JSON.parse(storedUser)
             if (!user?.id) return
 
-            fetch(`http://localhost:5000/api/cart/${user.id}`)
+            fetch(`${API_BASE_URL}/api/cart/${user.id}`)
                 .then((res) => res.json())
                 .then((data) => {
                     if (Array.isArray(data)) setCartItems(data)

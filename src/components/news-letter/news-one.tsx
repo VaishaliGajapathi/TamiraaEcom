@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import letter from '../../assets/img/svg/letter.svg'
+import { API_BASE_URL } from "../../utils/api";
 
 export default function NewsOne() {
   const [email, setEmail] = useState('');
@@ -23,7 +24,7 @@ export default function NewsOne() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/newsletter/subscribe", {
+      const res = await fetch(`${API_BASE_URL}/api/newsletter/subscribe`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email })

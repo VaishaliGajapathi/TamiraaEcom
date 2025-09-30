@@ -8,6 +8,7 @@ import Aos from 'aos';
 import NavbarFour from '../../components/navbar/navbar-four';
 import axios from 'axios';
 import { getStoredUser } from '../../utils/user';
+import { API_BASE_URL } from "../../utils/api";
 
 interface Order {
   orderId: string;
@@ -34,13 +35,13 @@ export default function OrderHistory() {
 
   // 1️⃣ Fetch order history (per product)
   axios
-    .get(`http://localhost:5000/api/orders/order-history/${userId}`)
+    .get(`${API_BASE_URL}/api/orders/order-history/${userId}`)
     .then(historyRes => {
       const history = historyRes.data.history || [];
 
       // 2️⃣ Fetch orders summary
       axios
-        .get(`http://localhost:5000/api/orders/user/${userId}`)
+        .get(`${API_BASE_URL}/api/orders/user/${userId}`)
         .then(ordersRes => {
           const ordersSummary = ordersRes.data.orders || [];
 
@@ -113,7 +114,7 @@ export default function OrderHistory() {
                       <th className="px-4 py-2">Customer Name</th>
                       {/* <th className="px-4 py-2">Address</th> */}
                       <th className="px-4 py-2">Delivery Status</th>
-                      <th className="px-4 py-2">Payment Status</th>
+                      {/* <th className="px-4 py-2">Payment Status</th> */}
                       <th className="px-4 py-2">Action</th>
                     </tr>
                   </thead>
@@ -127,7 +128,7 @@ export default function OrderHistory() {
                             {[order.addressLine1, order.addressLine2].filter(Boolean).join(", ")}
                           </td> */}
                           <td className="px-4 py-2">{order.deliveryStatus}</td>
-                          <td className="px-4 py-2">{order.paymentStatus}</td>
+                          {/* <td className="px-4 py-2">{order.paymentStatus}</td> */}
                           <td className="px-4 py-2">
                             <Link
                               to={`/invoice/${order.orderId}`}  // Link to invoice page

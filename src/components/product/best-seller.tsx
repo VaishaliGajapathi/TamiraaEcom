@@ -5,6 +5,7 @@ import { RiShoppingBag2Line } from 'react-icons/ri'
 import { Price } from '../../context/CurrencyContext'
 import { useNavigate } from 'react-router-dom'
 import { getStoredUser } from '../../utils/user'
+import { API_BASE_URL } from "../../utils/api";
 
 interface Variant {
     productVariantId: number
@@ -49,7 +50,7 @@ export default function BestSeller() {
                 return
             }
 
-            const res = await fetch('http://localhost:5000/api/cart/add', {
+            const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -93,7 +94,7 @@ export default function BestSeller() {
                 return
             }
 
-            const res = await fetch('http://localhost:5000/api/wishlist/add', {
+            const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -120,7 +121,7 @@ export default function BestSeller() {
     }
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/product-variants')
+        fetch(`${API_BASE_URL}/api/product-variants`)
             .then((res) => res.json())
             .then((data) => {
                 if (data.success) {
@@ -149,7 +150,7 @@ export default function BestSeller() {
                             <div className="relative group z-[5] before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:opacity-0 before:duration-300 before:z-[5] overflow-hidden hover:before:opacity-100 best-seller-pdct">
                                 <img
                                     className="w-full transform duration-300 group-hover:scale-110"
-                                    src={`http://localhost:5000/uploads/${item.productVariantImage}`}
+                                    src={`${API_BASE_URL}/uploads/${item.productVariantImage}`}
                                     alt={item.Product.productName}
                                 />
                                 <div className="absolute z-10 top-0 left-0 w-full h-full items-start justify-end flex flex-col p-7">
@@ -214,7 +215,7 @@ export default function BestSeller() {
                             <div className="relative group overflow-hidden best-seller-pdct">
                                 <img
                                     className="w-full transform duration-300 group-hover:scale-110"
-                                    src={`http://localhost:5000/uploads/${item.productVariantImage}`}
+                                    src={`${API_BASE_URL}/uploads/${item.productVariantImage}`}
                                     alt={item.Product.productName}
                                 />
                                 <div className="absolute z-10 top-0 left-0 w-full h-full items-start justify-end flex flex-col p-7">

@@ -29,7 +29,7 @@
 //         Aos.init()
 
 //         // Fetch products from API
-//         fetch('http://localhost:5000/api/products')
+//         fetch('https://tamiraaapi.tamiraa.com/api/products')
 //             .then((res) => res.json())
 //             .then((data) => {
 //                 if (Array.isArray(data)) {
@@ -436,7 +436,7 @@
 //                             {products.map((item, index) => (
 //                                 <div key={index} className="border rounded-lg p-4 text-center">
 //                                     <img
-//                                         src={`http://localhost:5000/uploads/${item.productImage}`}
+//                                         src={`https://tamiraaapi.tamiraa.com/uploads/${item.productImage}`}
 //                                         alt={item.productName}
 //                                         className="w-full transform group-hover:scale-110 duration-300"
 //                                     />
@@ -536,7 +536,7 @@
 // //         Aos.init()
 
 // //         // Fetch products from API
-// //         fetch('http://localhost:5000/api/products')
+// //         fetch('https://tamiraaapi.tamiraa.com/api/products')
 // //             .then((res) => res.json())
 // //             .then((data) => {
 // //                 if (Array.isArray(data)) {
@@ -589,7 +589,7 @@
 // //                             {products.map((item, index) => (
 // //                                 <div key={index} className="border rounded-lg p-4 text-center">
 // //                                     <img
-// //                                         src={`http://localhost:5000/uploads/${item.productImage}`}
+// //                                         src={`https://tamiraaapi.tamiraa.com/uploads/${item.productImage}`}
 // //                                         alt={item.productName}
 // //                                         className="w-full h-64 object-cover rounded-md mb-3"
 // //                                     />
