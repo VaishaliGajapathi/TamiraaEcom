@@ -317,7 +317,7 @@ export default function ProductDetails() {
                 </div>
             </div>
 
-            <div className="s-py-50" data-aos="fade-up">
+             <div className="s-py-50" data-aos="fade-up">
                 <div className="container-fluid">
                     <div className="max-w-[1720px] mx-auto flex justify-between gap-10 flex-col lg:flex-row">
                         <div className="w-full lg:w-[58%]">
@@ -393,6 +393,7 @@ export default function ProductDetails() {
                                         }
                                         modules={[Navigation, Autoplay]}
                                         className="h-[1100px]"
+                                        
                                     >
                                         {childImages.length > 0 ? (
                                             childImages.map((img, index) => (
@@ -414,7 +415,7 @@ export default function ProductDetails() {
                                                 </SwiperSlide>
                                             ))
                                         ) : (
-                                            <SwiperSlide>
+                                            <SwiperSlide> 
                                                 <img
                                                     src={variantImageUrl}
                                                     alt={
@@ -486,7 +487,7 @@ export default function ProductDetails() {
                                                     setCount(
                                                         count > 1
                                                             ? count - 1
-                                                            : 1
+                                                            : 1       
                                                     )
                                                 }
                                             >

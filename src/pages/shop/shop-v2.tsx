@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
-import bg from '../../assets/img/shortcode/breadcumb.jpg'
+// import bg from '../../assets/img/shortcode/breadcumb.jpg'
 import cardImg from '../../assets/img/new_prods/prod_1.jpg'
 import { LuEye, LuHeart } from 'react-icons/lu'
 import { RiShoppingBag2Line } from 'react-icons/ri'
@@ -238,8 +238,8 @@ const handleAddToWishlist = async (variant: Variant) => {
                            w-full min-h-[250px] sm:min-h-[300px] md:min-h-[400px] lg:min-h-[500px] 
                            bg-cover bg-center bg-no-repeat 
                            pt-16 sm:pt-20 md:pt-24 lg:pt-32 
-                           before:absolute before:inset-0 before:bg-title before:bg-opacity-70"
-        style={{ backgroundImage: `url(${bg})` }}
+                           before:absolute before:inset-0 before:bg-title before:bg-opacity-50"
+        style={{ backgroundImage: 'url("/src/assets/img/shortcode/breadcumb.jpg")' }} 
       >
         <div className="relative text-center w-full z-10">
           <h2 className="text-white text-3xl sm:text-4xl md:text-[40px] font-normal leading-none">
@@ -249,7 +249,7 @@ const handleAddToWishlist = async (variant: Variant) => {
             <li>
               <Link to="/">Home</Link>
             </li>
-            <li>/</li>
+            <li>/</li>  
             <li className="text-primary">Shop</li>
           </ul>
         </div>

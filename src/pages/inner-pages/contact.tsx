@@ -148,7 +148,7 @@ export default function Contact() {
                            w-full min-h-[250px] sm:min-h-[300px] md:min-h-[400px] lg:min-h-[500px] 
                            bg-cover bg-center bg-no-repeat 
                            pt-16 sm:pt-20 md:pt-24 lg:pt-32 
-                           before:absolute before:inset-0 before:bg-title before:bg-opacity-70"
+                           before:absolute before:inset-0 before:bg-title before:bg-opacity-50"
         style={{ backgroundImage: `url(${bg})` }}
       >
         <div className="relative text-center w-full z-10">

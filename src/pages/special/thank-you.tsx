@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import bg from '../../assets/img/thank-you.png'
-import gpay from '../../assets/img/gpay.webp'
+import gpay from '../../assets/img/gpay.png'
 
 
 // import NavbarOne from "../../components/navbar/navbar-one";

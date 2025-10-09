@@ -2,31 +2,38 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
+
 // import type { Swiper as SwiperType } from 'swiper'
+
 import NavbarFour from '../../components/navbar/navbar-four'
 import BestSeller from '../../components/product/best-seller'
-import PartnerOne from '../../components/partner-one'
+
+// import PartnerOne from '../../components/partner-one'
 // import BlogFour from '../../components/blog/blog-four'
 // import NewsTwo from '../../components/news-letter/news-two'
+
 import { Price } from '../../context/CurrencyContext'
 import ScrollToTop from '../../components/scroll-to-top'
 
 // import bgnew from '../../assets/img/new_banner/new_banner1.jpg'
-import like from '../../assets/img/svg/like.svg'
+// import like from '../../assets/img/svg/like.svg'
 // import bgUpdated from '../../assets/img/new_banner/new_project1.jpg'
-
-import { servicesData } from '../../data/index-three'
-import { featureOne } from '../../data/data'
+// import { servicesData } from '../../data/index-three'
+// import { featureOne } from '../../data/data'
 
 import { LuEye, LuHeart } from 'react-icons/lu'
 import { RiShoppingBag2Line } from 'react-icons/ri'
+
 // import { GoStarFill } from 'react-icons/go'
+
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { API_BASE_URL } from "../../utils/api";
 import Aos from 'aos'
 import FooterOne from '../../components/footer/footer-one'
-import ClientOne from '../../components/client/client-one'
-import NewsOne from '../../components/news-letter/news-one'
+
+// import ClientOne from '../../components/client/client-one'
+// import NewsOne from '../../components/news-letter/news-one'
+
 import { getStoredUser } from '../../utils/user'
 import { Autoplay } from 'swiper/modules'
 // Modules
@@ -54,10 +61,10 @@ interface Variant {
     Product: Product
 }
 
-interface CollectionBanner {
-  id: number
-  bannerImage: string
-}
+// interface CollectionBanner {
+//   id: number
+//   bannerImage: string
+// }
 
 export default function IndexFour() {
     const [banners, setBanners] = useState<Banner[]>([])
@@ -65,7 +72,7 @@ export default function IndexFour() {
     const navigate = useNavigate()
     const [newArrivals, setNewArrivals] = useState<Variant[]>([])
     const [trending, setTrending] = useState<Variant[]>([])
-    const [collectionBanners, setCollectionBanners] = useState<CollectionBanner[]>([])
+    // const [collectionBanners, setCollectionBanners] = useState<CollectionBanner[]>([])
     const [modalOpen, setModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
 
@@ -200,65 +207,62 @@ export default function IndexFour() {
             .catch((err) => console.error('Error fetching variants:', err))
     }, [])
 
-    useEffect(() => {
-        const fetchCollectionBanners = async () => {
-            try {
-                const res = await fetch(
-                    `${API_BASE_URL}/api/collection-banners`
-                )
-                const data = await res.json()
+    // useEffect(() => {
+    //     const fetchCollectionBanners = async () => {
+    //         try {
+    //             const res = await fetch(
+    //                 `${API_BASE_URL}/api/collection-banners`
+    //             )
+    //             const data = await res.json()
 
-                // if single object → wrap in array
-                setCollectionBanners(Array.isArray(data) ? data : [data])
-            } catch (err) {
-                console.error('Error fetching collection banners:', err)
-            }
-        }
+    //             // if single object → wrap in array
+    //             setCollectionBanners(Array.isArray(data) ? data : [data])
+    //         } catch (err) {
+    //             console.error('Error fetching collection banners:', err)
+    //         }
+    //     }
 
-        fetchCollectionBanners()
-    }, [])
+    //     fetchCollectionBanners()
+    // }, [])
 
     return (
         <>
             <NavbarFour />
-            <div className="pt-[50px] sm:pt-[96px] lg:pt-0"> 
-    {/* Only add padding for small devices, remove for desktop */}
-    <Swiper
-      modules={[Autoplay]}
-      autoplay={{ delay: 4000, disableOnInteraction: false }}
-      loop={true}
-      className="w-full"
-    >
-      {banners.map((item) => (
-        <SwiperSlide key={item.id}>
-          <div
-            className="
-              pt-2 sm:pt-52 lg:pt-[280px] xl:pt-56
-              pb-52 lg:pb-[350px] 2xl:pb-[450px]
-              bg-no-repeat bg-center
-              bg-contain lg:bg-cover
-              dark:before:bg-title dark:before:bg-opacity-70 xl:pt-56
+            <div className="pt-[50px] sm:pt-[6px] md:pt-[6px]  lg:pt-[120px]"> 
+               {/* Only add padding for small devices, remove for desktop */}
+               <Swiper
+                 modules={[Autoplay]}
+                 autoplay={{ delay: 4000, disableOnInteraction: false }}
+                 loop={true}
+                 className="w-full"
+               >
+                 {banners.map((item) => (
+                   <SwiperSlide key={item.id}>
+                     <div
+                       className="
+                         pt-2 sm:pt-24 md:pt-52 lg:pt-[280px] xl:pt-56
+                         pb-52 lg:pb-[350px] 2xl:pb-[450px]
+                         bg-no-repeat bg-center
+                         bg-contain lg:bg-cover
+                         dark:before:bg-title dark:before:bg-opacity-70            
+                       "
+                       style={{
+                         backgroundImage: `url(${API_BASE_URL}/uploads/${item.bannerImage})`,
+                       }}
+                     >
+                       <div
+                         className="container"
+                         data-aos="fade-up"
+                         data-aos-delay="100"
+                       ></div>
+                     </div>
+                   </SwiperSlide>
+                 ))}
+               </Swiper>
+             </div>
 
-            
-
-            "
-            style={{
-              backgroundImage: `url(${API_BASE_URL}/uploads/${item.bannerImage})`,
-            }}
-          >
-            <div
-              className="container"
-              data-aos="fade-up"
-              data-aos-delay="100"
-            ></div>
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  </div>
-
-            {/* ✅ Keep your services section same */}
-            <div className="container">
+            {/*  Keep your services section same */}
+            {/* <div className="container">
                 <div className="max-w-1366 mx-auto">
                     <div className="hv3-service-wrapper bg-white dark:bg-title rounded-[10px] mt-4 lg:-mt-16  relative z-10 xl:flex xl:justify-evenly sm:gap-5 grid sm:grid-cols-2">
                         {servicesData.map((item, index) => (
@@ -278,7 +282,7 @@ export default function IndexFour() {
                         ))}
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className="s-py-100">
                 <div className="container">
@@ -396,7 +400,7 @@ export default function IndexFour() {
                 </div>
             </div>
 
-            <div className="s-py-100 bg-[#f5f5f5] dark:bg-dark-secondary">
+            {/* <div className="s-py-100 bg-[#f5f5f5] dark:bg-dark-secondary">
                 <div className="container">
                     <div className="max-w-1366 mx-auto">
                         <div
@@ -443,9 +447,9 @@ export default function IndexFour() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="s-py-100-50">
+            <div className="s-py-50-50">
                 <div
                     className="container"
                     data-aos="fade-up"
@@ -455,7 +459,7 @@ export default function IndexFour() {
                 </div>
             </div>
 
-            <div className="s-py-100">
+            <div className="s-py-50">
                 <div className="container">
                     <div className="max-w-1366 mx-auto">
                         <div
@@ -468,7 +472,7 @@ export default function IndexFour() {
                             </h2> */}
                         </div>
 
-                        <Swiper
+                        {/* <Swiper
                             modules={[Autoplay]}
                             spaceBetween={20}
                             slidesPerView={1}
@@ -495,7 +499,7 @@ export default function IndexFour() {
                                     </div>
                                 </SwiperSlide>
                             ))}
-                        </Swiper>
+                        </Swiper> */}
                     </div>
                 </div>
             </div>
@@ -509,7 +513,7 @@ export default function IndexFour() {
                     <div className="max-w-1366 mx-auto">
                         <div className="flex items-center justify-between gap-5 flex-wrap mb-6 pb-4 md:pb-6 border-b border-bdr-clr dark:border-bdr-clr-drk">
                             <h2 className="font-semibold leading-none text-2xl sm:text-3xl lg:text-4xl">
-                                Trending
+                                Celebrity Inspired
                             </h2>
                             <Link
                                 to="/allproducts"
@@ -623,7 +627,7 @@ export default function IndexFour() {
                 </div>
             </div>
 
-            <div
+            {/* <div
                 className="s-py-100 bg-[#ffffff] dark:bg-dark-secondary"
                 data-aos="fade-up"
                 data-aos-delay="100"
@@ -643,9 +647,9 @@ export default function IndexFour() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="bg-[#f5f5f5] dark:bg-dark-secondary s-py-100">
+            {/* <div className="bg-[#f5f5f5] dark:bg-dark-secondary s-py-100">
                 <div
                     className="container max-w-[1365px] mx-auto"
                     data-aos="fade-up"
@@ -664,14 +668,14 @@ export default function IndexFour() {
                     </div>
                     <ClientOne />
                 </div>
-            </div>
-            <div
+            </div> */}
+            {/* <div
                 className="s-py-50-100"
                 data-aos="fade-up"
                 data-aos-delay="100"
             >
                 <NewsOne />
-            </div>
+            </div> */}
 
             {modalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-[100000]">
