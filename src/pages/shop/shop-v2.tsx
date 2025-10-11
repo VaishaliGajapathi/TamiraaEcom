@@ -35,6 +35,7 @@ interface Variant {
   productVariantId: number
   productVariantImage: string
   Product: Product
+  stockQuantity: number
 }
 
 export default function ShopV2() {
@@ -381,81 +382,171 @@ const handleAddToWishlist = async (variant: Variant) => {
                 {filteredVariants.map((variant, index) => {
                   const product = variant.Product || {}
                   return (
-                    <div className="group" key={index}>
-                      <div className="relative overflow-hidden">
-                        <Link
-                          to={`/product-details/${product.productId}?variant=${variant.productVariantId}`}
-                        >
-                          <img
-                            src={`${API_BASE_URL}/uploads/${
-                              variant.productVariantImage ||
-                              product.productImage
-                            }`}
-                            alt={product.productName}
-                            className="w-full transform group-hover:scale-110 duration-300"
-                          />
-                        </Link>
+                    // <div className="group" key={index}>
+                    //   <div className="relative overflow-hidden">
+                    //     <Link
+                    //       to={`/product-details/${product.productId}?variant=${variant.productVariantId}`}
+                    //     >
+                    //       <img
+                    //         src={`${API_BASE_URL}/uploads/${
+                    //           variant.productVariantImage ||
+                    //           product.productImage
+                    //         }`}
+                    //         alt={product.productName}
+                    //         className="w-full transform group-hover:scale-110 duration-300"
+                    //       />
+                    //     </Link>
 
-                        {/* Tag */}
-                        {product.tag && (
-                          <div
-                            className={`absolute z-10 top-7 left-7 pt-[10px] pb-2 px-3 rounded-[30px] font-primary text-[14px] text-white font-semibold leading-none ${
-                              product.tag === 'Hot Sale'
-                                ? 'bg-[#1CB28E]'
-                                : product.tag === 'NEW'
-                                ? 'bg-[#9739E1]'
-                                : product.tag === '10% OFF'
-                                ? 'bg-[#E13939]'
-                                : ''
-                            }`}
-                          >
-                            {product.tag}
-                          </div>
-                        )}
+                    //     {/* Tag */}
+                    //     {product.tag && (
+                    //       <div
+                    //         className={`absolute z-10 top-7 left-7 pt-[10px] pb-2 px-3 rounded-[30px] font-primary text-[14px] text-white font-semibold leading-none ${
+                    //           product.tag === 'Hot Sale'
+                    //             ? 'bg-[#1CB28E]'
+                    //             : product.tag === 'NEW'
+                    //             ? 'bg-[#9739E1]'
+                    //             : product.tag === '10% OFF'
+                    //             ? 'bg-[#E13939]'
+                    //             : ''
+                    //         }`}
+                    //       >
+                    //         {product.tag}
+                    //       </div>
+                    //     )}
 
-                        {/* Action Buttons */}
-                        <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
-                           {/* Add to Wishlist */}
-<button
-  onClick={() => handleAddToWishlist(variant)}
-  className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
->
-  <LuHeart className="dark:text-white h-[22px] w-[20px]" />
-  <span className="mt-1">Add to wishlist</span>
-</button>
-
-{/* Add to Cart */}
-<button
-  onClick={() => handleAddToCart(variant)}
-  className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
->
-  <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]" />
-  <span className="mt-1">Add to Cart</span>
-</button>
-        
-                           {/* Quick View */}
-                           <button 
-                           onClick={() =>
-                                      navigate(
-                                        `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
-                                      )
-                                    }
-                           className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view">
+                    //     {/* Action Buttons */}
+                    //     <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
+                    //        {/* Add to Wishlist */}
+                    //        <button
+                    //          onClick={() => handleAddToWishlist(variant)}
+                    //          className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
+                    //        >
+                    //          <LuHeart className="dark:text-white h-[22px] w-[20px]" />
+                    //          <span className="mt-1">Add to wishlist</span>
+                    //        </button>
+                           
+                    //        {/* Add to Cart */}
+                    //        <button
+                    //          onClick={() => handleAddToCart(variant)}
+                    //          className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
+                    //        >
+                    //          <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]" />
+                    //          <span className="mt-1">Add to Cart</span>
+                    //        </button>
+                                   
+                    //        {/* Quick View */}
+                    //        <button 
+                    //        onClick={() =>
+                    //                   navigate(
+                    //                     `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
+                    //                   )
+                    //                 }
+                    //        className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view">
                               
-                               <LuEye className="dark:text-white h-[22px] w-[20px]" />
-                               <span className="mt-1">Quick View</span>
-                           </button>
-                        </div>
-                      </div>
+                    //            <LuEye className="dark:text-white h-[22px] w-[20px]" />
+                    //            <span className="mt-1">Quick View</span>
+                    //        </button>
+                    //     </div>
+                    //   </div>
 
-                      {/* Name & Price */}
-                      <h3 className="text-lg font-semibold mt-4">
-                       <Price value={product.productOfferPrice} />
-                      </h3>
-                      <h3 className="text-lg font-semibold">
-                        {product.productName}
-                      </h3>
-                    </div>
+                    //   {/* Name & Price */}
+                    //   <h3 className="text-lg font-semibold mt-4">
+                    //    <Price value={product.productOfferPrice} />
+                    //   </h3>
+                    //   <h3 className="text-lg font-semibold">
+                    //     {product.productName}
+                    //   </h3>
+                    // </div>
+                    <div className="group" key={index}>
+                     <div className="relative overflow-hidden">
+                       <Link
+                         to={`/product-details/${product.productId}?variant=${variant.productVariantId}`}
+                       >
+                         <img
+                           src={`${API_BASE_URL}/uploads/${
+                             variant.productVariantImage || product.productImage
+                           }`}
+                           alt={product.productName}
+                           className="w-full transform group-hover:scale-110 duration-300"
+                         />
+                       </Link>
+                   
+                       {/* Tag */}
+                       {product.tag && (
+                         <div
+                           className={`absolute z-10 top-7 left-7 pt-[10px] pb-2 px-3 rounded-[30px] font-primary text-[14px] text-white font-semibold leading-none ${
+                             product.tag === 'Hot Sale'
+                               ? 'bg-[#1CB28E]'
+                               : product.tag === 'NEW'
+                               ? 'bg-[#9739E1]'
+                               : product.tag === '10% OFF'
+                               ? 'bg-[#E13939]'
+                               : ''
+                           }`}
+                         >
+                           {product.tag}
+                         </div>
+                       )}
+                   
+                       
+                       <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
+                        
+                         {variant.stockQuantity > 0 && (
+                           <button
+                             onClick={() => handleAddToWishlist(variant)}
+                             className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
+                           >
+                             <LuHeart className="dark:text-white h-[22px] w-[20px]" />
+                             <span className="mt-1">Add to wishlist</span>
+                           </button>
+                         )}
+                   
+                         
+                         {variant.stockQuantity > 0 && (
+                           <button
+                             onClick={() => handleAddToCart(variant)}
+                             className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
+                           >
+                             <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]" />
+                             <span className="mt-1">Add to Cart</span>
+                           </button>
+                         )}
+                   
+                        
+                         <button
+                           onClick={() =>
+                             navigate(
+                               `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
+                             )
+                           }
+                           className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view"
+                         >
+                           <LuEye className="dark:text-white h-[22px] w-[20px]" />
+                           <span className="mt-1">Quick View</span>
+                         </button>
+                       </div>
+                     </div>
+                   
+                     
+                     <div className="mt-4">
+                       <div className="flex items-center justify-between">
+                         <h3 className="text-lg font-semibold">
+                           <Price value={product.productOfferPrice ?? 0} />
+                         </h3>
+                   
+                        
+                         {variant.stockQuantity === 0 && (
+                           <span className="bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded mr-2">
+                             Out of Stock
+                           </span>
+                         )}
+                       </div>
+                   
+                       <h3 className="text-lg font-semibold">{product.productName}</h3>
+                     </div>
+                   </div>
+                   
+
                   )
                 })}
               </div>

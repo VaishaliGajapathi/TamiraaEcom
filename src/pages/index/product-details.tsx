@@ -22,7 +22,7 @@ import type { Swiper as SwiperType } from 'swiper'
 import { Autoplay, Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
-import 'swiper/css/thumbs'
+import 'swiper/css/thumbs' 
 
 export default function ProductDetails() {
     // const navigate = useNavigate()
@@ -36,7 +36,7 @@ export default function ProductDetails() {
     const [currentVariant, setCurrentVariant] = useState<any>(null)
     const [modalOpen, setModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
-    const [, setRelatedProducts] = useState<any[]>([]);
+    const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
 
     useEffect(() => {
         if (currentVariant) {
@@ -86,7 +86,7 @@ export default function ProductDetails() {
     //       // find product
     //       const found = list.find((p: any) => p.productId === parseInt(id));
     //       if (found && found.Variants?.length > 0) {
-    //         setCurrentVariant(found.Variants[0]); // ✅ default first variant
+    //         setCurrentVariant(found.Variants[0]); // default first variant
     //       }
     //     })
     //     .catch((err) => console.error("Error fetching products:", err));
@@ -680,93 +680,97 @@ export default function ProductDetails() {
                         </p>
                     </div>
                     <Swiper
-//   spaceBetween={20}
-//   slidesPerView={1}
-//   autoplay={{
-//     delay: 2500,
-//     disableOnInteraction: false,
-//   }}
-//   breakpoints={{
-//     640: { slidesPerView: 2 },
-//     1024: { slidesPerView: 3 },
-//     1280: { slidesPerView: 4 },
-//   }}
-//   modules={[Autoplay, Navigation]}
-// >
-//   {relatedProducts.map((product: any) => (
-//     <SwiperSlide key={product.productId}>
-//       <div className="group">
-//         <div className="relative overflow-hidden">
-//           <Link
-//             to={`/product-details/${product.productId}?variant=${product.Variants?.[0]?.productVariantId}`}
-//             onClick={() =>
-//               window.scrollTo({
-//                 top: 0,
-//                 behavior: "smooth",
-//               })
-//             }
-//           >
-//             <img
-//               src={`https://tamiraaapi.tamiraa.com/uploads/${product.Variants?.[0]?.productVariantImage}`}
-//               alt={product.productName}
-//               className="w-full transform group-hover:scale-110 duration-300 mt-4"
-//             />
-//           </Link>
+  spaceBetween={20}
+  slidesPerView={1}
+  autoplay={{
+    delay: 2500,
+    disableOnInteraction: false,
+  }}
+  breakpoints={{
+    640: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 },
+    1280: { slidesPerView: 4 },
+  }}
+  modules={[Autoplay, Navigation]}
+>
+  {relatedProducts.map((product: any) => (
+    <SwiperSlide key={product.productId}>
+      <div className="group">
+        <div className="relative overflow-hidden">
+          <Link
+            to={`/product-details/${product.productId}?variant=${product.Variants?.[0]?.productVariantId}`}
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
+          >
+            <img
+              src={`https://tamiraaapi.tamiraa.com/uploads/${product.Variants?.[0]?.productVariantImage}`}
+              alt={product.productName}
+              className="w-full transform group-hover:scale-110 duration-300 mt-4"
+            />
+          </Link>
+        </div>
+        <h3 className="text-lg font-semibold mt-4">
+          ₹{product.productOfferPrice}
+        </h3>
+        <h3 className="text-lg font-semibold">
+          {product.productName}
+        </h3>
+      </div>
+    </SwiperSlide>
+//                         spaceBetween={20}
+//                         slidesPerView={1}
+//                         autoplay={{
+//                             delay: 2500, // 2.5 seconds
+//                             disableOnInteraction: false, // keeps autoplay after user interaction
+//                         }}
+//                         breakpoints={{
+//                             640: { slidesPerView: 2 },
+//                             1024: { slidesPerView: 3 },
+//                             1280: { slidesPerView: 4 },
+//                         }}
+//                         modules={[Autoplay, Navigation]}
+//                     >
+//                         {variants.map((variant: any) => (
+//                           <SwiperSlide key={variant.productVariantId}>
+//   <div className="group relative">
+//     <div className="relative overflow-hidden">
+//       <Link
+//         to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
+//         onClick={() =>
+//           window.scrollTo({ top: 0, behavior: "smooth" })
+//         }
+//       >
+//         <img
+//           src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
+//           alt={variant.Product.productName}
+//           className="w-full transform group-hover:scale-110 duration-300 mt-4"
+//         />
+//       </Link>
+
+//     </div>
+
+//           <div className="mt-4">
+//                <div className="flex items-center justify-between">
+//                  <h3 className="text-lg font-semibold">
+//                    <Price value={product.productOfferPrice ?? 0} />
+//                  </h3>
+            
+//                  {/* Out of Stock badge */}
+//                  {variant.stockQuantity === 0 && (
+//                    <span className="bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded mr-2">
+//                      Out of Stock
+//                    </span>
+//                  )}
+//                </div>
+            
+//                <h3 className="text-lg font-semibold">{product.productName}</h3>
+//              </div>
 //         </div>
-//         <h3 className="text-lg font-semibold mt-4">
-//           ₹{product.productOfferPrice}
-//         </h3>
-//         <h3 className="text-lg font-semibold">
-//           {product.productName}
-//         </h3>
-//       </div>
-//     </SwiperSlide>
-                        spaceBetween={20}
-                        slidesPerView={1}
-                        autoplay={{
-                            delay: 2500, // 2.5 seconds
-                            disableOnInteraction: false, // keeps autoplay after user interaction
-                        }}
-                        breakpoints={{
-                            640: { slidesPerView: 2 },
-                            1024: { slidesPerView: 3 },
-                            1280: { slidesPerView: 4 },
-                        }}
-                        modules={[Autoplay, Navigation]}
-                    >
-                        {variants.map((variant: any) => (
-                            <SwiperSlide key={variant.productVariantId}>
-                                <div className="group">
-                                    <div className="relative overflow-hidden">
-                                        <Link
-                                            to={`/product-details/${variant.productId}?variant=${variant.productVariantId}`}
-                                            onClick={() =>
-                                                window.scrollTo({
-                                                    top: 0,
-                                                    behavior: 'smooth',
-                                                })
-                                            }
-                                        >
-                                            <img
-                                                src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
-                                                alt={
-                                                    variant.Product.productName
-                                                }
-                                                className="w-full transform group-hover:scale-110 duration-300 mt-4"
-                                            />
-                                        </Link>
-                                    </div>
-                                    <h3 className="text-lg font-semibold mt-4">
-                                        <Price
-                                            value={variant.Product.productOfferPrice || 0}
-                                        />
-                                        
-                                    </h3>
-                                    <h3 className="text-lg font-semibold">
-                                        {variant.Product.productName}
-                                    </h3>
-                                </div>
-                            </SwiperSlide>
+//       </SwiperSlide>
                       ))}
                     </Swiper>
                 </div>

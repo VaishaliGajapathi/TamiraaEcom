@@ -7,20 +7,19 @@ import FooterOne from "../../components/footer/footer-one"
 import ScrollToTop from "../../components/scroll-to-top"
 import newProd1 from '../../assets/img/new_prods/prod_1.jpg'
 import bg from "../../assets/img/shortcode/breadcumb.jpg"
-// import contactImg from "../../assets/img/new_prods/prod_5.jpg"
 import about from "../../assets/img/svg/about.svg"
 import { API_BASE_URL } from "../../utils/api";
 import Aos from "aos"
 
 // ---- Types ----
-type FormData = {
+type FormData = {                                                                               
   name: string
   email: string
   phoneNumber: string
   subject: string
   comments: string
 }
-
+                                                           
 type Errors = Partial<Record<keyof FormData, string>>
 
 export default function Contact() {

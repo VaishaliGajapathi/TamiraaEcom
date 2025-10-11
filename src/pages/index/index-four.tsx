@@ -58,6 +58,7 @@ interface Variant {
     productVariantImage?: string
     isNewArrival: boolean
     isTrending: boolean
+    stockQuantity: number
     Product: Product
 }
 
@@ -192,6 +193,7 @@ export default function IndexFour() {
         fetch(`${API_BASE_URL}/api/product-variants`)
             .then((res) => res.json())
             .then((data) => {
+                console.log("🔍 Product Variants:", data);
                 if (data.success && Array.isArray(data.data)) {
                     const arrivals = data.data.filter(
                         (variant: Variant) => variant.isNewArrival
@@ -338,7 +340,7 @@ export default function IndexFour() {
                                             </Link>
 
                                             {/* Buttons */}
-                                            <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
+                                            {/* <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
                                                 <button
                                                     onClick={() =>
                                                         navigate(
@@ -369,10 +371,43 @@ export default function IndexFour() {
                                                 >
                                                     <LuHeart className="transition-all duration-300 text-white w-6 h-6" />
                                                 </button>
-                                            </div>
+                                            </div> */}
+                                           <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
+                                              {/* 👁 Quick View — always visible */}
+                                              <button
+                                                onClick={() =>
+                                                  navigate(
+                                                    `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
+                                                  )
+                                                }
+                                                className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-300 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-80 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 quick-view tooltip-icon-2"
+                                              >
+                                                <LuEye className="transition-all duration-300 text-white w-6 h-6" />
+                                              </button>
+                                            
+                                              {/*  Add to Cart — only visible if in stock */}
+                                              {variant.stockQuantity > 0 && (
+                                                <button
+                                                  onClick={() => handleAddToCart(variant)}
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-500 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-60 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                >
+                                                  <RiShoppingBag2Line className="transition-all duration-300 text-white w-6 h-6" />
+                                                </button>
+                                              )}
+                                            
+                                              {/*  Add to Wishlist — only visible if in stock */}
+                                              {variant.stockQuantity > 0 && (
+                                                <button
+                                                  onClick={() => handleAddToWishlist(variant)}
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-700 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-80 faveIcon transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                >
+                                                  <LuHeart className="transition-all duration-300 text-white w-6 h-6" />
+                                                </button>
+                                              )}
+                                           </div>
                                         </div>
 
-                                        <div className="mt-5 md:mt-7">
+                                        {/* <div className="mt-5 md:mt-7">
                                             <h4 className="font-medium leading-none dark:text-white text-lg">
                                                 <Price
                                                     value={
@@ -381,6 +416,7 @@ export default function IndexFour() {
                                                     }
                                                 />
                                             </h4>
+                                            
                                             <h5 className="mt-3 text-xl font-normal dark:text-white leading-[1.5]">
                                                 <Link
                                                     to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
@@ -391,6 +427,32 @@ export default function IndexFour() {
                                                     }
                                                 </Link>
                                             </h5>
+                                             {variant.stockQuantity === 0 && (
+                                               <p className="text-red-500 text-sm mt-1 font-medium">Out of Stock</p>
+                                             )}
+                                        </div> */}
+                                        <div className="mt-5 md:mt-7">
+                                         {/* PRICE + BADGE ROW */}
+                                          <div className="flex items-center justify-between gap-2">
+                                            <h4 className="font-medium leading-none dark:text-white text-lg">
+                                              <Price value={variant.Product.productOfferPrice ?? 0} />
+                                            </h4>
+                                        
+                                            {variant.stockQuantity === 0 && (
+                                              <span className="bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded mr-2">
+                                                Out of Stock
+                                              </span>
+                                            )}
+                                          </div>
+                                        
+                                          {/* PRODUCT NAME */}
+                                          <h5 className="mt-3 text-xl font-normal dark:text-white leading-[1.5]">
+                                            <Link
+                                              to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
+                                            >
+                                              {variant.Product.productName}
+                                            </Link>
+                                          </h5>
                                         </div>
                                     </div>
                                 </SwiperSlide>
@@ -565,7 +627,7 @@ export default function IndexFour() {
                                             </Link>
 
                                             {/* Buttons */}
-                                            <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
+                                            {/* <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
                                                 <button
                                                     onClick={() =>
                                                         navigate(
@@ -596,10 +658,43 @@ export default function IndexFour() {
                                                 >
                                                     <LuHeart className="transition-all duration-300 text-white w-6 h-6" />
                                                 </button>
-                                            </div>
+                                            </div> */}
+                                            <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
+                                              {/* 👁 Quick View — always visible */}
+                                              <button
+                                                onClick={() =>
+                                                  navigate(
+                                                    `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
+                                                  )
+                                                }
+                                                className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-300 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-80 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 quick-view tooltip-icon-2"
+                                              >
+                                                <LuEye className="transition-all duration-300 text-white w-6 h-6" />
+                                              </button>
+                                            
+                                              {/*  Add to Cart — only visible if in stock */}
+                                              {variant.stockQuantity > 0 && (
+                                                <button
+                                                  onClick={() => handleAddToCart(variant)}
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-500 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-60 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                >
+                                                  <RiShoppingBag2Line className="transition-all duration-300 text-white w-6 h-6" />
+                                                </button>
+                                              )}
+                                            
+                                              {/*  Add to Wishlist — only visible if in stock */}
+                                              {variant.stockQuantity > 0 && (
+                                                <button
+                                                  onClick={() => handleAddToWishlist(variant)}
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-700 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-80 faveIcon transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                >
+                                                  <LuHeart className="transition-all duration-300 text-white w-6 h-6" />
+                                                </button>
+                                              )}
+                                           </div>
                                         </div>
 
-                                        <div className="mt-5 md:mt-7">
+                                        {/* <div className="mt-5 md:mt-7">
                                             <h4 className="font-medium leading-none dark:text-white text-lg">
                                                 <Price
                                                     value={
@@ -618,7 +713,31 @@ export default function IndexFour() {
                                                     }
                                                 </Link>
                                             </h5>
+                                        </div> */}
+                                        <div className="mt-5 md:mt-7">
+                                         {/* PRICE + BADGE ROW */}
+                                          <div className="flex items-center justify-between gap-2">
+                                            <h4 className="font-medium leading-none dark:text-white text-lg">
+                                              <Price value={variant.Product.productOfferPrice ?? 0} />
+                                            </h4>
+                                        
+                                            {variant.stockQuantity === 0 && (
+                                              <span className="bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded mr-2">
+                                                Out of Stock
+                                              </span>
+                                            )}
+                                          </div>
+                                        
+                                          {/* PRODUCT NAME */}
+                                          <h5 className="mt-3 text-xl font-normal dark:text-white leading-[1.5]">
+                                            <Link
+                                              to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
+                                            >
+                                              {variant.Product.productName}
+                                            </Link>
+                                          </h5>
                                         </div>
+                                        
                                     </div>
                                 </SwiperSlide>
                             ))}
