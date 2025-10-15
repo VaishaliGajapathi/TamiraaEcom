@@ -40,7 +40,7 @@ export const useProducts = () => {
 
         return {
           id: product.productId,
-          image: `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'}/uploads/${product.productImage}`,
+          image: `${import.meta.env.VITE_API_BASE_URL || 'https://tamiraaapi.tamiraa.com'}/uploads/${product.productImage}`,
           tag,
           price: `₹${product.productOfferPrice}`,
           name: product.productName,

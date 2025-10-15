@@ -9,7 +9,7 @@ import {
     footerLink4,
 } from '../../data/nav-data'
 
-import { FaFacebookF, FaHeart, FaInstagram, FaTwitter } from 'react-icons/fa'
+import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa'
 import { FiLinkedin } from 'react-icons/fi'
 
 export default function FooterFour() {
@@ -130,8 +130,8 @@ export default function FooterFour() {
                     </div>
                 </div>
                 <p className="max-w-1366 mx-auto mt-12 flex ">
-                    © {new Date().getFullYear()} Nyraa Sarees Develop with{' '}
-                    <FaHeart className="fa-solid fa-heart mx-1 text-red-500"></FaHeart>{' '}
+                    © {new Date().getFullYear()} Tamiraa Sarees Develop with{' '}
+                    
                     By{' '}
                     <Link
                         to="https://saitechnosolutions.com/"

@@ -7,7 +7,7 @@ import logoNew from '../../assets/img/new_logo/1234.png'
 import { footerLink1, footerLink4 } from '../../data/nav-data'
 import {
     FaFacebookF,
-    FaHeart,
+    
     FaInstagram,
     FaLinkedin,
     FaTwitter,
@@ -54,7 +54,7 @@ export default function FooterOne() {
                                 alt="logo"
                             />
                             <p className="mt-4 text-white-light max-w-[522px] sm:mx-auto">
-                                At Nyra Sarees, our story is woven with
+                                At Tamiraa Sarees, our story is woven with
                                 tradition, elegance, and a passion for timeless
                                 style. Born from a dream to celebrate the beauty
                                 of Indian heritage, we set out to create a
@@ -119,9 +119,9 @@ export default function FooterOne() {
 
                     <div className="max-w-[1722px] mx-auto border-t border-white border-opacity-10 py-5 md:py-7 text-center">
                       <p className="text-white-light inline-flex flex-col md:flex-row items-center justify-center">
-                        <span className="mr-2">© {new Date().getFullYear()} Nyraa Sarees</span>
+                        <span className="mr-2">© {new Date().getFullYear()} Tamiraa Sarees</span>
                         
-                        <span className="flex items-center mt-2 md:mt-0">
+                        {/* <span className="flex items-center mt-2 md:mt-0">
                           Develop with <FaHeart className="mx-1 text-red-500" /> By{' '}
                           <Link
                             to="https://saitechnosolutions.com/"
@@ -130,7 +130,7 @@ export default function FooterOne() {
                           >
                             Sai Techno Solutions
                           </Link>
-                        </span>
+                        </span> */}
                       </p>
                     </div>
                 </div>

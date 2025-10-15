@@ -9,7 +9,7 @@ import ScrollToTop from '../../components/scroll-to-top'
 import Aos from 'aos'
 import { Price } from '../../context/CurrencyContext'
 import { useCurrency } from '../../context/CurrencyContext'
-
+import { API_BASE_URL } from "../../utils/api";
 
 interface CartItem {
   cartId: number;
@@ -30,7 +30,7 @@ interface CartItem {
 }
 
 
-const imageBaseUrl = `http://localhost:5000/uploads/`
+const imageBaseUrl = `${API_BASE_URL}/uploads/`
 export default function Checkout() {
     const [cartItems, setCartItems] = useState<CartItem[]>([])
     const [coupon, setCoupon] = useState("");
@@ -39,6 +39,9 @@ export default function Checkout() {
     const [loading, setLoading] = useState(false);
 
     const { currency } = useCurrency();
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [modalSuccess, setModalSuccess] = useState(false); 
 
     
     const subTotal = cartItems.reduce(
@@ -58,7 +61,7 @@ export default function Checkout() {
   }
 
   try {
-    const res = await fetch("http://localhost:5000/api/coupons/validate", {
+    const res = await fetch(`${API_BASE_URL}/api/coupons/validate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -133,7 +136,7 @@ export default function Checkout() {
     const user = getStoredUser();
     if (!user?.id) return;
 
-    fetch(`http://localhost:5000/api/cart/${user.id}`)
+    fetch(`${API_BASE_URL}/api/cart/${user.id}`)
       .then((res) => res.json())
       .then((data) => {
           if (Array.isArray(data)) setCartItems(data);
@@ -151,7 +154,7 @@ export default function Checkout() {
 
 
   try {
-    const res = await axios.post("http://localhost:5000/api/orders/checkout", {
+    const res = await axios.post(`${API_BASE_URL}/api/orders/checkout`, {
       billData: formData,
       userId: formData.userId, //  use formData.userId
       products: cartItems,     // send cart items
@@ -161,22 +164,28 @@ export default function Checkout() {
     });
 
     if (res.data.success) {
-      alert("✅ Order placed successfully!");
-      window.location.href = "/thank-you";
+      setModalMessage("Order placed successfully!");
+      setModalSuccess(true);
+      setModalOpen(true);
+      setTimeout(() => {
+        window.location.href = "/thank-you";
+      }, 2000);
     } else {
-      alert("⚠️ Failed to place order");
+      setModalMessage("Failed to place order");
+      setModalSuccess(false);
+      setModalOpen(true);
     }
   } catch (err: unknown) {
-  if (axios.isAxiosError(err)) {
-    console.error("Error placing order:", err.response?.data || err.message);
-    alert("❌ Something went wrong: " + (err.response?.data?.error || err.message));
-  } else {
-    console.error("Unexpected error:", err);
-    alert("❌ Something went wrong");
-  }
-}finally {
-        setLoading(false);  // Stop loading
+    let message = "Something went wrong";
+    if (axios.isAxiosError(err)) {
+      message = err.response?.data?.error || err.message;
     }
+    setModalMessage(message);
+    setModalSuccess(false);
+    setModalOpen(true);
+  } finally {
+    setLoading(false);
+  }
 };
     
 
@@ -545,6 +554,28 @@ export default function Checkout() {
             <FooterOne />
 
             <ScrollToTop />
+            {modalOpen && (
+  <div
+    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]"
+    onClick={() => setModalOpen(false)}
+  >
+    <div
+      className="bg-white dark:bg-dark-secondary p-6 rounded-lg max-w-sm w-full shadow-lg relative"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h3 className={`text-lg font-semibold mb-4 ${modalSuccess ? 'text-green-600' : 'text-red-600'}`}>
+        {modalSuccess ? "Success" : "Error"}
+      </h3>
+      <p className="mb-4">{modalMessage}</p>
+      {/* <button
+        className="btn btn-theme-solid w-full"
+        onClick={() => setModalOpen(false)}
+      >
+        Close
+      </button> */}
+    </div>
+  </div>
+)}
         </>
     )
 }

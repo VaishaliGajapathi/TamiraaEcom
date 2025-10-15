@@ -2,31 +2,38 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
+
 // import type { Swiper as SwiperType } from 'swiper'
+
 import NavbarFour from '../../components/navbar/navbar-four'
 import BestSeller from '../../components/product/best-seller'
-import PartnerOne from '../../components/partner-one'
+
+// import PartnerOne from '../../components/partner-one'
 // import BlogFour from '../../components/blog/blog-four'
 // import NewsTwo from '../../components/news-letter/news-two'
+
 import { Price } from '../../context/CurrencyContext'
 import ScrollToTop from '../../components/scroll-to-top'
 
 // import bgnew from '../../assets/img/new_banner/new_banner1.jpg'
-import like from '../../assets/img/svg/like.svg'
+// import like from '../../assets/img/svg/like.svg'
 // import bgUpdated from '../../assets/img/new_banner/new_project1.jpg'
-
-import { servicesData } from '../../data/index-three'
-import { featureOne } from '../../data/data'
+// import { servicesData } from '../../data/index-three'
+// import { featureOne } from '../../data/data'
 
 import { LuEye, LuHeart } from 'react-icons/lu'
 import { RiShoppingBag2Line } from 'react-icons/ri'
-// import { GoStarFill } from 'react-icons/go'
-import { FaArrowRightLong } from 'react-icons/fa6'
 
+// import { GoStarFill } from 'react-icons/go'
+
+import { FaArrowRightLong } from 'react-icons/fa6'
+import { API_BASE_URL } from "../../utils/api";
 import Aos from 'aos'
 import FooterOne from '../../components/footer/footer-one'
-import ClientOne from '../../components/client/client-one'
-import NewsOne from '../../components/news-letter/news-one'
+
+// import ClientOne from '../../components/client/client-one'
+// import NewsOne from '../../components/news-letter/news-one'
+
 import { getStoredUser } from '../../utils/user'
 import { Autoplay } from 'swiper/modules'
 // Modules
@@ -51,13 +58,14 @@ interface Variant {
     productVariantImage?: string
     isNewArrival: boolean
     isTrending: boolean
+    stockQuantity: number
     Product: Product
 }
 
-interface CollectionBanner {
-  id: number
-  bannerImage: string
-}
+// interface CollectionBanner {
+//   id: number
+//   bannerImage: string
+// }
 
 export default function IndexFour() {
     const [banners, setBanners] = useState<Banner[]>([])
@@ -65,7 +73,7 @@ export default function IndexFour() {
     const navigate = useNavigate()
     const [newArrivals, setNewArrivals] = useState<Variant[]>([])
     const [trending, setTrending] = useState<Variant[]>([])
-    const [collectionBanners, setCollectionBanners] = useState<CollectionBanner[]>([])
+    // const [collectionBanners, setCollectionBanners] = useState<CollectionBanner[]>([])
     const [modalOpen, setModalOpen] = useState(false)
     const [modalMessage, setModalMessage] = useState('')
 
@@ -80,95 +88,167 @@ export default function IndexFour() {
     }
 
     // 🔹 Add to Cart
-    const handleAddToCart = async (variant: Variant) => {
-        try {
-            // const user = JSON.parse(localStorage.getItem("user") || "{}");
-            const user = getStoredUser()
+    // const handleAddToCart = async (variant: Variant) => {
+    //     try {
+    //         // const user = JSON.parse(localStorage.getItem("user") || "{}");
+    //         const user = getStoredUser()
 
-            if (!user?.id) {
-                showModal('Please login to add to cart')
-                return
-            }
+    //         if (!user?.id) {
+    //             showModal('Please login to add to cart')
+    //             return
+    //         }
 
-            if (!variant?.productVariantId) {
-                showModal('No product variant selected')
-                return
-            }
+    //         if (!variant?.productVariantId) {
+    //             showModal('No product variant selected')
+    //             return
+    //         }
 
-            const res = await fetch('http://localhost:5000/api/cart/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userId: user.id, // same as ProductDetails
-                    productVariantId: variant.productVariantId,
-                    quantity: 1, // default 1 from shop grid
-                }),
-            })
+    //         const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({
+    //                 userId: user.id, // same as ProductDetails
+    //                 productVariantId: variant.productVariantId,
+    //                 quantity: 1, // default 1 from shop grid
+    //             }),
+    //         })
 
-            const data = await res.json()
+    //         const data = await res.json()
 
-            if (res.ok) {
-                if (data.message === 'Already in cart') {
-                    // 🔹 Don't increase qty, just inform user
-                    showModal('🛍️ This product is already in your cart')
-                } else {
-                    showModal('🎁 Added to your shopping bag – happy shopping!')
-                }
-            } else {
-                showModal(data.message || ' Failed to add to cart')
-            }
-        } catch (err) {
-            console.error('Add to cart error:', err)
-            showModal('❌ Something went wrong')
-        }
+    //         if (res.ok) {
+    //             if (data.message === 'Already in cart') {
+    //                 // 🔹 Don't increase qty, just inform user
+    //                 showModal('🛍️ This product is already in your cart')
+    //             } else {
+    //                 showModal('🎁 Added to your shopping bag – happy shopping!')
+    //             }
+    //         } else {
+    //             showModal(data.message || ' Failed to add to cart')
+    //         }
+    //     } catch (err) {
+    //         console.error('Add to cart error:', err)
+    //         showModal('❌ Something went wrong')
+    //     }
+    // }
+
+
+
+ const handleAddToCart = async (variant: Variant) => {
+   try {
+    const user = getStoredUser();
+
+    // 🧩 Validate variant
+    if (!variant?.productVariantId) {
+      showModal('No product variant selected');
+      return;
     }
+
+    // ✅ Logged-in user flow
+    if (user?.id) {
+      const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          productVariantId: variant.productVariantId,
+          quantity: 1,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        if (data.message === 'Already in cart') {
+          showModal('🛍️ This product is already in your cart');
+        } else {
+          showModal('🎁 Added to your shopping bag – happy shopping!');
+        }
+      } else {
+        showModal(data.message || 'Failed to add to cart');
+      }
+
+      return;
+    }
+
+    // 🚀 Guest user — localStorage cart logic
+    const guestCart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+
+    const existingItem = guestCart.find(
+      (item: any) => item.productVariantId === variant.productVariantId
+    );
+
+    if (existingItem) {
+      // ✅ Same product already exists
+      showModal('🛍️ This product is already in your cart');
+    } else {
+      // 🆕 Add new product
+      guestCart.push({
+        productVariantId: variant.productVariantId,
+        productName: variant?.Product?.productName,
+        price: variant?.Product?.productOfferPrice,
+        image: variant?.productVariantImage,
+        quantity: 1,
+      });
+
+      localStorage.setItem('guestCart', JSON.stringify(guestCart));
+      showModal('🎁 Added to your shopping bag');
+    }
+  } catch (err) {
+    console.error('Add to cart error:', err);
+    showModal('❌ Something went wrong');
+  }
+};
+
 
     // 🔹 Add to Wishlist
-    const handleAddToWishlist = async (variant: Variant) => {
-        try {
-            // const user = JSON.parse(localStorage.getItem("user") || "{}");
-            const user = getStoredUser()
+    // const handleAddToWishlist = async (variant: Variant) => {
+    //     try {
+    //         // const user = JSON.parse(localStorage.getItem("user") || "{}");
+    //         const user = getStoredUser()
 
-            if (!user?.id) {
-                showModal('Please login to add to wishlist')
-                return
-            }
+    //         if (!user?.id) {
+    //             showModal('Please login to add to wishlist')
+    //             return
+    //         }
 
-            if (!variant?.productVariantId) {
-                showModal('No product variant selected')
-                return
-            }
+    //         if (!variant?.productVariantId) {
+    //             showModal('No product variant selected')
+    //             return
+    //         }
 
-            const res = await fetch('http://localhost:5000/api/wishlist/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userId: user.id, //  include userId
-                    productVariantId: variant.productVariantId,
-                }),
-            })
+    //         const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({
+    //                 userId: user.id, //  include userId
+    //                 productVariantId: variant.productVariantId,
+    //             }),
+    //         })
 
-            const data = await res.json()
+    //         const data = await res.json()
 
-            if (res.ok) {
-                if (data.message === 'Product already in wishlist') {
-                    showModal('💖 Product already in wishlist')
-                } else {
-                    showModal('💖 Added to wishlist')
-                }
-            } else {
-                showModal(data.message || '❌ Failed to add to wishlist')
-            }
-        } catch (err) {
-            console.error('Wishlist error:', err)
-            showModal('❌ Something went wrong')
-        }
-    }
+    //         if (res.ok) {
+    //             if (data.message === 'Product already in wishlist') {
+    //                 showModal('💖 Product already in wishlist')
+    //             } else {
+    //                 showModal('💖 Added to wishlist')
+    //             }
+    //         } else {
+    //             showModal(data.message || '❌ Failed to add to wishlist')
+    //         }
+    //     } catch (err) {
+    //         console.error('Wishlist error:', err)
+    //         showModal('❌ Something went wrong')
+    //     }
+    // }
+
+
+
     useEffect(() => {
         Aos.init()
 
         // Fetch banners from backend
-        fetch('http://localhost:5000/api/home-banners') // adjust URL if deployed
+        fetch(`${API_BASE_URL}/api/home-banners`) // adjust URL if deployed
             .then((res) => res.json())
             .then((data) => {
                 if (data.length > 0) {
@@ -179,12 +259,72 @@ export default function IndexFour() {
             .catch((err) => console.error('Error fetching banners:', err))
     }, [])
 
+            const handleAddToWishlist = async (variant: Variant) => {
+          try {
+            const user = getStoredUser();
+        
+            if (!variant?.productVariantId) {
+              showModal('No product variant selected');
+              return;
+            }
+        
+            if (user?.id) {
+              // ✅ Logged-in: API call
+              const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  userId: user.id,
+                  productVariantId: variant.productVariantId,
+                }),
+              });
+        
+              const data = await res.json();
+        
+              if (res.ok) {
+                showModal(
+                  data.message === 'Product already in wishlist'
+                    ? '💖 Product already in wishlist'
+                    : '💖 Added to wishlist'
+                );
+              } else {
+                showModal(data.message || '❌ Failed to add to wishlist');
+              }
+              return;
+            }
+        
+            // 🚀 Guest user: save in localStorage
+            const guestWishlist = JSON.parse(localStorage.getItem('guestWishlist') || '[]');
+        
+            const exists = guestWishlist.find(
+              (item: any) => item.productVariantId === variant.productVariantId
+            );
+        
+            if (exists) {
+              showModal('💖 Product already in wishlist');
+            } else {
+              guestWishlist.push({
+                productVariantId: variant.productVariantId,
+                productName: variant.Product.productName,
+                price: variant.Product.productOfferPrice,
+                image: variant.productVariantImage,
+              });
+              localStorage.setItem('guestWishlist', JSON.stringify(guestWishlist));
+              showModal('💖 Added to wishlist');
+            }
+          } catch (err) {
+            console.error('Wishlist error:', err);
+            showModal('❌ Something went wrong');
+          }
+        };
+
     useEffect(() => {
         Aos.init()
 
-        fetch('http://localhost:5000/api/product-variants')
+        fetch(`${API_BASE_URL}/api/product-variants`)
             .then((res) => res.json())
             .then((data) => {
+                console.log("🔍 Product Variants:", data);
                 if (data.success && Array.isArray(data.data)) {
                     const arrivals = data.data.filter(
                         (variant: Variant) => variant.isNewArrival
@@ -200,65 +340,62 @@ export default function IndexFour() {
             .catch((err) => console.error('Error fetching variants:', err))
     }, [])
 
-    useEffect(() => {
-        const fetchCollectionBanners = async () => {
-            try {
-                const res = await fetch(
-                    'http://localhost:5000/api/collection-banners'
-                )
-                const data = await res.json()
+    // useEffect(() => {
+    //     const fetchCollectionBanners = async () => {
+    //         try {
+    //             const res = await fetch(
+    //                 `${API_BASE_URL}/api/collection-banners`
+    //             )
+    //             const data = await res.json()
 
-                // if single object → wrap in array
-                setCollectionBanners(Array.isArray(data) ? data : [data])
-            } catch (err) {
-                console.error('Error fetching collection banners:', err)
-            }
-        }
+    //             // if single object → wrap in array
+    //             setCollectionBanners(Array.isArray(data) ? data : [data])
+    //         } catch (err) {
+    //             console.error('Error fetching collection banners:', err)
+    //         }
+    //     }
 
-        fetchCollectionBanners()
-    }, [])
+    //     fetchCollectionBanners()
+    // }, [])
 
     return (
         <>
             <NavbarFour />
-            <div className="pt-[50px] sm:pt-[96px] lg:pt-0"> 
-    {/* Only add padding for small devices, remove for desktop */}
-    <Swiper
-      modules={[Autoplay]}
-      autoplay={{ delay: 4000, disableOnInteraction: false }}
-      loop={true}
-      className="w-full"
-    >
-      {banners.map((item) => (
-        <SwiperSlide key={item.id}>
-          <div
-            className="
-              pt-2 sm:pt-52 lg:pt-[280px] xl:pt-56
-              pb-52 lg:pb-[350px] 2xl:pb-[450px]
-              bg-no-repeat bg-center
-              bg-contain lg:bg-cover
-              dark:before:bg-title dark:before:bg-opacity-70 xl:pt-56
+            <div className="pt-[50px] sm:pt-[6px] md:pt-[6px]  lg:pt-[120px]"> 
+               {/* Only add padding for small devices, remove for desktop */}
+               <Swiper
+                 modules={[Autoplay]}
+                 autoplay={{ delay: 4000, disableOnInteraction: false }}
+                 loop={true}
+                 className="w-full"
+               >
+                 {banners.map((item) => (
+                   <SwiperSlide key={item.id}>
+                     <div
+                       className="
+                         pt-2 sm:pt-24 md:pt-52 lg:pt-[280px] xl:pt-56
+                         pb-52 lg:pb-[350px] 2xl:pb-[450px]
+                         bg-no-repeat bg-center
+                         bg-contain lg:bg-cover
+                         dark:before:bg-title dark:before:bg-opacity-70            
+                       "
+                       style={{
+                         backgroundImage: `url(${API_BASE_URL}/uploads/${item.bannerImage})`,
+                       }}
+                     >
+                       <div
+                         className="container"
+                         data-aos="fade-up"
+                         data-aos-delay="100"
+                       ></div>
+                     </div>
+                   </SwiperSlide>
+                 ))}
+               </Swiper>
+             </div>
 
-            
-
-            "
-            style={{
-              backgroundImage: `url(http://localhost:5000/uploads/${item.bannerImage})`,
-            }}
-          >
-            <div
-              className="container"
-              data-aos="fade-up"
-              data-aos-delay="100"
-            ></div>
-          </div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  </div>
-
-            {/* ✅ Keep your services section same */}
-            <div className="container">
+            {/*  Keep your services section same */}
+            {/* <div className="container">
                 <div className="max-w-1366 mx-auto">
                     <div className="hv3-service-wrapper bg-white dark:bg-title rounded-[10px] mt-4 lg:-mt-16  relative z-10 xl:flex xl:justify-evenly sm:gap-5 grid sm:grid-cols-2">
                         {servicesData.map((item, index) => (
@@ -278,11 +415,11 @@ export default function IndexFour() {
                         ))}
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className="s-py-100">
                 <div className="container">
-                    <div className="max-w-1366 mx-auto">
+                    <div className="max-w-1366 mx-auto px-8 sm:px-6 md:px-6 lg:px-10">
                         <div
                             className="flex items-center justify-between gap-5 flex-wrap mb-6 pb-4 md:pb-6 border-b border-bdr-clr dark:border-bdr-clr-drk"
                             data-aos="fade-up"
@@ -303,29 +440,29 @@ export default function IndexFour() {
                         </div>
 
                         <Swiper
-                            modules={[Autoplay]}
-                            spaceBetween={20}
-                            slidesPerView={1}
-                            loop={true}
-                            autoplay={{
-                                delay: 3000,
-                                disableOnInteraction: false,
-                            }}
-                            breakpoints={{
-                                640: { slidesPerView: 2 },
-                                1024: { slidesPerView: 4 },
-                            }}
-                        >
+                           modules={[Autoplay]}
+                           spaceBetween={10} // reduce gap between slides for mobile
+                           slidesPerView={1}
+                           loop={true}
+                           autoplay={{
+                             delay: 3000,
+                             disableOnInteraction: false,
+                           }}
+                           breakpoints={{
+                             640: { slidesPerView: 2, spaceBetween: 20 },
+                             1024: { slidesPerView: 4, spaceBetween: 20 },
+                           }}
+                         >
                             {newArrivals.map((variant) => (
                                 <SwiperSlide key={variant.productVariantId}>
                                     <div className="group">
-                                        <div className="relative overflow-hidden before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:opacity-0 group-hover:before:opacity-100 before:duration-300">
+                                        <div className="relative overflow-hidden before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:opacity-0 group-hover:before:opacity-0 before:duration-300">
                                             <Link
                                                 to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
                                             >
                                                 <img
                                                     className="w-full transform duration-300 group-hover:scale-110"
-                                                    src={`http://localhost:5000/uploads/${variant.productVariantImage}`}
+                                                    src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
                                                     alt={
                                                         variant.Product
                                                             .productName
@@ -334,7 +471,7 @@ export default function IndexFour() {
                                             </Link>
 
                                             {/* Buttons */}
-                                            <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
+                                            {/* <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
                                                 <button
                                                     onClick={() =>
                                                         navigate(
@@ -365,10 +502,43 @@ export default function IndexFour() {
                                                 >
                                                     <LuHeart className="transition-all duration-300 text-white w-6 h-6" />
                                                 </button>
-                                            </div>
+                                            </div> */}
+                                           <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
+                                              {/* 👁 Quick View — always visible */}
+                                              <button
+                                                onClick={() =>
+                                                  navigate(
+                                                    `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
+                                                  )
+                                                }
+                                                className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-300 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-80 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 quick-view tooltip-icon-2"
+                                              >
+                                                <LuEye className="transition-all duration-300 text-white w-6 h-6" />
+                                              </button>
+                                            
+                                              {/*  Add to Cart — only visible if in stock */}
+                                              {variant.stockQuantity > 0 && (
+                                                <button
+                                                  onClick={() => handleAddToCart(variant)}
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-500 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-60 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                >
+                                                  <RiShoppingBag2Line className="transition-all duration-300 text-white w-6 h-6" />
+                                                </button>
+                                              )}
+                                            
+                                              {/*  Add to Wishlist — only visible if in stock */}
+                                              {variant.stockQuantity > 0 && (
+                                                <button
+                                                  onClick={() => handleAddToWishlist(variant)}
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-700 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-80 faveIcon transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                >
+                                                  <LuHeart className="transition-all duration-300 text-white w-6 h-6" />
+                                                </button>
+                                              )}
+                                           </div>
                                         </div>
 
-                                        <div className="mt-5 md:mt-7">
+                                        {/* <div className="mt-5 md:mt-7">
                                             <h4 className="font-medium leading-none dark:text-white text-lg">
                                                 <Price
                                                     value={
@@ -377,6 +547,7 @@ export default function IndexFour() {
                                                     }
                                                 />
                                             </h4>
+                                            
                                             <h5 className="mt-3 text-xl font-normal dark:text-white leading-[1.5]">
                                                 <Link
                                                     to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
@@ -387,6 +558,32 @@ export default function IndexFour() {
                                                     }
                                                 </Link>
                                             </h5>
+                                             {variant.stockQuantity === 0 && (
+                                               <p className="text-red-500 text-sm mt-1 font-medium">Out of Stock</p>
+                                             )}
+                                        </div> */}
+                                        <div className="mt-5 md:mt-7">
+                                         {/* PRICE + BADGE ROW */}
+                                          <div className="flex items-center justify-between gap-2">
+                                            <h4 className="font-medium leading-none dark:text-white text-lg">
+                                              <Price value={variant.Product.productOfferPrice ?? 0} />
+                                            </h4>
+                                        
+                                            {variant.stockQuantity === 0 && (
+                                              <span className="bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded mr-2">
+                                                Out of Stock
+                                              </span>
+                                            )}
+                                          </div>
+                                        
+                                          {/* PRODUCT NAME */}
+                                          <h5 className="mt-3 text-xl font-normal dark:text-white leading-[1.5]">
+                                            <Link
+                                              to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
+                                            >
+                                              {variant.Product.productName}
+                                            </Link>
+                                          </h5>
                                         </div>
                                     </div>
                                 </SwiperSlide>
@@ -396,7 +593,7 @@ export default function IndexFour() {
                 </div>
             </div>
 
-            <div className="s-py-100 bg-[#f5f5f5] dark:bg-dark-secondary">
+            {/* <div className="s-py-100 bg-[#f5f5f5] dark:bg-dark-secondary">
                 <div className="container">
                     <div className="max-w-1366 mx-auto">
                         <div
@@ -443,9 +640,9 @@ export default function IndexFour() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="s-py-100-50">
+            <div className="s-py-50-50">
                 <div
                     className="container"
                     data-aos="fade-up"
@@ -455,7 +652,7 @@ export default function IndexFour() {
                 </div>
             </div>
 
-            <div className="s-py-100">
+            <div className="s-py-50">
                 <div className="container">
                     <div className="max-w-1366 mx-auto">
                         <div
@@ -468,7 +665,7 @@ export default function IndexFour() {
                             </h2> */}
                         </div>
 
-                        <Swiper
+                        {/* <Swiper
                             modules={[Autoplay]}
                             spaceBetween={20}
                             slidesPerView={1}
@@ -488,14 +685,14 @@ export default function IndexFour() {
                                         <div className="relative overflow-hidden before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:opacity-0 group-hover:before:opacity-100 before:duration-300">
                                             <img
                                                 className="w-full transform duration-300 group-hover:scale-110"
-                                                src={`http://localhost:5000/uploads/${banner.bannerImage}`}
+                                                src={`${API_BASE_URL}/uploads/${banner.bannerImage}`}
                                                 alt="Collection Banner"
                                             />
                                         </div>
                                     </div>
                                 </SwiperSlide>
                             ))}
-                        </Swiper>
+                        </Swiper> */}
                     </div>
                 </div>
             </div>
@@ -506,10 +703,10 @@ export default function IndexFour() {
                 data-aos-delay="100"
             >
                 <div className="container">
-                    <div className="max-w-1366 mx-auto">
+                    <div className="max-w-1366 mx-auto px-8 sm:px-6 md:px-6 lg:px-10">
                         <div className="flex items-center justify-between gap-5 flex-wrap mb-6 pb-4 md:pb-6 border-b border-bdr-clr dark:border-bdr-clr-drk">
                             <h2 className="font-semibold leading-none text-2xl sm:text-3xl lg:text-4xl">
-                                Trending
+                                Celebrity Inspired
                             </h2>
                             <Link
                                 to="/allproducts"
@@ -529,30 +726,30 @@ export default function IndexFour() {
                             </Link>
                         </div>
 
-                        <Swiper
-                            modules={[Autoplay]}
-                            spaceBetween={20}
-                            slidesPerView={1}
-                            loop={true}
-                            autoplay={{
-                                delay: 3000,
-                                disableOnInteraction: false,
-                            }}
-                            breakpoints={{
-                                640: { slidesPerView: 2 },
-                                1024: { slidesPerView: 4 },
-                            }}
-                        >
+                       <Swiper
+                           modules={[Autoplay]}
+                           spaceBetween={10} // reduce gap between slides for mobile
+                           slidesPerView={1}
+                           loop={true}
+                           autoplay={{
+                             delay: 3000,
+                             disableOnInteraction: false,
+                           }}
+                           breakpoints={{
+                             640: { slidesPerView: 2, spaceBetween: 20 },
+                             1024: { slidesPerView: 4, spaceBetween: 20 },
+                           }}
+                         >
                             {trending.map((variant) => (
                                 <SwiperSlide key={variant.productVariantId}>
                                     <div className="group">
-                                        <div className="relative overflow-hidden before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:opacity-0 group-hover:before:opacity-100 before:duration-300">
+                                        <div className="relative overflow-hidden before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:opacity-0 group-hover:before:opacity-0 before:duration-300">
                                             <Link
                                                 to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
                                             >
                                                 <img
                                                     className="w-full transform duration-300 group-hover:scale-110"
-                                                    src={`http://localhost:5000/uploads/${variant.productVariantImage}`}
+                                                    src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
                                                     alt={
                                                         variant.Product
                                                             .productName
@@ -561,7 +758,7 @@ export default function IndexFour() {
                                             </Link>
 
                                             {/* Buttons */}
-                                            <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
+                                            {/* <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
                                                 <button
                                                     onClick={() =>
                                                         navigate(
@@ -592,10 +789,43 @@ export default function IndexFour() {
                                                 >
                                                     <LuHeart className="transition-all duration-300 text-white w-6 h-6" />
                                                 </button>
-                                            </div>
+                                            </div> */}
+                                            <div className="flex flex-col gap-[10px] absolute z-20 bottom-5 right-5">
+                                              {/* 👁 Quick View — always visible */}
+                                              <button
+                                                onClick={() =>
+                                                  navigate(
+                                                    `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
+                                                  )
+                                                }
+                                                className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-300 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-80 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 quick-view tooltip-icon-2"
+                                              >
+                                                <LuEye className="transition-all duration-300 text-white w-6 h-6" />
+                                              </button>
+                                            
+                                              {/*  Add to Cart — only visible if in stock */}
+                                              {variant.stockQuantity > 0 && (
+                                                <button
+                                                  onClick={() => handleAddToCart(variant)}
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-500 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-60 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                >
+                                                  <RiShoppingBag2Line className="transition-all duration-300 text-white w-6 h-6" />
+                                                </button>
+                                              )}
+                                            
+                                              {/*  Add to Wishlist — only visible if in stock */}
+                                              {variant.stockQuantity > 0 && (
+                                                <button
+                                                  onClick={() => handleAddToWishlist(variant)}
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-700 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-80 faveIcon transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                >
+                                                  <LuHeart className="transition-all duration-300 text-white w-6 h-6" />
+                                                </button>
+                                              )}
+                                           </div>
                                         </div>
 
-                                        <div className="mt-5 md:mt-7">
+                                        {/* <div className="mt-5 md:mt-7">
                                             <h4 className="font-medium leading-none dark:text-white text-lg">
                                                 <Price
                                                     value={
@@ -614,7 +844,31 @@ export default function IndexFour() {
                                                     }
                                                 </Link>
                                             </h5>
+                                        </div> */}
+                                        <div className="mt-5 md:mt-7">
+                                         {/* PRICE + BADGE ROW */}
+                                          <div className="flex items-center justify-between gap-2">
+                                            <h4 className="font-medium leading-none dark:text-white text-lg">
+                                              <Price value={variant.Product.productOfferPrice ?? 0} />
+                                            </h4>
+                                        
+                                            {variant.stockQuantity === 0 && (
+                                              <span className="bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded mr-2">
+                                                Out of Stock
+                                              </span>
+                                            )}
+                                          </div>
+                                        
+                                          {/* PRODUCT NAME */}
+                                          <h5 className="mt-3 text-xl font-normal dark:text-white leading-[1.5]">
+                                            <Link
+                                              to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
+                                            >
+                                              {variant.Product.productName}
+                                            </Link>
+                                          </h5>
                                         </div>
+                                        
                                     </div>
                                 </SwiperSlide>
                             ))}
@@ -623,7 +877,7 @@ export default function IndexFour() {
                 </div>
             </div>
 
-            <div
+            {/* <div
                 className="s-py-100 bg-[#ffffff] dark:bg-dark-secondary"
                 data-aos="fade-up"
                 data-aos-delay="100"
@@ -643,9 +897,9 @@ export default function IndexFour() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="bg-[#f5f5f5] dark:bg-dark-secondary s-py-100">
+            {/* <div className="bg-[#f5f5f5] dark:bg-dark-secondary s-py-100">
                 <div
                     className="container max-w-[1365px] mx-auto"
                     data-aos="fade-up"
@@ -664,14 +918,14 @@ export default function IndexFour() {
                     </div>
                     <ClientOne />
                 </div>
-            </div>
-            <div
+            </div> */}
+            {/* <div
                 className="s-py-50-100"
                 data-aos="fade-up"
                 data-aos-delay="100"
             >
                 <NewsOne />
-            </div>
+            </div> */}
 
             {modalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-[100000]">

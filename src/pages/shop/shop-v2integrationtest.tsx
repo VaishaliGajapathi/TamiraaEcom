@@ -50,7 +50,7 @@
 //       });
 
 //       useEffect(() => {
-//               fetch("http://localhost:5000/api/product-variants")
+//               fetch("https://tamiraaapi.tamiraa.com/api/product-variants")
 //                 .then(res => res.json())
 //                 .then(data => {
 //                   if (Array.isArray(data.data)) {
@@ -65,7 +65,7 @@
 //      useEffect(() => {
 //          Aos.init()    
 //          // Fetch products from API
-//          fetch('http://localhost:5000/api/products')
+//          fetch('https://tamiraaapi.tamiraa.com/api/products')
 //              .then((res) => res.json())
 //              .then((data) => {
 //                  if (Array.isArray(data)) {
@@ -78,7 +78,7 @@
 //      }, [])
 
 //      useEffect(() => {
-//       fetch('http://localhost:5000/api/products')
+//       fetch('https://tamiraaapi.tamiraa.com/api/products')
 //         .then((res) => res.json())
 //         .then((data) => {
 //           const productsData = Array.isArray(data) ? data : data.data || [];
@@ -96,7 +96,7 @@
      
 
 //      useEffect(() => {
-//          fetch("http://localhost:5000/api/subcategories")
+//          fetch("https://tamiraaapi.tamiraa.com/api/subcategories")
 //            .then((res) => res.json())
 //            .then((data) => {
 //              if (Array.isArray(data)) {
@@ -367,7 +367,7 @@
 //                                    <div className="relative overflow-hidden">
 //                                      <Link to={`/product-details/${item.productId}`}>
 //                                        <img
-//                                          src={`http://localhost:5000/uploads/${item.productImage}`}
+//                                          src={`https://tamiraaapi.tamiraa.com/uploads/${item.productImage}`}
 //                                          alt={item.productName}
 //                                          className="w-full transform group-hover:scale-110 duration-300"
 //                                        />

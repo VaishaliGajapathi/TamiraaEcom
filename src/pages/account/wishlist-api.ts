@@ -1,5 +1,5 @@
 export const removeFromWishlist = async (userId: number, productVariantId: number) => {
-  const res = await fetch(`http://localhost:5000/api/wishlist/remove`, {
+  const res = await fetch(`https://tamiraaapi.tamiraa.com/api/wishlist/remove`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId, productVariantId }),

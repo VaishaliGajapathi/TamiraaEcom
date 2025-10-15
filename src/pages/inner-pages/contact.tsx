@@ -7,20 +7,19 @@ import FooterOne from "../../components/footer/footer-one"
 import ScrollToTop from "../../components/scroll-to-top"
 import newProd1 from '../../assets/img/new_prods/prod_1.jpg'
 import bg from "../../assets/img/shortcode/breadcumb.jpg"
-// import contactImg from "../../assets/img/new_prods/prod_5.jpg"
 import about from "../../assets/img/svg/about.svg"
-
+import { API_BASE_URL } from "../../utils/api";
 import Aos from "aos"
 
 // ---- Types ----
-type FormData = {
+type FormData = {                                                                               
   name: string
   email: string
   phoneNumber: string
   subject: string
   comments: string
 }
-
+                                                           
 type Errors = Partial<Record<keyof FormData, string>>
 
 export default function Contact() {
@@ -119,7 +118,7 @@ export default function Contact() {
     if (!validate()) return
 
     try {
-      const res = await axios.post("http://localhost:5000/api/contacts", formData)
+      const res = await axios.post(`${API_BASE_URL}/api/contacts`, formData)
       console.log(res.data)
 
       // show modal instead of alert
@@ -148,7 +147,7 @@ export default function Contact() {
                            w-full min-h-[250px] sm:min-h-[300px] md:min-h-[400px] lg:min-h-[500px] 
                            bg-cover bg-center bg-no-repeat 
                            pt-16 sm:pt-20 md:pt-24 lg:pt-32 
-                           before:absolute before:inset-0 before:bg-title before:bg-opacity-70"
+                           before:absolute before:inset-0 before:bg-title before:bg-opacity-50"
         style={{ backgroundImage: `url(${bg})` }}
       >
         <div className="relative text-center w-full z-10">
@@ -354,7 +353,7 @@ export default function Contact() {
             </h2>
             <p style={{ marginBottom: "8px" }}>
               Your message has been successfully sent to{" "}
-              <strong>NYRA Sarees</strong>.
+              <strong>Tamiraa Sarees</strong>.
             </p>
             <p style={{ marginBottom: "8px" }}>
               Our team will get back to you shortly with the details.

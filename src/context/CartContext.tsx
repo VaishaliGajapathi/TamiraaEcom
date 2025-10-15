@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../utils/api";
 
 interface CartItem {
   cartId: number;
@@ -41,7 +42,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchCart = async () => {
     if (!userId) return;
     try {
-      const res = await axios.get(`http://localhost:5000/api/cart/${userId}`);
+      const res = await axios.get(`${API_BASE_URL}/api/cart/${userId}`);
       setCart(res.data || []);
     } catch (err) {
       console.error("Error fetching cart", err);
@@ -51,7 +52,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   // Add to Cart
   const addToCart = async (productVariantId: number, quantity: number = 1) => {
     try {
-      await axios.post("http://localhost:5000/api/cart/add", {
+      await axios.post(`${API_BASE_URL}/api/cart/add`, {
         userId,
         productVariantId,
         quantity,
@@ -65,7 +66,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   // Update quantity
   const updateCart = async (cartId: number, quantity: number) => {
     try {
-      await axios.put(`http://localhost:5000/api/cart/update/${cartId}`, {
+      await axios.put(`${API_BASE_URL}/api/cart/update/${cartId}`, {
         quantity,
       });
       await fetchCart();
@@ -77,7 +78,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   // Remove from cart
   const removeFromCart = async (cartId: number) => {
     try {
-      await axios.delete(`http://localhost:5000/api/cart/${cartId}`);
+      await axios.delete(`${API_BASE_URL}/api/cart/${cartId}`);
       await fetchCart();
     } catch (err) {
       console.error("Error removing from cart", err);

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { API_BASE_URL } from "../../utils/api";
 import bg from '../../assets/img/shortcode/breadcumb.jpg';
 import AccountTab from "../../components/account/account-tab";
 import FooterOne from "../../components/footer/footer-one";
@@ -40,7 +40,7 @@ export default function MyProfile() {
   setUser(storedUser);
 
   // Then re-fetch fresh user data from API
-  axios.get(`http://localhost:5000/api/users/${userId}`, {
+  axios.get(`${API_BASE_URL}/api/users/${userId}`, {
     headers: { Authorization: `Bearer ${token}` }
   })
     .then(res => {

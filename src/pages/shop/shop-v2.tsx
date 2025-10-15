@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
-import bg from '../../assets/img/shortcode/breadcumb.jpg'
+// import bg from '../../assets/img/shortcode/breadcumb.jpg'
 import cardImg from '../../assets/img/new_prods/prod_1.jpg'
 import { LuEye, LuHeart } from 'react-icons/lu'
 import { RiShoppingBag2Line } from 'react-icons/ri'
@@ -15,7 +15,7 @@ import ScrollToTop from '../../components/scroll-to-top'
 import { getStoredUser } from '../../utils/user'; 
 import MultiRangeSlider from 'multi-range-slider-react'
 import Aos from 'aos'
-
+import { API_BASE_URL } from "../../utils/api";
 
 interface SubCategory {
   subCategoryId: number
@@ -35,6 +35,7 @@ interface Variant {
   productVariantId: number
   productVariantImage: string
   Product: Product
+  stockQuantity: number
 }
 
 export default function ShopV2() {
@@ -90,98 +91,230 @@ export default function ShopV2() {
   })
 
 
-const handleAddToCart = async (variant: Variant) => {
-  try {
-    // const user = JSON.parse(localStorage.getItem("user") || "{}");
+// const handleAddToCart = async (variant: Variant) => {
+//   try {
+//     // const user = JSON.parse(localStorage.getItem("user") || "{}");
 
+//     const user = getStoredUser();
+
+//     if (!user?.id) {
+//       showModal("Please login to add to cart");
+//       return;
+//     }
+
+//     if (!variant?.productVariantId) {
+//       showModal("No product variant selected");
+//       return;
+//     }
+
+//     const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         userId: user.id,  // same as ProductDetails
+//         productVariantId: variant.productVariantId,
+//         quantity: 1, // default 1 from shop grid
+//       }),
+//     });
+
+//     const data = await res.json();
+
+//     if (res.ok) {
+//       if (data.message === "Already in cart") {
+//         // 🔹 Don't increase qty, just inform user
+//         showModal("🛍️ This product is already in your cart");
+
+//       } else {
+//         showModal("🎁 Added to your shopping bag – happy shopping!");
+//       }
+//     } else {
+//       showModal(data.message || " Failed to add to cart");
+//     }
+//   } catch (err) {
+//     console.error("Add to cart error:", err);
+//     showModal("❌ Something went wrong");
+//   }
+// };
+
+
+
+
+  const handleAddToCart = async (variant: Variant) => {
+  try {
     const user = getStoredUser();
 
-    if (!user?.id) {
-      showModal("Please login to add to cart");
-      return;
-    }
-
+    // 🧩 Validate variant
     if (!variant?.productVariantId) {
-      showModal("No product variant selected");
+      showModal('No product variant selected');
       return;
     }
 
-    const res = await fetch("http://localhost:5000/api/cart/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,  // same as ProductDetails
-        productVariantId: variant.productVariantId,
-        quantity: 1, // default 1 from shop grid
-      }),
-    });
+    // ✅ Logged-in user flow
+    if (user?.id) {
+      const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          productVariantId: variant.productVariantId,
+          quantity: 1,
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      if (data.message === "Already in cart") {
-        // 🔹 Don't increase qty, just inform user
-        showModal("🛍️ This product is already in your cart");
-
+      if (res.ok) {
+        if (data.message === 'Already in cart') {
+          showModal('🛍️ This product is already in your cart');
+        } else {
+          showModal('🎁 Added to your shopping bag – happy shopping!');
+        }
       } else {
-        showModal("🎁 Added to your shopping bag – happy shopping!");
+        showModal(data.message || 'Failed to add to cart');
       }
+
+      return;
+    }
+
+    // 🚀 Guest user — localStorage cart logic
+    const guestCart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+
+    const existingItem = guestCart.find(
+      (item: any) => item.productVariantId === variant.productVariantId
+    );
+
+    if (existingItem) {
+      // ✅ Same product already exists
+      showModal('🛍️ This product is already in your cart');
     } else {
-      showModal(data.message || " Failed to add to cart");
+      // 🆕 Add new product
+      guestCart.push({
+        productVariantId: variant.productVariantId,
+        productName: variant?.Product?.productName,
+        price: variant?.Product?.productOfferPrice,
+        image: variant?.productVariantImage,
+        quantity: 1,
+      });
+
+      localStorage.setItem('guestCart', JSON.stringify(guestCart));
+      showModal('🎁 Added to your shopping bag');
     }
   } catch (err) {
-    console.error("Add to cart error:", err);
-    showModal("❌ Something went wrong");
+    console.error('Add to cart error:', err);
+    showModal('❌ Something went wrong');
   }
 };
+
 
 // 🔹 Add to Wishlist
-const handleAddToWishlist = async (variant: Variant) => {
-  try {
-    // const user = JSON.parse(localStorage.getItem("user") || "{}");
+// const handleAddToWishlist = async (variant: Variant) => {
+//   try {
+//     // const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-    const user = getStoredUser();
+//     const user = getStoredUser();
 
-    if (!user?.id) {
-      showModal("Please login to add to wishlist");
-      return;
-    }
+//     if (!user?.id) {
+//       showModal("Please login to add to wishlist");
+//       return;
+//     }
 
-    if (!variant?.productVariantId) {
-      showModal("No product variant selected");
-      return;
-    }
+//     if (!variant?.productVariantId) {
+//       showModal("No product variant selected");
+//       return;
+//     }
 
-    const res = await fetch("http://localhost:5000/api/wishlist/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,  //  include userId
-        productVariantId: variant.productVariantId,
-      }),
-    });
+//     const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         userId: user.id,  //  include userId
+//         productVariantId: variant.productVariantId,
+//       }),
+//     });
 
-    const data = await res.json();
+//     const data = await res.json();
 
-    if (res.ok) {
-      if (data.message === "Product already in wishlist") {
-        showModal("💖 Product already in wishlist");
+//     if (res.ok) {
+//       if (data.message === "Product already in wishlist") {
+//         showModal("💖 Product already in wishlist");
         
-      } else {
-        showModal("💖 Added to wishlist");
-      }
-    } else {
-      showModal(data.message || "❌ Failed to add to wishlist");
-    }
-  } catch (err) {
-    console.error("Wishlist error:", err);
-    showModal("❌ Something went wrong");
-  }
-};
+//       } else {
+//         showModal("💖 Added to wishlist");
+//       }
+//     } else {
+//       showModal(data.message || "❌ Failed to add to wishlist");
+//     }
+//   } catch (err) {
+//     console.error("Wishlist error:", err);
+//     showModal("❌ Something went wrong");
+//   }
+// };
+
+
+        const handleAddToWishlist = async (variant: Variant) => {
+          try {
+            const user = getStoredUser();
+        
+            if (!variant?.productVariantId) {
+              showModal('No product variant selected');
+              return;
+            }
+        
+            if (user?.id) {
+              // ✅ Logged-in: API call
+              const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  userId: user.id,
+                  productVariantId: variant.productVariantId,
+                }),
+              });
+        
+              const data = await res.json();
+        
+              if (res.ok) {
+                showModal(
+                  data.message === 'Product already in wishlist'
+                    ? '💖 Product already in wishlist'
+                    : '💖 Added to wishlist'
+                );
+              } else {
+                showModal(data.message || '❌ Failed to add to wishlist');
+              }
+              return;
+            }
+        
+            // 🚀 Guest user: save in localStorage
+            const guestWishlist = JSON.parse(localStorage.getItem('guestWishlist') || '[]');
+        
+            const exists = guestWishlist.find(
+              (item: any) => item.productVariantId === variant.productVariantId
+            );
+        
+            if (exists) {
+              showModal('💖 Product already in wishlist');
+            } else {
+              guestWishlist.push({
+                productVariantId: variant.productVariantId,
+                productName: variant.Product.productName,
+                price: variant.Product.productOfferPrice,
+                image: variant.productVariantImage,
+              });
+              localStorage.setItem('guestWishlist', JSON.stringify(guestWishlist));
+              showModal('💖 Added to wishlist');
+            }
+          } catch (err) {
+            console.error('Wishlist error:', err);
+            showModal('❌ Something went wrong');
+          }
+        };
+
+        
 
   // 🔹 Fetch Variants
   useEffect(() => {
-    fetch('http://localhost:5000/api/product-variants')
+    fetch(`${API_BASE_URL}/api/product-variants`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.data)) {
@@ -194,7 +327,7 @@ const handleAddToWishlist = async (variant: Variant) => {
   // 🔹 Fetch Products (only to set price range & category matching)
   useEffect(() => {
     Aos.init()
-    fetch('http://localhost:5000/api/products')
+    fetch(`${API_BASE_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => {
         const productsData = Array.isArray(data) ? data : data.data || []
@@ -212,7 +345,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 
   // 🔹 Fetch Subcategories
   useEffect(() => {
-    fetch('http://localhost:5000/api/subcategories')
+    fetch(`${API_BASE_URL}/api/subcategories`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -238,8 +371,8 @@ const handleAddToWishlist = async (variant: Variant) => {
                            w-full min-h-[250px] sm:min-h-[300px] md:min-h-[400px] lg:min-h-[500px] 
                            bg-cover bg-center bg-no-repeat 
                            pt-16 sm:pt-20 md:pt-24 lg:pt-32 
-                           before:absolute before:inset-0 before:bg-title before:bg-opacity-70"
-        style={{ backgroundImage: `url(${bg})` }}
+                           before:absolute before:inset-0 before:bg-title before:bg-opacity-50"
+        style={{ backgroundImage: 'url("/src/assets/img/shortcode/breadcumb.jpg")' }} 
       >
         <div className="relative text-center w-full z-10">
           <h2 className="text-white text-3xl sm:text-4xl md:text-[40px] font-normal leading-none">
@@ -249,7 +382,7 @@ const handleAddToWishlist = async (variant: Variant) => {
             <li>
               <Link to="/">Home</Link>
             </li>
-            <li>/</li>
+            <li>/</li>  
             <li className="text-primary">Shop</li>
           </ul>
         </div>
@@ -373,7 +506,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 
             {/* Products Grid (Variants) */}
             <div
-              className="lg:max-w-[1100px] w-full"
+              className="lg:max-w-[1100px] w-full px-8 sm:px-6 md:px-8"
               data-aos="fade-up"
               data-aos-delay="300"
             >
@@ -381,81 +514,171 @@ const handleAddToWishlist = async (variant: Variant) => {
                 {filteredVariants.map((variant, index) => {
                   const product = variant.Product || {}
                   return (
-                    <div className="group" key={index}>
-                      <div className="relative overflow-hidden">
-                        <Link
-                          to={`/product-details/${product.productId}?variant=${variant.productVariantId}`}
-                        >
-                          <img
-                            src={`http://localhost:5000/uploads/${
-                              variant.productVariantImage ||
-                              product.productImage
-                            }`}
-                            alt={product.productName}
-                            className="w-full transform group-hover:scale-110 duration-300"
-                          />
-                        </Link>
+                    // <div className="group" key={index}>
+                    //   <div className="relative overflow-hidden">
+                    //     <Link
+                    //       to={`/product-details/${product.productId}?variant=${variant.productVariantId}`}
+                    //     >
+                    //       <img
+                    //         src={`${API_BASE_URL}/uploads/${
+                    //           variant.productVariantImage ||
+                    //           product.productImage
+                    //         }`}
+                    //         alt={product.productName}
+                    //         className="w-full transform group-hover:scale-110 duration-300"
+                    //       />
+                    //     </Link>
 
-                        {/* Tag */}
-                        {product.tag && (
-                          <div
-                            className={`absolute z-10 top-7 left-7 pt-[10px] pb-2 px-3 rounded-[30px] font-primary text-[14px] text-white font-semibold leading-none ${
-                              product.tag === 'Hot Sale'
-                                ? 'bg-[#1CB28E]'
-                                : product.tag === 'NEW'
-                                ? 'bg-[#9739E1]'
-                                : product.tag === '10% OFF'
-                                ? 'bg-[#E13939]'
-                                : ''
-                            }`}
-                          >
-                            {product.tag}
-                          </div>
-                        )}
+                    //     {/* Tag */}
+                    //     {product.tag && (
+                    //       <div
+                    //         className={`absolute z-10 top-7 left-7 pt-[10px] pb-2 px-3 rounded-[30px] font-primary text-[14px] text-white font-semibold leading-none ${
+                    //           product.tag === 'Hot Sale'
+                    //             ? 'bg-[#1CB28E]'
+                    //             : product.tag === 'NEW'
+                    //             ? 'bg-[#9739E1]'
+                    //             : product.tag === '10% OFF'
+                    //             ? 'bg-[#E13939]'
+                    //             : ''
+                    //         }`}
+                    //       >
+                    //         {product.tag}
+                    //       </div>
+                    //     )}
 
-                        {/* Action Buttons */}
-                        <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
-                           {/* Add to Wishlist */}
-<button
-  onClick={() => handleAddToWishlist(variant)}
-  className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
->
-  <LuHeart className="dark:text-white h-[22px] w-[20px]" />
-  <span className="mt-1">Add to wishlist</span>
-</button>
-
-{/* Add to Cart */}
-<button
-  onClick={() => handleAddToCart(variant)}
-  className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
->
-  <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]" />
-  <span className="mt-1">Add to Cart</span>
-</button>
-        
-                           {/* Quick View */}
-                           <button 
-                           onClick={() =>
-                                      navigate(
-                                        `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
-                                      )
-                                    }
-                           className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view">
+                    //     {/* Action Buttons */}
+                    //     <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
+                    //        {/* Add to Wishlist */}
+                    //        <button
+                    //          onClick={() => handleAddToWishlist(variant)}
+                    //          className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
+                    //        >
+                    //          <LuHeart className="dark:text-white h-[22px] w-[20px]" />
+                    //          <span className="mt-1">Add to wishlist</span>
+                    //        </button>
+                           
+                    //        {/* Add to Cart */}
+                    //        <button
+                    //          onClick={() => handleAddToCart(variant)}
+                    //          className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
+                    //        >
+                    //          <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]" />
+                    //          <span className="mt-1">Add to Cart</span>
+                    //        </button>
+                                   
+                    //        {/* Quick View */}
+                    //        <button 
+                    //        onClick={() =>
+                    //                   navigate(
+                    //                     `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
+                    //                   )
+                    //                 }
+                    //        className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view">
                               
-                               <LuEye className="dark:text-white h-[22px] w-[20px]" />
-                               <span className="mt-1">Quick View</span>
-                           </button>
-                        </div>
-                      </div>
+                    //            <LuEye className="dark:text-white h-[22px] w-[20px]" />
+                    //            <span className="mt-1">Quick View</span>
+                    //        </button>
+                    //     </div>
+                    //   </div>
 
-                      {/* Name & Price */}
-                      <h3 className="text-lg font-semibold mt-4">
-                       <Price value={product.productOfferPrice} />
-                      </h3>
-                      <h3 className="text-lg font-semibold">
-                        {product.productName}
-                      </h3>
-                    </div>
+                    //   {/* Name & Price */}
+                    //   <h3 className="text-lg font-semibold mt-4">
+                    //    <Price value={product.productOfferPrice} />
+                    //   </h3>
+                    //   <h3 className="text-lg font-semibold">
+                    //     {product.productName}
+                    //   </h3>
+                    // </div>
+                    <div className="group" key={index}>
+                     <div className="relative overflow-hidden">
+                       <Link
+                         to={`/product-details/${product.productId}?variant=${variant.productVariantId}`}
+                       >
+                         <img
+                           src={`${API_BASE_URL}/uploads/${
+                             variant.productVariantImage || product.productImage
+                           }`}
+                           alt={product.productName}
+                           className="w-full transform group-hover:scale-110 duration-300"
+                         />
+                       </Link>
+                   
+                       {/* Tag */}
+                       {product.tag && (
+                         <div
+                           className={`absolute z-10 top-7 left-7 pt-[10px] pb-2 px-3 rounded-[30px] font-primary text-[14px] text-white font-semibold leading-none ${
+                             product.tag === 'Hot Sale'
+                               ? 'bg-[#1CB28E]'
+                               : product.tag === 'NEW'
+                               ? 'bg-[#9739E1]'
+                               : product.tag === '10% OFF'
+                               ? 'bg-[#E13939]'
+                               : ''
+                           }`}
+                         >
+                           {product.tag}
+                         </div>
+                       )}
+                   
+                       
+                       <div className="absolute z-10 top-[50%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
+                        
+                         {variant.stockQuantity > 0 && (
+                           <button
+                             onClick={() => handleAddToWishlist(variant)}
+                             className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
+                           >
+                             <LuHeart className="dark:text-white h-[22px] w-[20px]" />
+                             <span className="mt-1">Add to wishlist</span>
+                           </button>
+                         )}
+                   
+                         
+                         {variant.stockQuantity > 0 && (
+                           <button
+                             onClick={() => handleAddToCart(variant)}
+                             className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon"
+                           >
+                             <RiShoppingBag2Line className="dark:text-white h-[22px] w-[20px]" />
+                             <span className="mt-1">Add to Cart</span>
+                           </button>
+                         )}
+                   
+                        
+                         <button
+                           onClick={() =>
+                             navigate(
+                               `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
+                             )
+                           }
+                           className="bg-white dark:bg-title dark:text-white bg-opacity-80 flex items-center justify-center gap-2 px-4 py-[10px] text-base leading-none text-title rounded-[40px] h-14 overflow-hidden new-product-icon quick-view"
+                         >
+                           <LuEye className="dark:text-white h-[22px] w-[20px]" />
+                           <span className="mt-1">Quick View</span>
+                         </button>
+                       </div>
+                     </div>
+                   
+                     
+                     <div className="mt-4">
+                       <div className="flex items-center justify-between">
+                         <h3 className="text-lg font-semibold">
+                           <Price value={product.productOfferPrice ?? 0} />
+                         </h3>
+                   
+                        
+                         {variant.stockQuantity === 0 && (
+                           <span className="bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded mr-2">
+                             Out of Stock
+                           </span>
+                         )}
+                       </div>
+                   
+                       <h3 className="text-lg font-semibold">{product.productName}</h3>
+                     </div>
+                   </div>
+                   
+
                   )
                 })}
               </div>
@@ -536,7 +759,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 //       });
 
 //       useEffect(() => {
-//               fetch("http://localhost:5000/api/product-variants")
+//               fetch("https://tamiraaapi.tamiraa.com/api/product-variants")
 //                 .then(res => res.json())
 //                 .then(data => {
 //                   if (Array.isArray(data.data)) {
@@ -551,7 +774,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 //      useEffect(() => {
 //          Aos.init()    
 //          // Fetch products from API
-//          fetch('http://localhost:5000/api/products')
+//          fetch('https://tamiraaapi.tamiraa.com/api/products')
 //              .then((res) => res.json())
 //              .then((data) => {
 //                  if (Array.isArray(data)) {
@@ -564,7 +787,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 //      }, [])
 
 //      useEffect(() => {
-//       fetch('http://localhost:5000/api/products')
+//       fetch('https://tamiraaapi.tamiraa.com/api/products')
 //         .then((res) => res.json())
 //         .then((data) => {
 //           const productsData = Array.isArray(data) ? data : data.data || [];
@@ -582,7 +805,7 @@ const handleAddToWishlist = async (variant: Variant) => {
      
 
 //      useEffect(() => {
-//          fetch("http://localhost:5000/api/subcategories")
+//          fetch("https://tamiraaapi.tamiraa.com/api/subcategories")
 //            .then((res) => res.json())
 //            .then((data) => {
 //              if (Array.isArray(data)) {
@@ -853,7 +1076,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 //                                    <div className="relative overflow-hidden">
 //                                      <Link to={`/product-details/${item.productId}`}>
 //                                        <img
-//                                          src={`http://localhost:5000/uploads/${item.productImage}`}
+//                                          src={`https://tamiraaapi.tamiraa.com/uploads/${item.productImage}`}
 //                                          alt={item.productName}
 //                                          className="w-full transform group-hover:scale-110 duration-300"
 //                                        />

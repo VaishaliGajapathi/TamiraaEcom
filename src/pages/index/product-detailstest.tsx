@@ -36,7 +36,7 @@
 
    
 //     useEffect(() => {
-//         fetch("http://localhost:5000/api/product-variants")
+//         fetch("https://tamiraaapi.tamiraa.com/api/product-variants")
 //           .then(res => res.json())
 //           .then(data => {
 //             if (Array.isArray(data.data)) {
@@ -49,7 +49,7 @@
 //     useEffect(() => {
 //          AOS.init()
        
-//          fetch('http://localhost:5000/api/products')
+//          fetch('https://tamiraaapi.tamiraa.com/api/products')
 //            .then((res) => res.json())
 //            .then((data) => {
 //              if (Array.isArray(data)) {
@@ -69,7 +69,7 @@
 //     const stock = currentVariant?.stockQuantity || 0
     
 //     const variantImageUrl = currentVariant
-//   ? `http://localhost:5000/uploads/${currentVariant.productVariantImage}`
+//   ? `https://tamiraaapi.tamiraa.com/uploads/${currentVariant.productVariantImage}`
 //   : newprod1 // fallback image
 
 
@@ -88,7 +88,7 @@
 // //       return;
 // //     }
 
-// //     const res = await fetch("http://localhost:5000/api/wishlist/add", {
+// //     const res = await fetch("https://tamiraaapi.tamiraa.com/api/wishlist/add", {
 // //       method: "POST",
 // //       headers: { "Content-Type": "application/json" },
 // //       body: JSON.stringify({
@@ -125,7 +125,7 @@
 //       return;
 //     }
 
-//     const res = await fetch("http://localhost:5000/api/wishlist/add", {
+//     const res = await fetch("https://tamiraaapi.tamiraa.com/api/wishlist/add", {
 //       method: "POST",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify({
@@ -168,7 +168,7 @@
 //       return;
 //     }
 
-//     const res = await fetch("http://localhost:5000/api/cart/add", {
+//     const res = await fetch("https://tamiraaapi.tamiraa.com/api/cart/add", {
 //       method: "POST",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify({
@@ -199,7 +199,7 @@
 
 //        useEffect(() => {
 //            if (currentVariant?.productVariantId) {
-//              fetch(`http://localhost:5000/api/product-variant-images/${currentVariant.productVariantId}`)
+//              fetch(`https://tamiraaapi.tamiraa.com/api/product-variant-images/${currentVariant.productVariantId}`)
 //                .then(res => res.json())
 //                .then(data => {
 //                  if (Array.isArray(data.data)) {
@@ -279,7 +279,7 @@
 //                                     childImages.map((img, index) => (
 //                                       <div key={img.childImageId} className={activeImage === index + 1 ? "" : "hidden"}>
 //                                         <img
-//                                           src={`http://localhost:5000/uploads/${img.childImage}`}
+//                                           src={`https://tamiraaapi.tamiraa.com/uploads/${img.childImage}`}
 //                                           alt={`Variant ${currentVariant?.productId}`}
 //                                           className="w-full"
 //                                         />
@@ -367,7 +367,7 @@
 //           onClick={() => setActiveImage(index + 1)}
 //         >
 //           <img
-//             src={`http://localhost:5000/uploads/${img.childImage}`}
+//             src={`https://tamiraaapi.tamiraa.com/uploads/${img.childImage}`}
 //             alt={`Variant ${currentVariant?.productVariantId} - ${index + 1}`}
 //             className="cursor-pointer"
 //           />
@@ -654,7 +654,7 @@
 //                            <div className="relative overflow-hidden">
 //                              <Link to={`/product-details/${item.productId}`}>
 //                                <img
-//                                  src={`http://localhost:5000/uploads/${item.productImage}`}
+//                                  src={`https://tamiraaapi.tamiraa.com/uploads/${item.productImage}`}
 //                                  alt={item.productName}
 //                                  className="w-full transform group-hover:scale-110 duration-300"
 //                                />
@@ -726,7 +726,7 @@
 
    
 //     useEffect(() => {
-//         fetch("http://localhost:5000/api/product-variants")
+//         fetch("https://tamiraaapi.tamiraa.com/api/product-variants")
 //           .then(res => res.json())
 //           .then(data => {
 //             if (Array.isArray(data.data)) {
@@ -739,7 +739,7 @@
 //     useEffect(() => {
 //          AOS.init()
        
-//          fetch('http://localhost:5000/api/products')
+//          fetch('https://tamiraaapi.tamiraa.com/api/products')
 //            .then((res) => res.json())
 //            .then((data) => {
 //              if (Array.isArray(data)) {
@@ -771,7 +771,7 @@
     
     
 //     const variantImageUrl = currentVariant
-//   ? `http://localhost:5000/uploads/${currentVariant.productVariantImage}`
+//   ? `https://tamiraaapi.tamiraa.com/uploads/${currentVariant.productVariantImage}`
 //   : newprod1 // fallback image
 
 
@@ -790,7 +790,7 @@
 // //       return;
 // //     }
 
-// //     const res = await fetch("http://localhost:5000/api/wishlist/add", {
+// //     const res = await fetch("https://tamiraaapi.tamiraa.com/api/wishlist/add", {
 // //       method: "POST",
 // //       headers: { "Content-Type": "application/json" },
 // //       body: JSON.stringify({
@@ -827,7 +827,7 @@
 //       return;
 //     }
 
-//     const res = await fetch("http://localhost:5000/api/wishlist/add", {
+//     const res = await fetch("https://tamiraaapi.tamiraa.com/api/wishlist/add", {
 //       method: "POST",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify({
@@ -870,7 +870,7 @@
 //       return;
 //     }
 
-//     const res = await fetch("http://localhost:5000/api/cart/add", {
+//     const res = await fetch("https://tamiraaapi.tamiraa.com/api/cart/add", {
 //       method: "POST",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify({
@@ -901,7 +901,7 @@
 
 //        useEffect(() => {
 //            if (currentVariant?.productVariantId) {
-//              fetch(`http://localhost:5000/api/product-variant-images/${currentVariant.productVariantId}`)
+//              fetch(`https://tamiraaapi.tamiraa.com/api/product-variant-images/${currentVariant.productVariantId}`)
 //                .then(res => res.json())
 //                .then(data => {
 //                  if (Array.isArray(data.data)) {
@@ -981,7 +981,7 @@
 //                                     childImages.map((img, index) => (
 //                                       <div key={img.childImageId} className={activeImage === index + 1 ? "" : "hidden"}>
 //                                         <img
-//                                           src={`http://localhost:5000/uploads/${img.childImage}`}
+//                                           src={`https://tamiraaapi.tamiraa.com/uploads/${img.childImage}`}
 //                                           alt={`Variant ${currentVariant?.productId}`}
 //                                           className="w-full"
 //                                         />
@@ -1069,7 +1069,7 @@
 //           onClick={() => setActiveImage(index + 1)}
 //         >
 //           <img
-//             src={`http://localhost:5000/uploads/${img.childImage}`}
+//             src={`https://tamiraaapi.tamiraa.com/uploads/${img.childImage}`}
 //             alt={`Variant ${currentVariant?.productVariantId} - ${index + 1}`}
 //             className="cursor-pointer"
 //           />
@@ -1413,7 +1413,7 @@
 //                            <div className="relative overflow-hidden">
 //                              <Link to={`/product-details/${item.productId}`}>
 //                                <img
-//                                  src={`http://localhost:5000/uploads/${item.productImage}`}
+//                                  src={`https://tamiraaapi.tamiraa.com/uploads/${item.productImage}`}
 //                                  alt={item.productName}
 //                                  className="w-full transform group-hover:scale-110 duration-300"
 //                                />
