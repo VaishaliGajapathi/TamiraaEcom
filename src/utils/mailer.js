@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 const sendContactMail = async (contact) => {
   const mailOptions = {
     from: process.env.MAIL_USER,
-    to: "subashvel.sts@gmail.com", // update if needed
+    to: "vaishaligajapathi@gmail.com", // update if needed
     subject: `New Contact Submission - ${contact.name}`,
     html: `
       <div style="font-family: Arial, sans-serif; background-color: #f8f9fa; padding: 20px;">
