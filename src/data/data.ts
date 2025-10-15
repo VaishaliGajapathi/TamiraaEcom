@@ -758,7 +758,7 @@ export const venderInfo = [
         name: 'Tamiraa Sarees',
         vendor: 'John',
         shop: 'Coimbatore west, IN, 641006',
-        mail: 'nyraasarees@gmail.com',
+        mail: 'tamiraasarees@gmail.com',
         call: '+91 - 01234 5678',
     },
     

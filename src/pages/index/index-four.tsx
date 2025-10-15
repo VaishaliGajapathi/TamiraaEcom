@@ -88,90 +88,162 @@ export default function IndexFour() {
     }
 
     // 🔹 Add to Cart
-    const handleAddToCart = async (variant: Variant) => {
-        try {
-            // const user = JSON.parse(localStorage.getItem("user") || "{}");
-            const user = getStoredUser()
+    // const handleAddToCart = async (variant: Variant) => {
+    //     try {
+    //         // const user = JSON.parse(localStorage.getItem("user") || "{}");
+    //         const user = getStoredUser()
 
-            if (!user?.id) {
-                showModal('Please login to add to cart')
-                return
-            }
+    //         if (!user?.id) {
+    //             showModal('Please login to add to cart')
+    //             return
+    //         }
 
-            if (!variant?.productVariantId) {
-                showModal('No product variant selected')
-                return
-            }
+    //         if (!variant?.productVariantId) {
+    //             showModal('No product variant selected')
+    //             return
+    //         }
 
-            const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userId: user.id, // same as ProductDetails
-                    productVariantId: variant.productVariantId,
-                    quantity: 1, // default 1 from shop grid
-                }),
-            })
+    //         const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({
+    //                 userId: user.id, // same as ProductDetails
+    //                 productVariantId: variant.productVariantId,
+    //                 quantity: 1, // default 1 from shop grid
+    //             }),
+    //         })
 
-            const data = await res.json()
+    //         const data = await res.json()
 
-            if (res.ok) {
-                if (data.message === 'Already in cart') {
-                    // 🔹 Don't increase qty, just inform user
-                    showModal('🛍️ This product is already in your cart')
-                } else {
-                    showModal('🎁 Added to your shopping bag – happy shopping!')
-                }
-            } else {
-                showModal(data.message || ' Failed to add to cart')
-            }
-        } catch (err) {
-            console.error('Add to cart error:', err)
-            showModal('❌ Something went wrong')
-        }
+    //         if (res.ok) {
+    //             if (data.message === 'Already in cart') {
+    //                 // 🔹 Don't increase qty, just inform user
+    //                 showModal('🛍️ This product is already in your cart')
+    //             } else {
+    //                 showModal('🎁 Added to your shopping bag – happy shopping!')
+    //             }
+    //         } else {
+    //             showModal(data.message || ' Failed to add to cart')
+    //         }
+    //     } catch (err) {
+    //         console.error('Add to cart error:', err)
+    //         showModal('❌ Something went wrong')
+    //     }
+    // }
+
+
+
+ const handleAddToCart = async (variant: Variant) => {
+   try {
+    const user = getStoredUser();
+
+    // 🧩 Validate variant
+    if (!variant?.productVariantId) {
+      showModal('No product variant selected');
+      return;
     }
+
+    // ✅ Logged-in user flow
+    if (user?.id) {
+      const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          productVariantId: variant.productVariantId,
+          quantity: 1,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        if (data.message === 'Already in cart') {
+          showModal('🛍️ This product is already in your cart');
+        } else {
+          showModal('🎁 Added to your shopping bag – happy shopping!');
+        }
+      } else {
+        showModal(data.message || 'Failed to add to cart');
+      }
+
+      return;
+    }
+
+    // 🚀 Guest user — localStorage cart logic
+    const guestCart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+
+    const existingItem = guestCart.find(
+      (item: any) => item.productVariantId === variant.productVariantId
+    );
+
+    if (existingItem) {
+      // ✅ Same product already exists
+      showModal('🛍️ This product is already in your cart');
+    } else {
+      // 🆕 Add new product
+      guestCart.push({
+        productVariantId: variant.productVariantId,
+        productName: variant?.Product?.productName,
+        price: variant?.Product?.productOfferPrice,
+        image: variant?.productVariantImage,
+        quantity: 1,
+      });
+
+      localStorage.setItem('guestCart', JSON.stringify(guestCart));
+      showModal('🎁 Added to your shopping bag');
+    }
+  } catch (err) {
+    console.error('Add to cart error:', err);
+    showModal('❌ Something went wrong');
+  }
+};
+
 
     // 🔹 Add to Wishlist
-    const handleAddToWishlist = async (variant: Variant) => {
-        try {
-            // const user = JSON.parse(localStorage.getItem("user") || "{}");
-            const user = getStoredUser()
+    // const handleAddToWishlist = async (variant: Variant) => {
+    //     try {
+    //         // const user = JSON.parse(localStorage.getItem("user") || "{}");
+    //         const user = getStoredUser()
 
-            if (!user?.id) {
-                showModal('Please login to add to wishlist')
-                return
-            }
+    //         if (!user?.id) {
+    //             showModal('Please login to add to wishlist')
+    //             return
+    //         }
 
-            if (!variant?.productVariantId) {
-                showModal('No product variant selected')
-                return
-            }
+    //         if (!variant?.productVariantId) {
+    //             showModal('No product variant selected')
+    //             return
+    //         }
 
-            const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userId: user.id, //  include userId
-                    productVariantId: variant.productVariantId,
-                }),
-            })
+    //         const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({
+    //                 userId: user.id, //  include userId
+    //                 productVariantId: variant.productVariantId,
+    //             }),
+    //         })
 
-            const data = await res.json()
+    //         const data = await res.json()
 
-            if (res.ok) {
-                if (data.message === 'Product already in wishlist') {
-                    showModal('💖 Product already in wishlist')
-                } else {
-                    showModal('💖 Added to wishlist')
-                }
-            } else {
-                showModal(data.message || '❌ Failed to add to wishlist')
-            }
-        } catch (err) {
-            console.error('Wishlist error:', err)
-            showModal('❌ Something went wrong')
-        }
-    }
+    //         if (res.ok) {
+    //             if (data.message === 'Product already in wishlist') {
+    //                 showModal('💖 Product already in wishlist')
+    //             } else {
+    //                 showModal('💖 Added to wishlist')
+    //             }
+    //         } else {
+    //             showModal(data.message || '❌ Failed to add to wishlist')
+    //         }
+    //     } catch (err) {
+    //         console.error('Wishlist error:', err)
+    //         showModal('❌ Something went wrong')
+    //     }
+    // }
+
+
+
     useEffect(() => {
         Aos.init()
 
@@ -186,6 +258,65 @@ export default function IndexFour() {
             })
             .catch((err) => console.error('Error fetching banners:', err))
     }, [])
+
+            const handleAddToWishlist = async (variant: Variant) => {
+          try {
+            const user = getStoredUser();
+        
+            if (!variant?.productVariantId) {
+              showModal('No product variant selected');
+              return;
+            }
+        
+            if (user?.id) {
+              // ✅ Logged-in: API call
+              const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  userId: user.id,
+                  productVariantId: variant.productVariantId,
+                }),
+              });
+        
+              const data = await res.json();
+        
+              if (res.ok) {
+                showModal(
+                  data.message === 'Product already in wishlist'
+                    ? '💖 Product already in wishlist'
+                    : '💖 Added to wishlist'
+                );
+              } else {
+                showModal(data.message || '❌ Failed to add to wishlist');
+              }
+              return;
+            }
+        
+            // 🚀 Guest user: save in localStorage
+            const guestWishlist = JSON.parse(localStorage.getItem('guestWishlist') || '[]');
+        
+            const exists = guestWishlist.find(
+              (item: any) => item.productVariantId === variant.productVariantId
+            );
+        
+            if (exists) {
+              showModal('💖 Product already in wishlist');
+            } else {
+              guestWishlist.push({
+                productVariantId: variant.productVariantId,
+                productName: variant.Product.productName,
+                price: variant.Product.productOfferPrice,
+                image: variant.productVariantImage,
+              });
+              localStorage.setItem('guestWishlist', JSON.stringify(guestWishlist));
+              showModal('💖 Added to wishlist');
+            }
+          } catch (err) {
+            console.error('Wishlist error:', err);
+            showModal('❌ Something went wrong');
+          }
+        };
 
     useEffect(() => {
         Aos.init()
@@ -288,7 +419,7 @@ export default function IndexFour() {
 
             <div className="s-py-100">
                 <div className="container">
-                    <div className="max-w-1366 mx-auto">
+                    <div className="max-w-1366 mx-auto px-8 sm:px-6 md:px-6 lg:px-10">
                         <div
                             className="flex items-center justify-between gap-5 flex-wrap mb-6 pb-4 md:pb-6 border-b border-bdr-clr dark:border-bdr-clr-drk"
                             data-aos="fade-up"
@@ -309,23 +440,23 @@ export default function IndexFour() {
                         </div>
 
                         <Swiper
-                            modules={[Autoplay]}
-                            spaceBetween={20}
-                            slidesPerView={1}
-                            loop={true}
-                            autoplay={{
-                                delay: 3000,
-                                disableOnInteraction: false,
-                            }}
-                            breakpoints={{
-                                640: { slidesPerView: 2 },
-                                1024: { slidesPerView: 4 },
-                            }}
-                        >
+                           modules={[Autoplay]}
+                           spaceBetween={10} // reduce gap between slides for mobile
+                           slidesPerView={1}
+                           loop={true}
+                           autoplay={{
+                             delay: 3000,
+                             disableOnInteraction: false,
+                           }}
+                           breakpoints={{
+                             640: { slidesPerView: 2, spaceBetween: 20 },
+                             1024: { slidesPerView: 4, spaceBetween: 20 },
+                           }}
+                         >
                             {newArrivals.map((variant) => (
                                 <SwiperSlide key={variant.productVariantId}>
                                     <div className="group">
-                                        <div className="relative overflow-hidden before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:opacity-0 group-hover:before:opacity-100 before:duration-300">
+                                        <div className="relative overflow-hidden before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:opacity-0 group-hover:before:opacity-0 before:duration-300">
                                             <Link
                                                 to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
                                             >
@@ -380,7 +511,7 @@ export default function IndexFour() {
                                                     `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
                                                   )
                                                 }
-                                                className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-300 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-80 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 quick-view tooltip-icon-2"
+                                                className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-300 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-80 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 quick-view tooltip-icon-2"
                                               >
                                                 <LuEye className="transition-all duration-300 text-white w-6 h-6" />
                                               </button>
@@ -389,7 +520,7 @@ export default function IndexFour() {
                                               {variant.stockQuantity > 0 && (
                                                 <button
                                                   onClick={() => handleAddToCart(variant)}
-                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-500 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-60 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-500 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-60 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
                                                 >
                                                   <RiShoppingBag2Line className="transition-all duration-300 text-white w-6 h-6" />
                                                 </button>
@@ -399,7 +530,7 @@ export default function IndexFour() {
                                               {variant.stockQuantity > 0 && (
                                                 <button
                                                   onClick={() => handleAddToWishlist(variant)}
-                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-700 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-80 faveIcon transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-700 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-80 faveIcon transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
                                                 >
                                                   <LuHeart className="transition-all duration-300 text-white w-6 h-6" />
                                                 </button>
@@ -572,7 +703,7 @@ export default function IndexFour() {
                 data-aos-delay="100"
             >
                 <div className="container">
-                    <div className="max-w-1366 mx-auto">
+                    <div className="max-w-1366 mx-auto px-8 sm:px-6 md:px-6 lg:px-10">
                         <div className="flex items-center justify-between gap-5 flex-wrap mb-6 pb-4 md:pb-6 border-b border-bdr-clr dark:border-bdr-clr-drk">
                             <h2 className="font-semibold leading-none text-2xl sm:text-3xl lg:text-4xl">
                                 Celebrity Inspired
@@ -595,24 +726,24 @@ export default function IndexFour() {
                             </Link>
                         </div>
 
-                        <Swiper
-                            modules={[Autoplay]}
-                            spaceBetween={20}
-                            slidesPerView={1}
-                            loop={true}
-                            autoplay={{
-                                delay: 3000,
-                                disableOnInteraction: false,
-                            }}
-                            breakpoints={{
-                                640: { slidesPerView: 2 },
-                                1024: { slidesPerView: 4 },
-                            }}
-                        >
+                       <Swiper
+                           modules={[Autoplay]}
+                           spaceBetween={10} // reduce gap between slides for mobile
+                           slidesPerView={1}
+                           loop={true}
+                           autoplay={{
+                             delay: 3000,
+                             disableOnInteraction: false,
+                           }}
+                           breakpoints={{
+                             640: { slidesPerView: 2, spaceBetween: 20 },
+                             1024: { slidesPerView: 4, spaceBetween: 20 },
+                           }}
+                         >
                             {trending.map((variant) => (
                                 <SwiperSlide key={variant.productVariantId}>
                                     <div className="group">
-                                        <div className="relative overflow-hidden before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:opacity-0 group-hover:before:opacity-100 before:duration-300">
+                                        <div className="relative overflow-hidden before:absolute card-gradient-overlay before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:opacity-0 group-hover:before:opacity-0 before:duration-300">
                                             <Link
                                                 to={`/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`}
                                             >
@@ -667,7 +798,7 @@ export default function IndexFour() {
                                                     `/product-details/${variant.Product.productId}?variant=${variant.productVariantId}`
                                                   )
                                                 }
-                                                className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-300 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-80 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 quick-view tooltip-icon-2"
+                                                className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-300 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-80 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 quick-view tooltip-icon-2"
                                               >
                                                 <LuEye className="transition-all duration-300 text-white w-6 h-6" />
                                               </button>
@@ -676,7 +807,7 @@ export default function IndexFour() {
                                               {variant.stockQuantity > 0 && (
                                                 <button
                                                   onClick={() => handleAddToCart(variant)}
-                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-500 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-60 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-500 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-60 transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
                                                 >
                                                   <RiShoppingBag2Line className="transition-all duration-300 text-white w-6 h-6" />
                                                 </button>
@@ -686,7 +817,7 @@ export default function IndexFour() {
                                               {variant.stockQuantity > 0 && (
                                                 <button
                                                   onClick={() => handleAddToWishlist(variant)}
-                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-700 bg-white dark:bg-title bg-opacity-10 dark:bg-opacity-80 faveIcon transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
+                                                  className="w-9 lg:w-12 h-9 p-2 lg:h-12 flex items-center justify-center transition-all duration-700 bg-white dark:bg-title bg-opacity-20 dark:bg-opacity-80 faveIcon transform translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 tooltip-icon-2"
                                                 >
                                                   <LuHeart className="transition-all duration-300 text-white w-6 h-6" />
                                                 </button>

@@ -91,94 +91,226 @@ export default function ShopV2() {
   })
 
 
-const handleAddToCart = async (variant: Variant) => {
-  try {
-    // const user = JSON.parse(localStorage.getItem("user") || "{}");
+// const handleAddToCart = async (variant: Variant) => {
+//   try {
+//     // const user = JSON.parse(localStorage.getItem("user") || "{}");
 
+//     const user = getStoredUser();
+
+//     if (!user?.id) {
+//       showModal("Please login to add to cart");
+//       return;
+//     }
+
+//     if (!variant?.productVariantId) {
+//       showModal("No product variant selected");
+//       return;
+//     }
+
+//     const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         userId: user.id,  // same as ProductDetails
+//         productVariantId: variant.productVariantId,
+//         quantity: 1, // default 1 from shop grid
+//       }),
+//     });
+
+//     const data = await res.json();
+
+//     if (res.ok) {
+//       if (data.message === "Already in cart") {
+//         // 🔹 Don't increase qty, just inform user
+//         showModal("🛍️ This product is already in your cart");
+
+//       } else {
+//         showModal("🎁 Added to your shopping bag – happy shopping!");
+//       }
+//     } else {
+//       showModal(data.message || " Failed to add to cart");
+//     }
+//   } catch (err) {
+//     console.error("Add to cart error:", err);
+//     showModal("❌ Something went wrong");
+//   }
+// };
+
+
+
+
+  const handleAddToCart = async (variant: Variant) => {
+  try {
     const user = getStoredUser();
 
-    if (!user?.id) {
-      showModal("Please login to add to cart");
-      return;
-    }
-
+    // 🧩 Validate variant
     if (!variant?.productVariantId) {
-      showModal("No product variant selected");
+      showModal('No product variant selected');
       return;
     }
 
-    const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,  // same as ProductDetails
-        productVariantId: variant.productVariantId,
-        quantity: 1, // default 1 from shop grid
-      }),
-    });
+    // ✅ Logged-in user flow
+    if (user?.id) {
+      const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          productVariantId: variant.productVariantId,
+          quantity: 1,
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      if (data.message === "Already in cart") {
-        // 🔹 Don't increase qty, just inform user
-        showModal("🛍️ This product is already in your cart");
-
+      if (res.ok) {
+        if (data.message === 'Already in cart') {
+          showModal('🛍️ This product is already in your cart');
+        } else {
+          showModal('🎁 Added to your shopping bag – happy shopping!');
+        }
       } else {
-        showModal("🎁 Added to your shopping bag – happy shopping!");
+        showModal(data.message || 'Failed to add to cart');
       }
+
+      return;
+    }
+
+    // 🚀 Guest user — localStorage cart logic
+    const guestCart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+
+    const existingItem = guestCart.find(
+      (item: any) => item.productVariantId === variant.productVariantId
+    );
+
+    if (existingItem) {
+      // ✅ Same product already exists
+      showModal('🛍️ This product is already in your cart');
     } else {
-      showModal(data.message || " Failed to add to cart");
+      // 🆕 Add new product
+      guestCart.push({
+        productVariantId: variant.productVariantId,
+        productName: variant?.Product?.productName,
+        price: variant?.Product?.productOfferPrice,
+        image: variant?.productVariantImage,
+        quantity: 1,
+      });
+
+      localStorage.setItem('guestCart', JSON.stringify(guestCart));
+      showModal('🎁 Added to your shopping bag');
     }
   } catch (err) {
-    console.error("Add to cart error:", err);
-    showModal("❌ Something went wrong");
+    console.error('Add to cart error:', err);
+    showModal('❌ Something went wrong');
   }
 };
+
 
 // 🔹 Add to Wishlist
-const handleAddToWishlist = async (variant: Variant) => {
-  try {
-    // const user = JSON.parse(localStorage.getItem("user") || "{}");
+// const handleAddToWishlist = async (variant: Variant) => {
+//   try {
+//     // const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-    const user = getStoredUser();
+//     const user = getStoredUser();
 
-    if (!user?.id) {
-      showModal("Please login to add to wishlist");
-      return;
-    }
+//     if (!user?.id) {
+//       showModal("Please login to add to wishlist");
+//       return;
+//     }
 
-    if (!variant?.productVariantId) {
-      showModal("No product variant selected");
-      return;
-    }
+//     if (!variant?.productVariantId) {
+//       showModal("No product variant selected");
+//       return;
+//     }
 
-    const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,  //  include userId
-        productVariantId: variant.productVariantId,
-      }),
-    });
+//     const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         userId: user.id,  //  include userId
+//         productVariantId: variant.productVariantId,
+//       }),
+//     });
 
-    const data = await res.json();
+//     const data = await res.json();
 
-    if (res.ok) {
-      if (data.message === "Product already in wishlist") {
-        showModal("💖 Product already in wishlist");
+//     if (res.ok) {
+//       if (data.message === "Product already in wishlist") {
+//         showModal("💖 Product already in wishlist");
         
-      } else {
-        showModal("💖 Added to wishlist");
-      }
-    } else {
-      showModal(data.message || "❌ Failed to add to wishlist");
-    }
-  } catch (err) {
-    console.error("Wishlist error:", err);
-    showModal("❌ Something went wrong");
-  }
-};
+//       } else {
+//         showModal("💖 Added to wishlist");
+//       }
+//     } else {
+//       showModal(data.message || "❌ Failed to add to wishlist");
+//     }
+//   } catch (err) {
+//     console.error("Wishlist error:", err);
+//     showModal("❌ Something went wrong");
+//   }
+// };
+
+
+        const handleAddToWishlist = async (variant: Variant) => {
+          try {
+            const user = getStoredUser();
+        
+            if (!variant?.productVariantId) {
+              showModal('No product variant selected');
+              return;
+            }
+        
+            if (user?.id) {
+              // ✅ Logged-in: API call
+              const res = await fetch(`${API_BASE_URL}/api/wishlist/add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  userId: user.id,
+                  productVariantId: variant.productVariantId,
+                }),
+              });
+        
+              const data = await res.json();
+        
+              if (res.ok) {
+                showModal(
+                  data.message === 'Product already in wishlist'
+                    ? '💖 Product already in wishlist'
+                    : '💖 Added to wishlist'
+                );
+              } else {
+                showModal(data.message || '❌ Failed to add to wishlist');
+              }
+              return;
+            }
+        
+            // 🚀 Guest user: save in localStorage
+            const guestWishlist = JSON.parse(localStorage.getItem('guestWishlist') || '[]');
+        
+            const exists = guestWishlist.find(
+              (item: any) => item.productVariantId === variant.productVariantId
+            );
+        
+            if (exists) {
+              showModal('💖 Product already in wishlist');
+            } else {
+              guestWishlist.push({
+                productVariantId: variant.productVariantId,
+                productName: variant.Product.productName,
+                price: variant.Product.productOfferPrice,
+                image: variant.productVariantImage,
+              });
+              localStorage.setItem('guestWishlist', JSON.stringify(guestWishlist));
+              showModal('💖 Added to wishlist');
+            }
+          } catch (err) {
+            console.error('Wishlist error:', err);
+            showModal('❌ Something went wrong');
+          }
+        };
+
+        
 
   // 🔹 Fetch Variants
   useEffect(() => {
@@ -374,7 +506,7 @@ const handleAddToWishlist = async (variant: Variant) => {
 
             {/* Products Grid (Variants) */}
             <div
-              className="lg:max-w-[1100px] w-full"
+              className="lg:max-w-[1100px] w-full px-8 sm:px-6 md:px-8"
               data-aos="fade-up"
               data-aos-delay="300"
             >

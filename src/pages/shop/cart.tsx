@@ -5,7 +5,7 @@ import FooterOne from '../../components/footer/footer-one'
 import ScrollToTop from '../../components/scroll-to-top'
 
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
-
+import { useNavigate } from "react-router-dom";
 import Aos from 'aos'
 import NavbarFour from '../../components/navbar/navbar-four'
 import { Price } from '../../context/CurrencyContext'
@@ -37,6 +37,7 @@ interface CartItem {
 const imageBaseUrl = `${API_BASE_URL}/uploads/`
 export default function Cart() {
     const [cartItems, setCartItems] = useState<CartItem[]>([])
+     const navigate = useNavigate();
     // const [coupon,] = useState('')
     const [couponDiscount, ] = useState(0)
     // const [error, setError] = useState('')
@@ -94,21 +95,60 @@ export default function Cart() {
     const total = subTotal - couponDiscount + shipping
 
     useEffect(() => {
-        Aos.init()
+  Aos.init();
 
-        const user = getStoredUser()
-        if (!user?.id) return
+  const user = getStoredUser();
 
-        fetch(`${API_BASE_URL}/api/cart/${user.id}`)
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('Cart API response:', data)
-                if (Array.isArray(data)) {
-                    setCartItems(data)
-                }
-            })
-            .catch((err) => console.error('Error fetching cart:', err))
-    }, [])
+  if (user?.id) {
+    // ✅ Logged-in user: fetch from API
+    fetch(`${API_BASE_URL}/api/cart/${user.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setCartItems(data);
+        }
+      })
+      .catch((err) => console.error("Error fetching cart:", err));
+  } else {
+    // ✅ Guest user: load from localStorage
+    const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+
+    // 🧠 Fetch latest stock info from API for each productVariantId
+    Promise.all(
+      guestCart.map(async (item: any, index: number) => {
+        let availableStock = item.stockQuantity ?? 0;
+
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/product-variants/${item.productVariantId}`);
+          const data = await res.json();
+          if (data?.data?.stockQuantity !== undefined) {
+            availableStock = data.data.stockQuantity;
+          }
+        } catch (err) {
+          console.warn("⚠️ Could not fetch stock for variant:", item.productVariantId);
+        }
+
+        return {
+          cartId: index + 1,
+          quantity: item.quantity,
+          ProductVariant: {
+            productVariantId: item.productVariantId,
+            productVariantImage: item.productVariantImage || item.productImage || "",
+            productColor: item.productColor,
+            stockQuantity: availableStock,
+            Stock: { availableStock },
+            Product: {
+              productName: item.productName,
+              productImage: item.image || item.productImage,
+              productOfferPrice: item.price,
+              categoryName: item.categoryName || "General",
+            },
+          },
+        };
+      })
+    ).then((formatted) => setCartItems(formatted));
+  }
+}, []);
 
     useEffect(() => {
         Aos.init()
@@ -278,71 +318,55 @@ export default function Cart() {
                                                 </td>
                                                 <td>
                                                     <IncreDre
-                                                        count={item.quantity}
-                                                        onChange={(
-                                                            q: number
-                                                        ) => {
-                                                            const maxStock =
-                                                                item
-                                                                    .ProductVariant
-                                                                    .Stock
-                                                                    ?.availableStock ??
-                                                                item
-                                                                    .ProductVariant
-                                                                    .stockQuantity
-
-                                                            if (q <= 0) return
-                                                            
-                                                          if (maxStock === undefined) {
-                                                            alert("Stock information not available")
-                                                            return
-                                                          }
-                                                          
-                                                          if (q > maxStock) {
-                                                            alert(`Only ${maxStock} items available in stock`)
-                                                            return
-                                                          }
-
-                                                            // Optimistic update
-                                                            setCartItems(
-                                                                (prev) =>
-                                                                    prev.map(
-                                                                        (p) =>
-                                                                            p.cartId ===
-                                                                            item.cartId
-                                                                                ? {
-                                                                                      ...p,
-                                                                                      quantity:
-                                                                                          q,
-                                                                                  }
-                                                                                : p
-                                                                    )
-                                                            )
-
-                                                            // Sync with backend
-                                                            fetch(
-                                                                `${API_BASE_URL}/api/cart/update/${item.cartId}`,
-                                                                {
-                                                                    method: 'PUT',
-                                                                    headers: {
-                                                                        'Content-Type':
-                                                                            'application/json',
-                                                                    },
-                                                                    body: JSON.stringify(
-                                                                        {
-                                                                            quantity:
-                                                                                q,
-                                                                        }
-                                                                    ),
-                                                                }
-                                                            ).catch((err) =>
-                                                                console.error(
-                                                                    'Update failed:',
-                                                                    err
-                                                                )
-                                                            )
-                                                        }}
-                                                    />
+                                                   count={item.quantity}
+                                                   onChange={(q: number) => {
+                                                     const maxStock =
+                                                       item.ProductVariant.Stock?.availableStock ??
+                                                       item.ProductVariant.stockQuantity;
+                                                 
+                                                     if (q <= 0) return;
+                                                 
+                                                     if (maxStock === undefined) {
+                                                       alert("Stock information not available");
+                                                       return;
+                                                     }
+                                                 
+                                                     if (q > maxStock) {
+                                                       alert(`Only ${maxStock} items available in stock`);
+                                                       return;
+                                                     }
+                                                 
+                                                     // Optimistic UI update
+                                                     setCartItems((prev) =>
+                                                       prev.map((p) =>
+                                                         p.cartId === item.cartId ? { ...p, quantity: q } : p
+                                                       )
+                                                     );
+                                                 
+                                                     // ✅ Different behavior for guest vs logged-in
+                                                     const user = getStoredUser();
+                                                 
+                                                     if (user?.id) {
+                                                       // Logged-in: update backend
+                                                       fetch(`${API_BASE_URL}/api/cart/update/${item.cartId}`, {
+                                                         method: 'PUT',
+                                                         headers: {
+                                                           'Content-Type': 'application/json',
+                                                         },
+                                                         body: JSON.stringify({ quantity: q }),
+                                                       }).catch((err) => console.error('Update failed:', err));
+                                                     } else {
+                                                       // Guest: update localStorage
+                                                       const guestCart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+                                                       const updated = guestCart.map((p: any) =>
+                                                         p.productName === item.ProductVariant.Product.productName
+                                                           ? { ...p, quantity: q }
+                                                           : p
+                                                       );
+                                                       localStorage.setItem('guestCart', JSON.stringify(updated));
+                                                     }
+                                                   }}
+                                                 />
                                                 </td>
                                                 <td>
                                                     <h6 className="text-base md:text-lg font-semibold">
@@ -364,34 +388,27 @@ export default function Cart() {
                                                         // flex items-center
                                                         className="w-8 h-8 bg-[#E8E9EA] dark:bg-dark-secondary  justify-center ml-auto duration-300 text-title dark:text-white"
                                                         onClick={() => {
-                                                            // remove from cart
-                                                            fetch(
-                                                                `${API_BASE_URL}/api/cart/${item.cartId}`,
-                                                                {
-                                                                    method: 'DELETE',
-                                                                }
-                                                            )
-                                                                .then(() =>
-                                                                    setCartItems(
-                                                                        (
-                                                                            prev
-                                                                        ) =>
-                                                                            prev.filter(
-                                                                                (
-                                                                                    p
-                                                                                ) =>
-                                                                                    p.cartId !==
-                                                                                    item.cartId
-                                                                            )
-                                                                    )
-                                                                )
-                                                                .catch((err) =>
-                                                                    console.error(
-                                                                        'Error removing:',
-                                                                        err
-                                                                    )
-                                                                )
-                                                        }}
+                                                        const user = getStoredUser();
+                                                      
+                                                        if (user?.id) {
+                                                          // Logged-in: remove from backend
+                                                          fetch(`${API_BASE_URL}/api/cart/${item.cartId}`, { method: 'DELETE' })
+                                                            .then(() => {
+                                                              setCartItems((prev) => prev.filter((p) => p.cartId !== item.cartId));
+                                                            })
+                                                            .catch((err) => console.error('Error removing:', err));
+                                                        } else {
+                                                          // Guest: remove from localStorage
+                                                          const guestCart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+                                                          const updated = guestCart.filter(
+                                                            (p: any) => p.productName !== item.ProductVariant.Product.productName
+                                                          );
+                                                          localStorage.setItem('guestCart', JSON.stringify(updated));
+                                                          setCartItems((prev) =>
+                                                            prev.filter((p) => p.cartId !== item.cartId)
+                                                          );
+                                                        }
+                                                      }}
                                                     >
                                                         ❌
                                                     </button>
@@ -451,20 +468,27 @@ export default function Cart() {
                                 </div>
                             </div>
                             <div className="sm:mt-[10px] py-5 flex items-end gap-3 flex-wrap justify-end">
-                                <Link
-                                    to="/allproducts"
-                                    className="btn btn-sm btn-outline !text-title hover:!text-white before:!z-[-1] dark:!text-white dark:hover:!text-title"
-                                >
-                                    Continue Shopping
-                                </Link>
+  <Link
+    to="/allproducts"
+    className="btn btn-sm btn-outline !text-title hover:!text-white before:!z-[-1] dark:!text-white dark:hover:!text-title"
+  >
+    Continue Shopping
+  </Link>
 
-                                <Link
-                                    to="/checkout"
-                                    className="btn btn-sm btn-outline !text-title hover:!text-white before:!z-[-1] dark:!text-white dark:hover:!text-title"
-                                >
-                                    Checkout
-                                </Link>
-                            </div>
+  <button
+    onClick={() => {
+      const user = getStoredUser();
+      if (user && user.id) {
+        navigate("/checkout"); // ✅ go to checkout
+      } else {
+        navigate("/login"); // ✅ redirect to login if not logged in
+      }
+    }}
+    className="btn btn-sm btn-outline !text-title hover:!text-white before:!z-[-1] dark:!text-white dark:hover:!text-title"
+  >
+    Checkout
+  </button>
+</div>
                         </div>
                     </div>
                 </div>

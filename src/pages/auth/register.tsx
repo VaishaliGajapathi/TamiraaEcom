@@ -43,7 +43,25 @@ export default function Register() {
     try {
       const res = await axios.post(`${API_BASE_URL}/api/users/register`, formData);
       setSuccess(res.data.message || "Registration successful! Redirecting to login...");
-      setTimeout(() => navigate("/login"), 1500); // redirect after 1.5 sec
+      // setTimeout(() => navigate("/login"), 1500); 
+      // Save user info locally
+localStorage.setItem("user", JSON.stringify(res.data.user));
+
+// Merge guest cart if any
+const guestCart = JSON.parse(localStorage.getItem("guest_cart") || "[]");
+if (guestCart.length > 0) {
+  for (const item of guestCart) {
+    await axios.post(`${API_BASE_URL}/api/cart/add`, {
+      userId: res.data.user.id,
+      productVariantId: item.productVariantId,
+      quantity: item.quantity,
+    });
+  }
+  localStorage.removeItem("guest_cart"); // clear guest cart
+}
+
+// Redirect to checkout page
+navigate("/checkout");
     } catch (err: unknown) {
   if (axios.isAxiosError(err)) {
     setError(err.response?.data?.message || "Something went wrong");

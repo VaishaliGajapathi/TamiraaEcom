@@ -41,10 +41,23 @@ export default function Login() {
     if (res.data.user) {
       localStorage.setItem("user", JSON.stringify(res.data.user));
     }
+
+    // Merge guest cart
+     const guestCart = JSON.parse(localStorage.getItem("guest_cart") || "[]");
+     if (guestCart.length > 0) {
+       for (const item of guestCart) {
+         await axios.post(`${API_BASE_URL}/api/cart/add`, {
+           userId: res.data.user.id,
+           productVariantId: item.productVariantId,
+           quantity: item.quantity,
+         });
+       }
+       localStorage.removeItem("guest_cart");
+     }
     
     login();
     // Redirect user to dashboard/home
-    navigate("/");
+    navigate("/checkout");
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {
       setError(err.response?.data?.message || "Something went wrong");

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import NavbarFour from "../../components/navbar/navbar-four";
 import FooterOne from "../../components/footer/footer-one";
@@ -14,60 +14,57 @@ import { getStoredUser } from '../../utils/user';
 export default function Wishlist() {
   const [wishlist, setWishlist] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
   // const user = JSON.parse(localStorage.getItem("user") || "{}");
   const user = getStoredUser();
 
-  // ✅ Fetch wishlist
-  // const fetchWishlist = async () => {
-  //   if (!user?.id) {
-  //     setWishlist([]);
-  //     setLoading(false);
-  //     return;
-  //   }
-  //   try {
-  //     const res = await fetch(`https://tamiraaapi.tamiraa.com/api/wishlist/${user.id}`);
-  //     const data = await res.json();
-  //     if (Array.isArray(data)) {
-  //       setWishlist(data);
-  //     }
-  //   } catch (err) {
-  //     console.error("Error fetching wishlist:", err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const fetchWishlist = async () => {
-  if (!user?.id) {
-    setWishlist([]);
-    setLoading(false);
-    return;
-  }
-
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/wishlist/${user.id}`);
-    const data = await res.json();
-    if (Array.isArray(data)) {
-      setWishlist(data);
+  if (user?.id) {
+    // Logged-in user → fetch from backend
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/wishlist/${user.id}`);
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setWishlist(data);
+      }
+    } catch (err) {
+      console.error("Error fetching wishlist:", err);
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    console.error("Error fetching wishlist:", err);
-  } finally {
+  } else {
+    // Guest user → fetch from localStorage
+    const guestWishlist = JSON.parse(localStorage.getItem("guestWishlist") || "[]");
+    // Convert it to same structure as backend for consistency
+    const formattedWishlist = guestWishlist.map((item: any, index: number) => ({
+      wishlistId: index, // fake ID
+      ProductVariant: {
+        productVariantId: item.productVariantId,
+        productVariantImage: item.image,
+        Product: {
+          productName: item.productName,
+          productOfferPrice: item.price,
+        },
+        stockQuantity: 1, // assume in stock for guest
+      },
+    }));
+    setWishlist(formattedWishlist);
     setLoading(false);
   }
 };
 
   // ✅ Remove from wishlist
   const handleRemove = async (wishlistId: number) => {
+  if (user?.id) {
+    // Logged-in user → remove from backend
     try {
-      const res = await fetch(
-        `${API_BASE_URL}/api/wishlist/${wishlistId}`,
-        { method: "DELETE" }
-      );
+      const res = await fetch(`${API_BASE_URL}/api/wishlist/${wishlistId}`, {
+        method: "DELETE",
+      });
       if (res.ok) {
         setWishlist((prev) =>
           prev.filter((item) => item.wishlistId !== wishlistId)
@@ -76,88 +73,79 @@ export default function Wishlist() {
     } catch (err) {
       console.error("Error removing item:", err);
     }
-  };
+  } else {
+    // Guest user → remove from localStorage
+    const guestWishlist = JSON.parse(localStorage.getItem("guestWishlist") || "[]");
+    guestWishlist.splice(wishlistId, 1); // remove by index
+    localStorage.setItem("guestWishlist", JSON.stringify(guestWishlist));
 
-  // ✅ Move to cart
-//   const handleMoveToCart = async (variantId: number, wishlistId: number) => {
-//   if (!user?.id) {
-//     alert("Please login to add to cart");
-//     navigate("/login");
-//     return;
-//   }
+    // Update state
+    setWishlist((prev) => prev.filter((_, idx) => idx !== wishlistId));
+  }
+};
 
-//   try {
-//     // 1️⃣ Add to Cart
-//     const res = await fetch("https://tamiraaapi.tamiraa.com/api/cart/add", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         userId: user.id,
-//         productVariantId: variantId,
-//         quantity: 1,
-//       }),
-//     });
-//     const data = await res.json();
-
-//     if (res.ok) {
-//       alert("Moved to cart!");
-
-//       // 2️⃣ Remove from Wishlist immediately
-//       await fetch(`https://tamiraaapi.tamiraa.com/api/wishlist/${wishlistId}`, {
-//         method: "DELETE",
-//       });
-
-//       // 3️⃣ Update UI by removing the item locally
-//       setWishlist((prev) =>
-//         prev.filter((item) => item.wishlistId !== wishlistId)
-//       );
-//     } else {
-//       alert(data.message || "Failed to move to cart");
-//     }
-//   } catch (err) {
-//     console.error("Error moving to cart:", err);
-//   }
-// };
 
 
 const handleMoveToCart = async (variantId: number, wishlistId: number) => {
   const user = getStoredUser();
-  if (!user?.id) {
-    alert("Please login to add to cart");
-    navigate("/login");
-    return;
-  }
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,
-        productVariantId: variantId,
-        quantity: 1,
-      }),
-    });
-    const data = await res.json();
-
-    if (res.ok) {
-      setModalMessage("Item moved to cart successfully!");
-      setShowModal(true);
-
-      await fetch(`${API_BASE_URL}/api/wishlist/${wishlistId}`, {
-        method: "DELETE",
+  if (user?.id) {
+    // Logged-in user → API call
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          productVariantId: variantId,
+          quantity: 1,
+        }),
       });
+      const data = await res.json();
 
-      setWishlist((prev) =>
-        prev.filter((item) => item.wishlistId !== wishlistId)
-      );
-    } else {
-      setModalMessage(data.message || "Failed to move to cart");
+      if (res.ok) {
+        setModalMessage("Item moved to cart successfully!");
+        setShowModal(true);
+
+        // Remove from wishlist
+        await fetch(`${API_BASE_URL}/api/wishlist/${wishlistId}`, {
+          method: "DELETE",
+        });
+        setWishlist((prev) =>
+          prev.filter((item) => item.wishlistId !== wishlistId)
+        );
+      } else {
+        setModalMessage(data.message || "Failed to move to cart");
+        setShowModal(true);
+      }
+    } catch (err) {
+      console.error("Error moving to cart:", err);
+      setModalMessage("Something went wrong");
       setShowModal(true);
     }
-  } catch (err) {
-    console.error("Error moving to cart:", err);
-    setModalMessage("Something went wrong");
+  } else {
+    // Guest user → localStorage
+    const guestWishlist = JSON.parse(localStorage.getItem("guestWishlist") || "[]");
+    const item = guestWishlist[wishlistId];
+    
+    // Remove from guestWishlist
+    guestWishlist.splice(wishlistId, 1);
+    localStorage.setItem("guestWishlist", JSON.stringify(guestWishlist));
+
+    // Add to guestCart
+    const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+    guestCart.push({
+      productVariantId: item.productVariantId,
+      productName: item.productName,
+      image: item.image,
+      price: item.price,
+      quantity: 1,
+    });
+    localStorage.setItem("guestCart", JSON.stringify(guestCart));
+
+    // Update state
+    setWishlist((prev) => prev.filter((_, idx) => idx !== wishlistId));
+    setModalMessage("Item moved to cart successfully!");
     setShowModal(true);
   }
 };

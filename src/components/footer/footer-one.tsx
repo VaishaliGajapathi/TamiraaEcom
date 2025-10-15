@@ -7,7 +7,7 @@ import logoNew from '../../assets/img/new_logo/1234.png'
 import { footerLink1, footerLink4 } from '../../data/nav-data'
 import {
     FaFacebookF,
-    FaHeart,
+    
     FaInstagram,
     FaLinkedin,
     FaTwitter,
@@ -121,7 +121,7 @@ export default function FooterOne() {
                       <p className="text-white-light inline-flex flex-col md:flex-row items-center justify-center">
                         <span className="mr-2">© {new Date().getFullYear()} Tamiraa Sarees</span>
                         
-                        <span className="flex items-center mt-2 md:mt-0">
+                        {/* <span className="flex items-center mt-2 md:mt-0">
                           Develop with <FaHeart className="mx-1 text-red-500" /> By{' '}
                           <Link
                             to="https://saitechnosolutions.com/"
@@ -130,7 +130,7 @@ export default function FooterOne() {
                           >
                             Sai Techno Solutions
                           </Link>
-                        </span>
+                        </span> */}
                       </p>
                     </div>
                 </div>
