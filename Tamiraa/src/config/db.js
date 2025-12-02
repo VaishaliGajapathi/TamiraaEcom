@@ -24,17 +24,21 @@ async function initSequelize() {
     process.env.DB_PASSWORD,
     {
       host: process.env.DB_HOST,
-      dialect: 'mysql', // change from mysql → postgres
-      port: process.env.DB_PORT || 3306, // PostgreSQL default port
+      dialect: 'postgres',
+      port: process.env.DB_PORT || 5432,
       logging: (msg) => console.log(`📄 SQL: ${msg}`),
+      ssl: true,
+      dialectOptions: {
+        ssl: { require: true, rejectUnauthorized: false }
+      }
     }
   );
 
   try {
     await sequelize.authenticate();
-    console.log('✅  Mysqlc onnection established successfully.');
+    console.log('✅ PostgreSQL connection established successfully.');
   } catch (error) {
-    console.error('❌ Unable to connect to PDB', error);
+    console.error('❌ Unable to connect to database', error);
   }
 
   return sequelize;
