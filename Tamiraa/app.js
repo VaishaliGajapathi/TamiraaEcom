@@ -34,7 +34,28 @@ const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 const imageBaseUrl = `${BASE_URL}/uploads`;
 
 app.use(express.json());
-app.use(cors());
+
+// Configure CORS
+const allowedOrigins = [
+  'https://tamiraaadmin.netlify.app',
+  'http://localhost:3000',
+  'http://localhost:5000',
+  'http://localhost:5001',
+  process.env.FRONTEND_URL
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 
 // Serve uploaded images
