@@ -9,7 +9,7 @@ async function seedAdminUser() {
 
     // Check if admin already exists
     const existingAdmin = await User.findOne({
-      where: { email: 'tamiraa@admin' }
+      where: { email: 'admin@tamiraa.com' }
     });
 
     if (existingAdmin) {
@@ -24,12 +24,12 @@ async function seedAdminUser() {
     const adminUser = await User.create({
       username: 'Tamiraa Admin',
       phonenumber: '9999999999',
-      email: 'tamiraa@admin',
+      email: 'admin@tamiraa.com',
       password: hashedPassword
     });
 
     console.log('✅ Admin user created successfully!');
-    console.log('📧 Email: tamiraa@admin');
+    console.log('📧 Email: admin@tamiraa.com');
     console.log('🔐 Password: admin@2025');
     console.log('👤 User ID:', adminUser.userId);
 

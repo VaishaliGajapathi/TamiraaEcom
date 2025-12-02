@@ -84,7 +84,7 @@ Required in .env file:
 
 ## Admin Credentials
 **Default Admin User:**
-- Email: `tamiraa@admin`
+- Email: `admin@tamiraa.com`
 - Password: `admin@2025`
 
 **To create admin user after database setup:**
