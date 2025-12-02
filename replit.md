@@ -82,6 +82,19 @@ Required in .env file:
 2. Backend needs to be started separately with database configured
 3. Customer frontend (Tamiraa-UI) can be run separately if needed
 
+## Admin Credentials
+**Default Admin User:**
+- Email: `tamiraa@admin`
+- Password: `admin@2025`
+
+**To create admin user after database setup:**
+```bash
+cd Tamiraa
+npm run seed
+```
+
+This creates the initial admin user for the dashboard.
+
 ## Deployment
 - Configured as static deployment
 - Build command: `npm run build --prefix tamiraa-Dashboard`
