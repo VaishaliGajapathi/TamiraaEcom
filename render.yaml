@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: tamiraa-api
+    runtime: node
+    rootDir: Tamiraa
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: DB_HOST
+        value: ep-long-sound-a4pc4p86-pooler.us-east-1.aws.neon.tech
+      - key: DB_USER
+        value: neondb_owner
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: neondb
+      - key: DB_DIALECT
+        value: postgres
+      - key: DB_PORT
+        value: '5432'
+      - key: BASE_URL
+        value: https://api.yourdomain.com
+      - key: JWT_SECRET
+        sync: false
+      - key: ADMIN_USERNAME
+        value: admin@tamiraa.com
+      - key: ADMIN_PASSWORD
+        sync: false
