@@ -29,7 +29,7 @@ const createOrderRoutes = require("./src/routes/order.routes");
 dotenv.config();
 const app = express();  
 
-const PORT = process.env.PORT || 30003;
+const PORT = process.env.PORT || 3000;
 const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
 const imageBaseUrl = `${BASE_URL}/uploads`;
 
