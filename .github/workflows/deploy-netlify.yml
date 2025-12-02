@@ -1,0 +1,49 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        site: 
+          - { name: 'store', dir: 'Tamiraa-UI', site_id: 'NETLIFY_SITE_ID_STORE' }
+          - { name: 'admin', dir: 'tamiraa-Dashboard', site_id: 'NETLIFY_SITE_ID_ADMIN' }
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies - ${{ matrix.site.name }}
+        run: cd ${{ matrix.site.dir }} && npm ci
+
+      - name: Build - ${{ matrix.site.name }}
+        run: cd ${{ matrix.site.dir }} && npm run build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
+      - name: Deploy to Netlify - ${{ matrix.site.name }}
+        uses: nwtgck/actions-netlify@v2.1
+        with:
+          publish-dir: './${{ matrix.site.dir }}/dist'
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: 'Deploy from GitHub Actions - ${{ matrix.site.name }}'
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets[matrix.site.site_id] }}

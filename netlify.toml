@@ -1,17 +1,11 @@
 [build]
-  command = "echo 'Monorepo - Deploy frontends separately'"
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
 
-# Customer Store (Tamiraa-UI)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  conditions = { Role = ["store"] }
 
-# Admin Dashboard (tamiraa-Dashboard)
-[[redirects]]
-  from = "/admin/*"
-  to = "/admin/index.html"
-  status = 200
-  conditions = { Role = ["admin"] }
+[env]
+  VITE_API_URL = "https://api.yourdomain.com"
