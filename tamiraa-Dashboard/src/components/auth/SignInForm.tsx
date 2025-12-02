@@ -9,23 +9,23 @@ import { API_BASE_URL } from "../../utils/api";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!username || !password) {
-      toast.error("Username and password are required");
+    if (!email || !password) {
+      toast.error("Email and password are required");
       return;
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
@@ -72,12 +72,13 @@ export default function SignInForm() {
             <div className="space-y-6">
               <div>
                 <Label>
-                  Username <span className="text-error-500">*</span>
+                  Email <span className="text-error-500">*</span>
                 </Label>
                 <Input
-                  placeholder="admin"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="admin@tamiraa.com"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div>
