@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "Tamiraa-UI/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    },
+    {
+      "src": "tamiraa-Dashboard/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    },
+    {
+      "src": "Tamiraa/package.json",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "Tamiraa/app.js" },
+    { "src": "/admin/(.*)", "dest": "tamiraa-Dashboard/dist/index.html" },
+    { "src": "/(.*)", "dest": "Tamiraa-UI/dist/index.html" }
+  ]
+}
