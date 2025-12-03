@@ -1,4 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+declare global {
+  interface Window {
+    GlamAR?: {
+      tryOn: (config: { productImage: string; productName: string }) => void;
+    };
+  }
+}
+
 import { useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 // import { useNavigate } from 'react-router-dom'

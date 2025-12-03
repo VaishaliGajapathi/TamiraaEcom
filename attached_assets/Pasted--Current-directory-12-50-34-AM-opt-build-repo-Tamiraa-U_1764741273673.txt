@@ -1,0 +1,45 @@
+❯ Current directory
+12:50:34 AM:   /opt/build/repo/Tamiraa-UI
+12:50:34 AM: ​
+12:50:34 AM: ❯ Config file
+12:50:34 AM:   /opt/build/repo/netlify.toml
+12:50:34 AM: ​
+12:50:34 AM: ❯ Context
+12:50:34 AM:   production
+12:50:34 AM: ​
+12:50:34 AM: build.command from netlify.toml                               
+12:50:34 AM: ────────────────────────────────────────────────────────────────
+12:50:34 AM: ​
+12:50:34 AM: $ npm run build
+12:50:34 AM: > furnixar@1.0.0 build
+12:50:34 AM: > tsc -b && vite build
+12:50:40 AM: src/pages/index/product-details.tsx(804,36): error TS2339: Property 'GlamAR' does not exist on type 'Window & typeof globalThis'.
+12:50:40 AM: src/pages/index/product-details.tsx(805,36): error TS2339: Property 'GlamAR' does not exist on type 'Window & typeof globalThis'.
+12:50:40 AM: src/utils/api.ts(1,29): error TS2580: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node`.
+12:50:40 AM: ​
+12:50:40 AM: "build.command" failed                                        
+12:50:40 AM: ────────────────────────────────────────────────────────────────
+12:50:40 AM: ​
+12:50:40 AM:   Error message
+12:50:40 AM:   Command failed with exit code 2: npm run build (https://ntl.fyi/exit-code-2)
+12:50:40 AM: ​
+12:50:40 AM:   Error location
+12:50:40 AM:   In build.command from netlify.toml:
+12:50:40 AM:   npm run build
+12:50:40 AM: ​
+12:50:40 AM:   Resolved config
+12:50:40 AM:   build:
+12:50:40 AM:     base: /opt/build/repo/Tamiraa-UI
+12:50:40 AM:     command: npm run build
+12:50:40 AM:     commandOrigin: config
+12:50:40 AM:     publish: /opt/build/repo/Tamiraa-UI/dist
+12:50:40 AM:     publishOrigin: config
+12:50:40 AM:   redirects:
+12:50:41 AM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+12:50:41 AM:     - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+12:50:41 AM: Build failed due to a user error: Build script returned non-zero exit code: 2
+12:50:41 AM: Failing build: Failed to build site
+12:50:41 AM: Finished processing build request in 20.528s
