@@ -297,7 +297,7 @@ export default function ProductCategory() {
                         <div className="relative overflow-hidden">
                           <Link to={`/product-details/${variant.productId}?variant=${variant.productVariantId}`}>
                             <ImageWithFallback
-                              src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
+                              src={`${API_BASE_URL}/api/product-variants/${variant.productVariantId}/image`}
                               alt={variant.Product?.productName || 'Product'}
                               className="w-full transform duration-300 group-hover:scale-110"
                             />

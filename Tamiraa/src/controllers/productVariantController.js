@@ -143,8 +143,9 @@ exports.updateProductVariant = (ProductVariant, ProductStock) => async (req, res
     };
 
     if (req.files && req.files["productVariantImage"]) {
-      updateData.productVariantImage = req.files["productVariantImage"][0].originalname;
-      updateData.imageData = req.files["productVariantImage"][0].buffer;
+      const file = req.files["productVariantImage"][0];
+      updateData.productVariantImage = file.buffer;
+      updateData.productVariantImageMimeType = file.mimetype;
     }
 
     await variant.update(updateData);

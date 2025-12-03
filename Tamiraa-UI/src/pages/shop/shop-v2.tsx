@@ -671,9 +671,7 @@ export default function ShopV2() {
                          to={`/product-details/${product.productId}?variant=${variant.productVariantId}`}
                        >
                          <ImageWithFallback
-                           src={`${API_BASE_URL}/uploads/${
-                             variant.productVariantImage || product.productImage
-                           }`}
+                           src={`${API_BASE_URL}/api/product-variants/${variant.productVariantId}/image`}
                            alt={product.productName}
                            className="w-full transform group-hover:scale-110 duration-300"
                          />
