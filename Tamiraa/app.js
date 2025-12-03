@@ -38,6 +38,7 @@ app.use(express.json());
 // Configure CORS
 const allowedOrigins = [
   'https://tamiraaadmin.netlify.app',
+  'https://tamiraa.com',
   'http://localhost:3000',
   'http://localhost:5000',
   'http://localhost:5001',
