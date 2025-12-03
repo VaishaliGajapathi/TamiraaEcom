@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import NavbarOne from "../../components/navbar/navbar-one";
 import bg from '../../assets/img/shortcode/breadcumb.jpg'
 import FooterOne from "../../components/footer/footer-one";
@@ -46,9 +46,6 @@ export default function ProductCategory() {
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const params = useParams();
-  const urlCategoryId = params.categoryId ? parseInt(params.categoryId) : null;
-
   const showModal = (msg: string) => {
     setModalMessage(msg);
     setModalOpen(true);
