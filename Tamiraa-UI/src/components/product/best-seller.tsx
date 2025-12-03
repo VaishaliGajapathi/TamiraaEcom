@@ -210,9 +210,13 @@ export default function BestSeller() {
     fetch(`${API_BASE_URL}/api/product-variants`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.success) {
+        if (data.success && Array.isArray(data.data)) {
           const sellers = data.data.filter((v: Variant) => v.isBestSeller)
-          setBestSellers(sellers)
+          if (sellers.length > 0) {
+            setBestSellers(sellers)
+          } else {
+            setBestSellers(data.data)
+          }
         }
       })
       .catch((err) => console.error('Error fetching best sellers:', err))

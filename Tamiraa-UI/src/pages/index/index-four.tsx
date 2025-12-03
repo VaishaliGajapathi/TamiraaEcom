@@ -333,8 +333,8 @@ export default function IndexFour() {
                         (variant: Variant) => variant.isTrending
                     )
 
-                    setNewArrivals(arrivals)
-                    setTrending(trendingProducts)
+                    setNewArrivals(arrivals.length > 0 ? arrivals : data.data)
+                    setTrending(trendingProducts.length > 0 ? trendingProducts : data.data)
                 }
             })
             .catch((err) => console.error('Error fetching variants:', err))
