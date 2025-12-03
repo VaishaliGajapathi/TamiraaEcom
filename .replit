@@ -17,6 +17,10 @@ author = "agent"
 task = "workflow.run"
 args = "Dashboard Frontend"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "E-commerce Store"
+
 [[workflows.workflow]]
 name = "Dashboard Frontend"
 author = "agent"
@@ -24,6 +28,18 @@ author = "agent"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd tamiraa-Dashboard && npm run dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow]]
+name = "E-commerce Store"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd Tamiraa-UI && npm install && npm run dev"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
