@@ -14,6 +14,7 @@ import {
   deleteProduct,
   updateProduct,
 } from "../../../api/ProductApi";
+import { API_BASE_URL } from "../../../utils/api";
 
 interface ProductItem {
   id: number;
@@ -25,8 +26,7 @@ interface ProductItem {
   productDescription: string;
 }
 
-const imageBaseUrl =
-  import.meta.env.VITE_IMAGE_BASE_URL || "https://tamiraaapi.tamiraa.com";
+const imageBaseUrl = `${API_BASE_URL}/uploads`;
 
 export default function ProductTable() {
   const [productData, setProductData] = useState<ProductItem[]>([]);
