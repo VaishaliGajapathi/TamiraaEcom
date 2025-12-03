@@ -214,18 +214,9 @@ export default function ProductVariants() {
     img.src = URL.createObjectURL(file);
 
     img.onload = () => {
-      if (img.width !== 726 || img.height !== 967) {
-        setErrors((prev) => ({
-          ...prev,
-          productVariantImage: "Image must be exactly 726 × 967 pixels.",
-        }));
-        setForm({ ...form, productVariantImage: null });
-        setPreview(null);
-      } else {
-        setErrors((prev) => ({ ...prev, productVariantImage: "" }));
-        setForm({ ...form, productVariantImage: file });
-        setPreview(img.src);
-      }
+      setErrors((prev) => ({ ...prev, productVariantImage: "" }));
+      setForm({ ...form, productVariantImage: file });
+      setPreview(img.src);
     };
   };
 
@@ -255,15 +246,6 @@ export default function ProductVariants() {
     img.src = URL.createObjectURL(file);
 
     img.onload = () => {
-      if (img.width !== 726 || img.height !== 967) {
-        setChildImageErrors((prev) => {
-          const newErrors = [...prev];
-          newErrors[index] = "Image must be exactly 726 × 967 pixels.";
-          return newErrors;
-        });
-        return;
-      }
-
       // ✅ Clear error if valid
       setChildImageErrors((prev) => {
         const newErrors = [...prev];
