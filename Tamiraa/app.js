@@ -59,8 +59,11 @@ app.use(cors({
 }));
 
 
-// Serve uploaded images
-app.use("/uploads", express.static(path.join(__dirname, "src/uploads")));
+// Serve uploaded images - ensure persistent storage
+app.use("/uploads", express.static(path.join(__dirname, "src/uploads"), {
+  maxAge: "1d",
+  etag: false,
+}));
 
 (async () => {
   try {

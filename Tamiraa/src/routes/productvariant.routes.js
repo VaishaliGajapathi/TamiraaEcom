@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("../middlewares/variantMulter"); // <-- use variant multer
+const multer = require("../middlewares/appStorageMiddleware"); // <-- use app storage middleware
 const productVariantController = require("../controllers/productVariantController");
 
 module.exports = (ProductVariant, ProductStock, Product, SubCategory, Category, imageBaseUrl) => {
