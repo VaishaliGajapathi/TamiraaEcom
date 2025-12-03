@@ -728,7 +728,7 @@ export default function ProductDetails() {
                                    }
                                  >
                                    <img
-                                     src={`https://tamiraaapi.tamiraa.com/uploads/${product.Variants?.[0]?.productVariantImage}`}
+                                     src={`${API_BASE_URL}/uploads/${product.Variants?.[0]?.productVariantImage}`}
                                      alt={product.productName}
                                      className="w-full transform group-hover:scale-110 duration-300 mt-4"
                                    />
@@ -795,6 +795,25 @@ export default function ProductDetails() {
                       ))}
                     </Swiper>
                 </div>
+            </div>
+
+            {/* GlamAR Try-On Button */}
+            <div className="flex justify-center my-6">
+                <button
+                    onClick={() => {
+                        if (window.GlamAR && currentVariant?.productVariantImage) {
+                            window.GlamAR.tryOn({
+                                productImage: `${API_BASE_URL}/uploads/${currentVariant.productVariantImage}`,
+                                productName: product?.productName || 'Product',
+                            });
+                        } else {
+                            showModal('GlamAR virtual try-on not available');
+                        }
+                    }}
+                    className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition"
+                >
+                    👓 Try On with GlamAR
+                </button>
             </div>
 
             {modalOpen && (
