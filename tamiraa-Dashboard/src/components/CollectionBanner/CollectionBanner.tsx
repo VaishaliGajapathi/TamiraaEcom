@@ -101,13 +101,12 @@ export default function CollectionbannerComponents() {
       const img = new Image();
       img.src = URL.createObjectURL(file);
       img.onload = () => {
-        if (img.width === 1905 && img.height === 674) {
-          setImageError(null);
-          resolve(true);
-        } else {
-          setImageError("Image must be exactly 1905 × 674 pixels.");
-          resolve(false);
-        }
+        setImageError(null);
+        resolve(true);
+      };
+      img.onerror = () => {
+        setImageError("Failed to load image. Please check the file.");
+        resolve(false);
       };
     });
   };
