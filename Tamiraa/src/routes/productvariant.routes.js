@@ -31,6 +31,20 @@ module.exports = (ProductVariant, ProductStock, Product, SubCategory, Category, 
   // DELETE
   router.delete("/:id", productVariantController.deleteProductVariant(ProductVariant));
 
+  // GET image from database
+  router.get("/image/:id", async (req, res) => {
+    try {
+      const variant = await ProductVariant.findByPk(req.params.id);
+      if (!variant || !variant.imageData) {
+        return res.status(404).json({ error: "Image not found" });
+      }
+      res.set('Content-Type', 'image/jpeg');
+      res.send(variant.imageData);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   router.get(
   "/",
   productVariantController.getLowStockProducts(ProductVariant, ProductStock, Product)

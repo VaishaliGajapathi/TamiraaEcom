@@ -11,11 +11,9 @@ const PLACEHOLDER_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/20
 
 export default function ImageWithFallback({ src, alt, className, onError }: ImageWithFallbackProps) {
   const [imageSrc, setImageSrc] = useState(src);
-  const [hasError, setHasError] = useState(false);
 
   const handleError = () => {
-    console.warn(`❌ Failed to load image: ${src}`);
-    setHasError(true);
+    console.warn(`Failed to load image: ${src}`);
     setImageSrc(PLACEHOLDER_IMAGE);
     onError?.();
   };
