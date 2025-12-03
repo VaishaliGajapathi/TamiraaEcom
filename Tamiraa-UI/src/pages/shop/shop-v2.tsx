@@ -439,41 +439,81 @@ export default function ShopV2() {
                   Categories
                 </h4>
                 <div className="grid gap-5">
-                  {subCategories.map((cat) => (
-                    <label
-                      key={cat.subCategoryId}
-                      className="categoryies-iteem flex items-center gap-[10px]"
-                    >
-                      <input
-                        className="appearance-none hidden"
-                        type="checkbox"
-                        value={cat.subCategoryId}
-                        checked={selectedCategories.includes(cat.subCategoryId)}
-                        onChange={() => handleCategoryChange(cat.subCategoryId)}
-                      />
-                      <span className="w-4 h-4 rounded-[5px] border border-title dark:border-white flex items-center justify-center duration-300">
-                        <svg
-                          className={`duration-300 ${
-                            selectedCategories.includes(cat.subCategoryId)
-                              ? 'opacity-100'
-                              : 'opacity-0'
-                          }`}
-                          width="9"
-                          height="8"
-                          viewBox="0 0 9 8"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M3.05203 7.04122C2.87283 7.04122 2.69433 6.97322 2.5562 6.83864L0.532492 4.8553C0.253409 4.58189 0.249159 4.13351 0.522576 3.85372C0.796701 3.57393 1.24578 3.57039 1.52416 3.84309L3.05203 5.34122L7.61512 0.868804C7.89491 0.595387 8.34328 0.59822 8.6167 0.87872C8.89082 1.1578 8.88657 1.60689 8.60749 1.8803L3.54787 6.83864C3.40974 6.97322 3.23124 7.04122 3.05203 7.04122Z"
-                            fill="#BB976D"
-                          />
-                        </svg>
-                      </span>
-                      <span className="text-title dark:text-white">
-                        {cat.subCategoryName}
-                      </span>
-                    </label>
+                  {/* Main Categories */}
+                  {categories.map((mainCat) => (
+                    <div key={mainCat.categoryId}>
+                      <label className="categoryies-iteem flex items-center gap-[10px] mb-2">
+                        <input
+                          className="appearance-none hidden"
+                          type="checkbox"
+                          checked={selectedCategory === mainCat.categoryId}
+                          onChange={() => handleCategoryChange(mainCat.categoryId)}
+                        />
+                        <span className="w-4 h-4 rounded-[5px] border border-title dark:border-white flex items-center justify-center duration-300">
+                          <svg
+                            className={`duration-300 ${
+                              selectedCategory === mainCat.categoryId
+                                ? 'opacity-100'
+                                : 'opacity-0'
+                            }`}
+                            width="9"
+                            height="8"
+                            viewBox="0 0 9 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M3.05203 7.04122C2.87283 7.04122 2.69433 6.97322 2.5562 6.83864L0.532492 4.8553C0.253409 4.58189 0.249159 4.13351 0.522576 3.85372C0.796701 3.57393 1.24578 3.57039 1.52416 3.84309L3.05203 5.34122L7.61512 0.868804C7.89491 0.595387 8.34328 0.59822 8.6167 0.87872C8.89082 1.1578 8.88657 1.60689 8.60749 1.8803L3.54787 6.83864C3.40974 6.97322 3.23124 7.04122 3.05203 7.04122Z"
+                              fill="#BB976D"
+                            />
+                          </svg>
+                        </span>
+                        <span className="text-title dark:text-white font-semibold">
+                          {mainCat.categoryName}
+                        </span>
+                      </label>
+
+                      {/* Subcategories - show only if main category is selected */}
+                      {selectedCategory === mainCat.categoryId && (
+                        <div className="pl-6 space-y-2">
+                          {filteredSubCategories.map((subCat) => (
+                            <label
+                              key={subCat.subCategoryId}
+                              className="categoryies-iteem flex items-center gap-[10px]"
+                            >
+                              <input
+                                className="appearance-none hidden"
+                                type="checkbox"
+                                checked={selectedSubCategories.includes(subCat.subCategoryId)}
+                                onChange={() => handleSubCategoryChange(subCat.subCategoryId)}
+                              />
+                              <span className="w-4 h-4 rounded-[5px] border border-title dark:border-white flex items-center justify-center duration-300">
+                                <svg
+                                  className={`duration-300 ${
+                                    selectedSubCategories.includes(subCat.subCategoryId)
+                                      ? 'opacity-100'
+                                      : 'opacity-0'
+                                  }`}
+                                  width="9"
+                                  height="8"
+                                  viewBox="0 0 9 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M3.05203 7.04122C2.87283 7.04122 2.69433 6.97322 2.5562 6.83864L0.532492 4.8553C0.253409 4.58189 0.249159 4.13351 0.522576 3.85372C0.796701 3.57393 1.24578 3.57039 1.52416 3.84309L3.05203 5.34122L7.61512 0.868804C7.89491 0.595387 8.34328 0.59822 8.6167 0.87872C8.89082 1.1578 8.88657 1.60689 8.60749 1.8803L3.54787 6.83864C3.40974 6.97322 3.23124 7.04122 3.05203 7.04122Z"
+                                    fill="#BB976D"
+                                  />
+                                </svg>
+                              </span>
+                              <span className="text-title dark:text-white text-sm">
+                                {subCat.subCategoryName}
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -509,7 +549,7 @@ export default function ShopV2() {
                       step={10}
                       minValue={minValue}
                       maxValue={maxValue}
-                      onInput={(e) => {
+                      onInput={(e: any) => {
                         setMinValue(e.minValue)
                         setMaxValue(e.maxValue)
                       }}

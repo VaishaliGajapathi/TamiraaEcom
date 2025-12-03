@@ -1,0 +1,59 @@
+1:58:05 PM: Netlify Build                                                 
+1:58:05 PM: ────────────────────────────────────────────────────────────────
+1:58:05 PM: ​
+1:58:05 PM: ❯ Version
+1:58:05 PM:   @netlify/build 35.5.2
+1:58:05 PM: ​
+1:58:05 PM: ❯ Flags
+1:58:05 PM:   accountId: 692e677873dabdaaf4afbfac
+1:58:05 PM:   baseRelDir: true
+1:58:05 PM:   buildId: 69308822cdc3f00008888aae
+1:58:05 PM:   deployId: 69308822cdc3f00008888ab0
+1:58:05 PM: ​
+1:58:05 PM: ❯ Current directory
+1:58:05 PM:   /opt/build/repo/Tamiraa-UI
+1:58:05 PM: ​
+1:58:05 PM: ❯ Config file
+1:58:05 PM:   /opt/build/repo/netlify.toml
+1:58:05 PM: ​
+1:58:05 PM: ❯ Context
+1:58:05 PM:   production
+1:58:05 PM: ​
+1:58:05 PM: build.command from netlify.toml                               
+1:58:05 PM: ────────────────────────────────────────────────────────────────
+1:58:05 PM: ​
+1:58:05 PM: $ npm run build
+1:58:06 PM: > furnixar@1.0.0 build
+1:58:06 PM: > tsc -b && vite build
+1:58:11 PM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+1:58:11 PM: src/pages/shop/shop-v2.tsx(55,10): error TS6133: 'categories' is declared but its value is never read.
+1:58:11 PM: src/pages/shop/shop-v2.tsx(84,9): error TS6133: 'handleSubCategoryChange' is declared but its value is never read.
+1:58:11 PM: src/pages/shop/shop-v2.tsx(93,9): error TS6133: 'filteredSubCategories' is declared but its value is never read.
+1:58:11 PM: src/pages/shop/shop-v2.tsx(451,34): error TS2552: Cannot find name 'selectedCategories'. Did you mean 'selectedSubCategories'?
+1:58:11 PM: src/pages/shop/shop-v2.tsx(457,29): error TS2552: Cannot find name 'selectedCategories'. Did you mean 'selectedSubCategories'?
+1:58:11 PM: ​
+1:58:11 PM: "build.command" failed                                        
+1:58:11 PM: ────────────────────────────────────────────────────────────────
+1:58:11 PM: ​
+1:58:11 PM:   Error message
+1:58:11 PM:   Command failed with exit code 2: npm run build (https://ntl.fyi/exit-code-2)
+1:58:11 PM: ​
+1:58:11 PM:   Error location
+1:58:11 PM:   In build.command from netlify.toml:
+1:58:11 PM:   npm run build
+1:58:11 PM: ​
+1:58:11 PM:   Resolved config
+1:58:11 PM:   build:
+1:58:11 PM:     base: /opt/build/repo/Tamiraa-UI
+1:58:11 PM:     command: npm run build
+1:58:11 PM:     commandOrigin: config
+1:58:11 PM:     publish: /opt/build/repo/Tamiraa-UI/dist
+1:58:11 PM:     publishOrigin: config
+1:58:11 PM:   redirects:
+1:58:11 PM:     - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+1:58:11 PM: Build failed due to a user error: Build script returned non-zero exit code: 2
+1:58:11 PM: Failing build: Failed to build site
+1:58:12 PM: Finished processing build request in 18.156s
