@@ -17,9 +17,15 @@ import MultiRangeSlider from 'multi-range-slider-react'
 import Aos from 'aos'
 import { API_BASE_URL } from "../../utils/api";
 
+interface Category {
+  categoryId: number
+  categoryName: string
+}
+
 interface SubCategory {
   subCategoryId: number
   subCategoryName: string
+  categoryId: number
 }
 
 interface Product {
@@ -29,6 +35,7 @@ interface Product {
   productImage: string
   tag?: string
   subCategoryId: number
+  categoryId: number
 }
 
 interface Variant {
@@ -43,7 +50,9 @@ export default function ShopV2() {
   const [minValue, setMinValue] = useState(0)
   const [maxValue, setMaxValue] = useState(0)
   const [isPriceOpen, setIsPriceOpen] = useState(false)
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
+  const [selectedSubCategories, setSelectedSubCategories] = useState<number[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [subCategories, setSubCategories] = useState<SubCategory[]>([])
   const [ ,setProducts] = useState<Product[]>([])
   const [variants, setVariants] = useState<Variant[]>([])
@@ -67,21 +76,35 @@ export default function ShopV2() {
 
 
 
-  const handleCategoryChange = (subCategoryId: number) => {
-    setSelectedCategories((prev) =>
+  const handleCategoryChange = (categoryId: number) => {
+    setSelectedCategory(categoryId === selectedCategory ? null : categoryId)
+    setSelectedSubCategories([])
+  }
+
+  const handleSubCategoryChange = (subCategoryId: number) => {
+    setSelectedSubCategories((prev) =>
       prev.includes(subCategoryId)
         ? prev.filter((id) => id !== subCategoryId)
         : [...prev, subCategoryId]
     )
   }
 
+  // Get filtered subcategories based on selected category
+  const filteredSubCategories = selectedCategory 
+    ? subCategories.filter((s) => s.categoryId === selectedCategory)
+    : subCategories
+
   // 🔹 Category & Price filtering
   const filteredVariants = variants.filter((v) => {
     const product = v.Product || {}
-    const inCategory =
-      selectedCategories.length > 0
-        ? selectedCategories.includes(product.subCategoryId)
-        : true
+    
+    // Filter by main category if selected
+    if (selectedCategory && product.categoryId !== selectedCategory) return false
+    
+    // Filter by subcategories if any are selected
+    if (selectedSubCategories.length > 0 && !selectedSubCategories.includes(product.subCategoryId)) return false
+    
+    const inCategory = true
 
     const inPriceRange =
       product.productOfferPrice >= minValue &&
@@ -311,6 +334,18 @@ export default function ShopV2() {
         };
 
         
+
+  // 🔹 Fetch Categories
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/api/categories`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.data)) {
+          setCategories(data.data)
+        }
+      })
+      .catch((err) => console.error('Error fetching categories:', err))
+  }, [])
 
   // 🔹 Fetch Variants
   useEffect(() => {
