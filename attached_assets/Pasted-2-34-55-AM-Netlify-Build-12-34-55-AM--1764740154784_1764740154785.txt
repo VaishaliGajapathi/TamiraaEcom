@@ -1,0 +1,57 @@
+2:34:55 AM: Netlify Build                                                 
+12:34:55 AM: ────────────────────────────────────────────────────────────────
+12:34:55 AM: ​
+12:34:55 AM: ❯ Version
+12:34:55 AM:   @netlify/build 35.5.2
+12:34:55 AM: ​
+12:34:55 AM: ❯ Flags
+12:34:55 AM:   accountId: 692e677873dabdaaf4afbfac
+12:34:55 AM:   baseRelDir: true
+12:34:55 AM:   buildId: 692fcbeb2aa54b0008201e11
+12:34:55 AM:   deployId: 692fcbeb2aa54b0008201e13
+12:34:55 AM: ​
+12:34:55 AM: ❯ Current directory
+12:34:55 AM:   /opt/build/repo/Tamiraa-UI
+12:34:55 AM: ​
+12:34:55 AM: ❯ Config file
+12:34:55 AM:   /opt/build/repo/netlify.toml
+12:34:55 AM: ​
+12:34:55 AM: ❯ Context
+12:34:55 AM:   production
+12:34:55 AM: ​
+12:34:55 AM: build.command from netlify.toml                               
+12:34:55 AM: ────────────────────────────────────────────────────────────────
+12:34:55 AM: ​
+12:34:55 AM: $ npm run build
+12:34:55 AM: > furnixar@1.0.0 build
+12:34:55 AM: > tsc -b && vite build
+12:35:00 AM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+12:35:00 AM: vite.config.ts(11,5): error TS2769: No overload matches this call.
+12:35:00 AM:   The last overload gave the following error.
+12:35:00 AM:     Object literal may only specify known properties, and 'allowedHosts' does not exist in type 'ServerOptions'.
+12:35:00 AM: ​
+12:35:00 AM: "build.command" failed                                        
+12:35:00 AM: ────────────────────────────────────────────────────────────────
+12:35:00 AM: ​
+12:35:00 AM:   Error message
+12:35:00 AM:   Command failed with exit code 2: npm run build (https://ntl.fyi/exit-code-2)
+12:35:00 AM: ​
+12:35:00 AM:   Error location
+12:35:00 AM:   In build.command from netlify.toml:
+12:35:00 AM:   npm run build
+12:35:00 AM: ​
+12:35:00 AM:   Resolved config
+12:35:00 AM:   build:
+12:35:00 AM:     base: /opt/build/repo/Tamiraa-UI
+12:35:00 AM:     command: npm run build
+12:35:00 AM:     commandOrigin: config
+12:35:00 AM:     publish: /opt/build/repo/Tamiraa-UI/dist
+12:35:00 AM:     publishOrigin: config
+12:35:00 AM:   redirects:
+12:35:00 AM:     - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+12:35:00 AM: Build failed due to a user error: Build script returned non-zero exit code: 2
+12:35:00 AM: Failing build: Failed to build site
+12:35:00 AM: Finished processing build request in 22.955s
