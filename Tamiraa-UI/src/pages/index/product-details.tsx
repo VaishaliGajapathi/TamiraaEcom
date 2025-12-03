@@ -125,7 +125,7 @@ export default function ProductDetails() {
     const stock = currentVariant?.stockQuantity || 0
 
     const variantImageUrl = currentVariant
-        ? `${API_BASE_URL}/uploads/${currentVariant.productVariantImage}`
+        ? `${API_BASE_URL}/api/product-variants/${currentVariant.productVariantId}/image`
         : '' // fallback image
 
     //   const handleAddToWishlist = async () => {
@@ -807,23 +807,25 @@ export default function ProductDetails() {
             </div>
 
             {/* GlamAR Try-On Button */}
-            <div className="flex justify-center my-6">
-                <button
-                    onClick={() => {
-                        if (window.GlamAR && currentVariant?.productVariantImage) {
-                            window.GlamAR.tryOn({
-                                productImage: `${API_BASE_URL}/uploads/${currentVariant.productVariantImage}`,
-                                productName: product?.productName || 'Product',
-                            });
-                        } else {
-                            showModal('GlamAR virtual try-on not available');
-                        }
-                    }}
-                    className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition"
-                >
-                    👓 Try On with GlamAR
-                </button>
-            </div>
+            {currentVariant?.productVariantId && (
+                <div className="flex justify-center my-6 relative z-10">
+                    <button
+                        onClick={() => {
+                            if (window.GlamAR && currentVariant?.productVariantId) {
+                                window.GlamAR.tryOn({
+                                    productImage: `${API_BASE_URL}/api/product-variants/${currentVariant.productVariantId}/image`,
+                                    productName: product?.productName || 'Product',
+                                });
+                            } else {
+                                showModal('GlamAR plugin is loading. Please try again in a moment.');
+                            }
+                        }}
+                        className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition shadow-lg"
+                    >
+                        👓 Try On with GlamAR
+                    </button>
+                </div>
+            )}
 
             {modalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-[100000]">
