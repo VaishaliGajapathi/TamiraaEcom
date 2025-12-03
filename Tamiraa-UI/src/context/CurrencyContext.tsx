@@ -7,7 +7,7 @@ import {
     ReactNode,
 } from 'react'
 
-export type SupportedCurrency = 'INR' | 'USD'
+export type SupportedCurrency = 'INR'
 
 interface CurrencyContextValue {
     currency: SupportedCurrency
@@ -19,21 +19,10 @@ const CurrencyContext = createContext<CurrencyContextValue | undefined>(
     undefined
 )
 
-const USD_TO_INR = 87.72;
-const INR_TO_USD = 1 / USD_TO_INR;
-
 function formatINR(amount: number): string {
     return amount.toLocaleString('en-IN', {
         style: 'currency',
         currency: 'INR',
-        maximumFractionDigits: 2,
-    })
-}
-
-function formatUSD(amount: number): string {
-    return amount.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
         maximumFractionDigits: 2,
     })
 }
@@ -44,16 +33,12 @@ function parseNumber(value: string): number | null {
     return match ? parseFloat(match[0]) : null
 }
 
-function convertOne(amountInINR: number, target: SupportedCurrency): string {
-    if (target === 'USD') return formatUSD(amountInINR * INR_TO_USD)
+function convertOne(amountInINR: number): string {
     return formatINR(amountInINR)
 }
 
-function convertPriceRaw(
-    raw: string | number,
-    target: SupportedCurrency
-): string {
-    if (typeof raw === 'number') return convertOne(raw, target)
+function convertPriceRaw(raw: string | number): string {
+    if (typeof raw === 'number') return convertOne(raw)
 
     if (!raw) return ''
 
@@ -62,39 +47,25 @@ function convertPriceRaw(
         const converted = parts.map((part) => {
             const num = parseNumber(part)
             if (num === null || Number.isNaN(num)) return part
-            return convertOne(num, target)
+            return convertOne(num)
         })
         return converted.join(' - ')
     }
 
     const amount = parseNumber(raw)
     if (amount === null || Number.isNaN(amount)) return raw
-    return convertOne(amount, target)
+    return convertOne(amount)
 }
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
-    const [currency, setCurrency] = useState<SupportedCurrency>(() => {
-        const saved =
-            typeof window !== 'undefined'
-                ? (localStorage.getItem('currency') as SupportedCurrency | null)
-                : null
-        return saved ?? 'INR'
-    })
-
-    useEffect(() => {
-        try {
-            localStorage.setItem('currency', currency)
-        } catch {
-            // Ignore write errors (e.g., private browsing mode)
-        }
-    }, [currency])
+    const [currency] = useState<SupportedCurrency>('INR')
 
     const value = useMemo<CurrencyContextValue>(
         () => ({
             currency,
-            setCurrency,
+            setCurrency: () => {},
             convertPriceString: (raw: string | number) =>
-                convertPriceRaw(raw, currency),
+                convertPriceRaw(raw),
         }),
         [currency]
     )

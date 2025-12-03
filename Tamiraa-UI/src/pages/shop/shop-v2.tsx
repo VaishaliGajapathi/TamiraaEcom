@@ -16,6 +16,7 @@ import { getStoredUser } from '../../utils/user';
 import MultiRangeSlider from 'multi-range-slider-react'
 import Aos from 'aos'
 import { API_BASE_URL } from "../../utils/api";
+import ImageWithFallback from '../../components/ImageWithFallback';
 
 interface Category {
   categoryId: number
@@ -669,7 +670,7 @@ export default function ShopV2() {
                        <Link
                          to={`/product-details/${product.productId}?variant=${variant.productVariantId}`}
                        >
-                         <img
+                         <ImageWithFallback
                            src={`${API_BASE_URL}/uploads/${
                              variant.productVariantImage || product.productImage
                            }`}

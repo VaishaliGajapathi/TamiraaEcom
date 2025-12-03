@@ -10,6 +10,7 @@ import { LuEye, LuHeart } from "react-icons/lu";
 import { RiShoppingBag2Line } from "react-icons/ri";
 import { getStoredUser } from "../../utils/user";
 import Aos from "aos";
+import ImageWithFallback from "../../components/ImageWithFallback";
 
 interface Category {
   categoryId: number;
@@ -295,9 +296,9 @@ export default function ProductCategory() {
                       <div key={variant.productVariantId} className="group">
                         <div className="relative overflow-hidden">
                           <Link to={`/product-details/${variant.productId}?variant=${variant.productVariantId}`}>
-                            <img
+                            <ImageWithFallback
                               src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
-                              alt={variant.Product?.productName}
+                              alt={variant.Product?.productName || 'Product'}
                               className="w-full transform duration-300 group-hover:scale-110"
                             />
                           </Link>
