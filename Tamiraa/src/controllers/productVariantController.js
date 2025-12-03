@@ -13,8 +13,12 @@ exports.createProductVariant = (ProductVariant, ProductStock) => async (req, res
     const { productId, productColor, stockQuantity, lowStock, subCategoryId, categoryId, isNewArrival, isBestSeller, isTrending } = req.body;
 
     let imageData = null;
+    let imageMimeType = 'image/jpeg';
+
     if (req.files && req.files["productVariantImage"]) {
-      imageData = req.files["productVariantImage"][0].buffer;
+      const file = req.files["productVariantImage"][0];
+      imageData = file.buffer;
+      imageMimeType = file.mimetype;
     }
 
     const variant = await ProductVariant.create({
@@ -27,10 +31,8 @@ exports.createProductVariant = (ProductVariant, ProductStock) => async (req, res
       isNewArrival: parseBool(isNewArrival),
       isBestSeller: parseBool(isBestSeller),
       isTrending: parseBool(isTrending),
-      productVariantImage: req.files && req.files["productVariantImage"]
-        ? req.files["productVariantImage"][0].originalname
-        : null,
-      imageData,
+      productVariantImage: imageData,
+      productVariantImageMimeType: imageMimeType,
     });
 
     // ✅ Create ProductStock entry if initial stock exists

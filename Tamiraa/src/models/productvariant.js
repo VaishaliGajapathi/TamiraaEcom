@@ -39,12 +39,13 @@ module.exports = (sequelize) => {
       defaultValue: 0,
     },
     productVariantImage: {  
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    imageData: {
       type: DataTypes.BLOB('long'),
       allowNull: true,
+    },
+    productVariantImageMimeType: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: 'image/jpeg',
     },
     isNewArrival: {
       type: DataTypes.BOOLEAN,
