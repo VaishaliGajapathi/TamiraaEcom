@@ -8,11 +8,21 @@ Tamiraa is a full-stack e-commerce platform for furniture and home decor. The pr
 
 ## Current State
 - Dashboard frontend is configured and running on port 5000 (accessible via webview)
-- Backend is configured to run on port 3000 (accessible on all network interfaces)
-- Dashboard currently uses external production API at https://tamiraaapi.tamiraa.com
-- Local backend can be run separately for development with proper database configuration
+- Backend deployed to Render at https://tamiraaecom.onrender.com
+- Dashboard uses Render backend API
+- Customer store (Tamiraa-UI) configured to use Render backend API
+- Neon PostgreSQL database for production
 
-## Recent Changes (December 2, 2025)
+## Recent Changes (December 3, 2025)
+- **Fixed product display issue** - Updated all store pages to fetch real products from API instead of static mock data
+- **Updated product-category page** - Now fetches categories, subcategories, and products from API with filtering
+- **Updated best-seller component** - Shows all products if none are flagged as bestsellers
+- **Updated home page** - New Arrivals and Trending sections now show all products if none are flagged
+- **Added GlamAR virtual try-on** - Integrated virtual try-on button on product detail pages
+- **Fixed TypeScript errors** - Added proper type declarations for GlamAR and fixed Vite environment variables
+- **API endpoint updated** - Changed from old production URL to Render backend (https://tamiraaecom.onrender.com)
+
+## Previous Changes (December 2, 2025)
 - Installed Node.js 20 and all project dependencies
 - Configured Vite to bind to 0.0.0.0:5000 for dashboard frontend
 - Updated backend to use port 3000 on all interfaces (avoiding port conflict with frontend)
@@ -47,7 +57,7 @@ Tamiraa is a full-stack e-commerce platform for furniture and home decor. The pr
   - Image upload handling
   - Email notifications
 
-**Note**: The dashboard is currently configured to use the production API at https://tamiraaapi.tamiraa.com. The local backend can be run separately if needed for development with a MySQL database.
+**Note**: The dashboard and customer store are configured to use the Render backend at https://tamiraaecom.onrender.com with Neon PostgreSQL database.
 
 ### Database Configuration
 The backend requires a MySQL database with the following tables:
