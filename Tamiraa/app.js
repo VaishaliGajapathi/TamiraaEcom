@@ -58,38 +58,31 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-
-// Image serving endpoint - retrieves images from database
-app.get("/api/product-variants/:variantId/image", async (req, res) => {
-  try {
-    const { variantId } = req.params;
-    const { sequelize } = await require('./src/models')();
-    const [variant] = await sequelize.query(
-      `SELECT "productVariantImage", "productVariantImageMimeType" 
-       FROM productvariant WHERE "variantId" = $1`,
-      {
-        bind: [variantId],
-        type: sequelize.QueryTypes.SELECT
-      }
-    );
-
-    if (!variant || !variant.productVariantImage) {
-      return res.status(404).json({ error: "Image not found" });
-    }
-
-    const mimeType = variant.productVariantImageMimeType || 'image/jpeg';
-    res.set('Content-Type', mimeType);
-    res.set('Cache-Control', 'public, max-age=31536000');
-    res.send(variant.productVariantImage);
-  } catch (error) {
-    console.error("Error serving product image:", error);
-    res.status(500).json({ error: "Failed to retrieve image" });
-  }
-});
-
 (async () => {
   try {
     const { sequelize, User, Category, SubCategory, Product, ProductVariant, ProductVariantChildImage, ProductStock, HomeBanner, Wishlist, Cart, Coupon, CollectionBanner, Bill } = await initModels();
+
+    // Image serving endpoint - retrieves images from database (inside async IIFE)
+    app.get("/api/product-variants/:variantId/image", async (req, res) => {
+      try {
+        const { variantId } = req.params;
+        const variant = await ProductVariant.findByPk(variantId, {
+          attributes: ['productVariantImage', 'productVariantImageMimeType']
+        });
+
+        if (!variant || !variant.productVariantImage) {
+          return res.status(404).json({ error: "Image not found" });
+        }
+
+        const mimeType = variant.productVariantImageMimeType || 'image/jpeg';
+        res.set('Content-Type', mimeType);
+        res.set('Cache-Control', 'public, max-age=31536000');
+        res.send(variant.productVariantImage);
+      } catch (error) {
+        console.error("Error serving product image:", error);
+        res.status(500).json({ error: "Failed to retrieve image" });
+      }
+    });
 
     // Register routes
     // app.use('/api/register', createRegisterRoutes(User));

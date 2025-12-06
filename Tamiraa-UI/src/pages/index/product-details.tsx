@@ -687,6 +687,27 @@ export default function ProductDetails() {
                 </div>
             </div>
 
+            {/* GlamAR Try-On Button */}
+            {currentVariant?.productVariantId && (
+                <div className="flex justify-center my-8">
+                    <button
+                        onClick={() => {
+                            if (window.GlamAR && currentVariant?.productVariantId) {
+                                window.GlamAR.tryOn({
+                                    productImage: `${API_BASE_URL}/api/product-variants/${currentVariant.productVariantId}/image`,
+                                    productName: product?.productName || 'Product',
+                                });
+                            } else {
+                                showModal('GlamAR plugin is loading. Please try again in a moment.');
+                            }
+                        }}
+                        className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition shadow-lg"
+                    >
+                        👓 Try On with GlamAR
+                    </button>
+                </div>
+            )}
+
             <div className="s-py-50">
                 <div className="container-fluid">
                     <DetailTab />
@@ -737,7 +758,7 @@ export default function ProductDetails() {
                                    }
                                  >
                                    <img
-                                     src={`${API_BASE_URL}/uploads/${product.Variants?.[0]?.productVariantImage}`}
+                                     src={`${API_BASE_URL}/api/product-variants/${product.Variants?.[0]?.productVariantId}/image`}
                                      alt={product.productName}
                                      className="w-full transform group-hover:scale-110 duration-300 mt-4"
                                    />
@@ -805,27 +826,6 @@ export default function ProductDetails() {
                     </Swiper>
                 </div>
             </div>
-
-            {/* GlamAR Try-On Button */}
-            {currentVariant?.productVariantId && (
-                <div className="flex justify-center my-6 relative z-10">
-                    <button
-                        onClick={() => {
-                            if (window.GlamAR && currentVariant?.productVariantId) {
-                                window.GlamAR.tryOn({
-                                    productImage: `${API_BASE_URL}/api/product-variants/${currentVariant.productVariantId}/image`,
-                                    productName: product?.productName || 'Product',
-                                });
-                            } else {
-                                showModal('GlamAR plugin is loading. Please try again in a moment.');
-                            }
-                        }}
-                        className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition shadow-lg"
-                    >
-                        👓 Try On with GlamAR
-                    </button>
-                </div>
-            )}
 
             {modalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-[100000]">

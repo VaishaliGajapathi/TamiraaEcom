@@ -69,6 +69,10 @@ externalPort = 3003
 localPort = 44641
 externalPort = 3001
 
+[[ports]]
+localPort = 45031
+externalPort = 5000
+
 [deployment]
 deploymentTarget = "static"
 build = ["npm", "run", "build", "--prefix", "tamiraa-Dashboard"]
