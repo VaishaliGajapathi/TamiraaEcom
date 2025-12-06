@@ -7,37 +7,20 @@ Tamiraa is a full-stack e-commerce platform for furniture and home decor. The pr
 3. **Customer Frontend** (Tamiraa-UI): Customer-facing store interface
 
 ## Current State
-- Dashboard frontend is configured and running on port 5000 (accessible via webview)
-- Backend deployed to Render at https://tamiraaecom.onrender.com
-- Dashboard uses Render backend API
-- Customer store (Tamiraa-UI) configured to use Render backend API
-- Neon PostgreSQL database for production
-- Product images stored as persistent BLOB data in Neon database (never disappear)
-- GlamAR virtual try-on integrated and working on product detail pages
+- ✅ Dashboard frontend running on port 5000 (accessible via webview)
+- ✅ Backend deployed to Render at https://tamiraaecom.onrender.com
+- ✅ Customer store (Tamiraa-UI) fully functional with API proxy
+- ✅ All product images loading from Neon database
+- ✅ GlamAR virtual try-on integrated and working
+- ✅ Neon PostgreSQL database for production
 
-## Recent Changes (December 6, 2025)
-- **Implemented persistent image storage** - Product images now stored as BLOB in Neon database instead of ephemeral filesystem
-- **Created image serving endpoint** - Added `/api/product-variants/:id/image` endpoint to retrieve images from database with proper MIME types
-- **Fixed multer storage** - Switched from diskStorage to memoryStorage for direct database uploads
-- **Updated image URLs** - All product pages now fetch from database endpoint instead of filesystem
-- **Fixed GlamAR virtual try-on** - Button now positioned correctly after product details, uses database image URLs
-- **Fixed related products images** - Updated to use new database endpoint
-
-## Previous Changes (December 3, 2025)
-- **Fixed product display issue** - Updated all store pages to fetch real products from API instead of static mock data
-- **Updated product-category page** - Now fetches categories, subcategories, and products from API with filtering
-- **Updated best-seller component** - Shows all products if none are flagged as bestsellers
-- **Updated home page** - New Arrivals and Trending sections now show all products if none are flagged
-- **Added GlamAR virtual try-on** - Integrated virtual try-on button on product detail pages
-- **Fixed TypeScript errors** - Added proper type declarations for GlamAR and fixed Vite environment variables
-- **API endpoint updated** - Changed from old production URL to Render backend (https://tamiraaecom.onrender.com)
-
-## Previous Changes (December 2, 2025)
-- Installed Node.js 20 and all project dependencies
-- Configured Vite to bind to 0.0.0.0:5000 for dashboard frontend
-- Updated backend to use port 3000 on all interfaces (avoiding port conflict with frontend)
-- Created .gitignore for Node.js projects
-- Configured deployment as static site with build output from tamiraa-Dashboard/dist
+## Latest Updates (December 6, 2025)
+- **Fixed persistent image storage** - Images stored as BLOB in Neon, served via `/api/product-variants/:id/image` endpoint
+- **Fixed GlamAR button positioning** - Now appears correctly after product details, works with database images
+- **Implemented Vite API proxy** - Dev server proxies API requests through Vite to avoid CORS issues
+- **Fixed API_BASE_URL for development** - Uses relative paths in dev, production URL in production builds
+- **Disabled HMR warnings** - Configured Vite with stable development setup
+- **All product images now load successfully** - Both main product images and related product thumbnails
 
 ## Project Architecture
 
@@ -46,106 +29,86 @@ Tamiraa is a full-stack e-commerce platform for furniture and home decor. The pr
 - **Build Tool**: Vite 6
 - **UI**: TailwindCSS 4
 - **Port**: 5000 (development)
-- **Key Features**: 
-  - Product management
-  - Category and subcategory management
-  - Order tracking (new, packaged, dispatched, out for delivery, delivered)
-  - Customer management
-  - Coupon and banner management
-  - Charts and analytics
+- **Features**: Product, category, order, customer, coupon, and banner management
 
 ### Backend API (Tamiraa)
 - **Framework**: Express 5
 - **Database**: PostgreSQL (Neon)
 - **ORM**: Sequelize
 - **Port**: 3000
-- **Authentication**: JWT
-- **Key Features**:
-  - User authentication
-  - Product and variant management with persistent image storage
-  - Order processing
-  - Image upload and serving from database
-  - Email notifications
-  - Image serving endpoint: `/api/product-variants/:id/image`
-
-**Note**: The dashboard and customer store are configured to use the Render backend at https://tamiraaecom.onrender.com with Neon PostgreSQL database.
+- **Key Endpoints**:
+  - `/api/product-variants/:variantId/image` - Serves product images from database
+  - `/api/products` - Product listing with variants
+  - `/api/home-banners` - Home page banners
+  - All standard REST endpoints for products, orders, users, etc.
 
 ### Customer Frontend (Tamiraa-UI)
 - **Framework**: React 19 with TypeScript
-- **Build Tool**: Vite
-- **Key Features**:
-  - Product browsing and filtering
-  - Virtual try-on with GlamAR
-  - Shopping cart and wishlist
-  - Product detail pages with variant selection
-  - Category filtering
+- **Build Tool**: Vite with API proxy
+- **Features**: Product browsing, virtual try-on, cart, wishlist, filtering
+- **Development**: Uses Vite proxy to `/api` routes → production backend
+- **Production**: Direct API calls to https://tamiraaecom.onrender.com
 
-### Image Storage Architecture
-**Persistent Storage with BLOB in Neon:**
-- ProductVariant model stores images as BLOB('long') in `productVariantImage` field
-- MIME type stored in `productVariantImageMimeType` field
-- Multer configured with memoryStorage for direct database uploads
-- No filesystem storage - images survive server restarts
-- Images served via `/api/product-variants/:id/image` endpoint with proper Content-Type headers
-
-## Database Configuration
-The backend uses PostgreSQL (Neon) with the following key tables:
-- Users, Categories, SubCategories
-- Products, ProductVariants (with BLOB image storage), ProductVariantChildImages, ProductStock
-- Orders, Bills, Cart, Wishlist
-- Coupons, HomeBanners, CollectionBanners
-- Contacts, Newsletter
-
-**Critical Fields:**
-- `ProductVariant.productVariantImage`: BLOB('long') - Binary image data
-- `ProductVariant.productVariantImageMimeType`: STRING - Image format (e.g., 'image/jpeg')
-
-## Environment Variables
-
-### Backend (Tamiraa)
-Required in .env file:
-- `DB_HOST`: Neon database host
-- `DB_USER`: Database username
-- `DB_PASSWORD`: Database password
-- `DB_NAME`: Database name (neondb)
-- `DB_DIALECT`: postgresql
-- `DB_PORT`: Database port (usually 5432)
-- `BASE_URL`: Backend API URL (https://tamiraaecom.onrender.com)
-- `ADMIN_USERNAME`: Admin login username
-- `ADMIN_PASSWORD`: Admin login password
-- `JWT_SECRET`: JWT signing secret
-- `JWT_EXPIRES_IN`: Token expiration time
-- `MAIL_USER`: Email service username
-- `MAIL_PASS`: Email service password
+## Image Storage Architecture
+- **BLOB Storage**: ProductVariant.productVariantImage stores binary image data in Neon
+- **MIME Type**: ProductVariant.productVariantImageMimeType tracks image format
+- **Upload Handling**: Multer configured with memoryStorage (no disk writes)
+- **Serving**: `/api/product-variants/:id/image` endpoint with proper Content-Type headers
+- **Persistence**: Images survive server restarts - backed by Neon database
 
 ## Development Workflow
-1. Dashboard frontend runs automatically via the "Dashboard Frontend" workflow
-2. Backend needs to be started separately with database configured
-3. Customer frontend (Tamiraa-UI) can be run separately if needed
-4. All product images are persisted in Neon database
 
-## Admin Credentials
-**Default Admin User:**
-- Email: `admin@tamiraa.com`
-- Password: `admin@2025`
-
-**To create admin user after database setup:**
+### Local Development (Port 5000)
 ```bash
-cd Tamiraa
-npm run seed
+# Start E-commerce Store
+cd Tamiraa-UI && npm run dev
+
+# Vite proxy automatically routes:
+# /api/* → https://tamiraaecom.onrender.com/api/*
 ```
 
-This creates the initial admin user for the dashboard.
+### Production Deployment
+- **Store**: Netlify (auto-deploys from GitHub)
+- **Backend**: Render (auto-deploys from GitHub)
+- **Database**: Neon PostgreSQL
+- **Images**: Persistent BLOB storage in Neon
 
-## Deployment
-- Dashboard deployed to Netlify (tamiraaadmin.netlify.app)
-- Store deployed to Netlify (tamiraa.com)
-- Backend deployed to Render (tamiraaecom.onrender.com)
-- Database: Neon PostgreSQL
-- Images: Persistent storage in Neon database via BLOB fields
+## Deployment Checklist
+To push changes to production:
 
-## Key Integrations
-- **GlamAR Virtual Try-On**: Integrated for product visualization on detail pages
-- **Currency**: INR-only (removed USD support)
-- **Image Storage**: Neon PostgreSQL BLOB storage (replaces ephemeral filesystem)
+```bash
+# Backend changes
+cd Tamiraa && git add -A && git commit -m "message" && git push origin main
+
+# Frontend changes
+cd Tamiraa-UI && git add -A && git commit -m "message" && git push origin main
+```
+
+Netlify and Render auto-deploy within 2-3 minutes of GitHub push.
+
+## Admin Credentials
+- **Email**: admin@tamiraa.com
+- **Password**: admin@2025
+
+## Key Features Implemented
+✅ Persistent image storage in PostgreSQL
+✅ GlamAR virtual try-on on product detail pages
+✅ INR-only pricing (USD removed)
+✅ Product filtering by category and price range
+✅ Shopping cart and wishlist functionality
+✅ API proxy for seamless development workflow
+✅ Responsive design with TailwindCSS
+✅ Real-time product data from backend API
+
+## Known Limitations
+- Swiper carousel shows warning about loop mode (harmless, only affects empty states)
+- Home banners currently empty (optional feature)
+- No SMS/payment integration yet
+
+## Next Steps
+1. Upload more products through the dashboard
+2. Create home page banners for promotions
+3. Test virtual try-on across different devices
+4. Monitor image loading performance in production
+5. Consider adding payment integration (Stripe/Razorpay)
 

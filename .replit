@@ -40,18 +40,18 @@ author = "agent"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd Tamiraa-UI && npm run dev"
-waitForPort = 5001
+waitForPort = 5000
 
 [workflows.workflow.metadata]
-outputType = "console"
+outputType = "webview"
+
+[[ports]]
+localPort = 443
+externalPort = 3000
 
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 5001
-externalPort = 3000
 
 [[ports]]
 localPort = 5002
@@ -66,12 +66,12 @@ localPort = 39515
 externalPort = 3003
 
 [[ports]]
-localPort = 44641
-externalPort = 3001
+localPort = 40083
+externalPort = 5000
 
 [[ports]]
-localPort = 45031
-externalPort = 5000
+localPort = 44641
+externalPort = 3001
 
 [deployment]
 deploymentTarget = "static"
