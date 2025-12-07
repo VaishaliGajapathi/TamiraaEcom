@@ -1,23 +1,9 @@
 const multer = require("multer");
-const fs = require("fs");
 const path = require("path");
 
-// For development: use local storage that persists
-const uploadPath = path.join(__dirname, "../uploads");
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const filename = file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname);
-    cb(null, filename);
-  },
-});
+// Use memory storage - images stored directly in database as BLOB, not on disk
+// This ensures file.buffer is available in the controller for database storage
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   const allowed = /jpeg|jpg|png|webp/;
