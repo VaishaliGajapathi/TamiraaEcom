@@ -204,7 +204,7 @@ const handleMoveToCart = async (variantId: number, wishlistId: number) => {
                         <div className="relative overflow-hidden group z-[5] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:bg-title before:opacity-0 before:duration-300 before:z-[5] hover:before:opacity-80">
                           <img
                             className="w-full transform duration-300 group-hover:scale-110"
-                            src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
+                            src={`${API_BASE_URL}/api/product-variants/${variant.productVariantId}/image`}
                             alt="product-card"
                           />
 

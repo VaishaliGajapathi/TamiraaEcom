@@ -8,6 +8,7 @@ interface OrderItem {
   id: number;
   productname: string;
   product_variant_image: string;
+  product_variant_id: number;
   product_price: number;
   quantity: number;
   total_price: number;
@@ -50,7 +51,7 @@ export default function Invoice() {
   const products = orderHistory.map(item => ({
     id: item.id,
     name: item.productname,
-    image: `${API_BASE_URL}/uploads/${item.product_variant_image}`, // adjust path
+    image: `${API_BASE_URL}/api/product-variants/${item.product_variant_id}/image`,
     price: item.product_price ?? 0,
     quantity: item.quantity,
     total: item.total_price,

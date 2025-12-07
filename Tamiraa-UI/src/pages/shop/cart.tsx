@@ -21,6 +21,7 @@ interface Product {
 }
 
 interface ProductVariant {
+  productVariantId: number
   productVariantImage?: string
   productColor?: string
   stockQuantity?: number
@@ -34,7 +35,7 @@ interface CartItem {
   ProductVariant: ProductVariant
 }
 
-const imageBaseUrl = `${API_BASE_URL}/uploads/`
+const getVariantImageUrl = (variantId: number) => `${API_BASE_URL}/api/product-variants/${variantId}/image`
 export default function Cart() {
     const [cartItems, setCartItems] = useState<CartItem[]>([])
      const navigate = useNavigate();
@@ -247,15 +248,7 @@ export default function Cart() {
                                                             /> */}
 
                                                             <img
-                                                                src={`${imageBaseUrl}${
-                                                                    item
-                                                                        .ProductVariant
-                                                                        .productVariantImage ||
-                                                                    item
-                                                                        .ProductVariant
-                                                                        .Product
-                                                                        .productImage
-                                                                }`}
+                                                                src={getVariantImageUrl(item.ProductVariant.productVariantId)}
                                                                 alt={
                                                                     item
                                                                         .ProductVariant
