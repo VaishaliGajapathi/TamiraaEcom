@@ -387,7 +387,7 @@ export default function ProductDetails() {
                                                 }
                                             >
                                                 <img
-                                                    src={`${API_BASE_URL}/uploads/${img.childImage}`}
+                                                    src={variantImageUrl}
                                                     alt={`Variant ${currentVariant?.productId}`}
                                                     className="w-full"
                                                 />
@@ -436,7 +436,7 @@ export default function ProductDetails() {
                                                     }
                                                 >
                                                     <img
-                                                        src={`${API_BASE_URL}/uploads/${img.childImage}`}
+                                                        src={variantImageUrl}
                                                         alt={`Variant ${
                                                             currentVariant?.productVariantId
                                                         } - ${index + 1}`}

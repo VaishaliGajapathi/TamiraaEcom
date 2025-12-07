@@ -462,7 +462,7 @@ export default function IndexFour() {
                                             >
                                                 <img
                                                     className="w-full transform duration-300 group-hover:scale-110"
-                                                    src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
+                                                    src={`${API_BASE_URL}/api/product-variants/${variant.productVariantId}/image`}
                                                     alt={
                                                         variant.Product
                                                             .productName
@@ -749,7 +749,7 @@ export default function IndexFour() {
                                             >
                                                 <img
                                                     className="w-full transform duration-300 group-hover:scale-110"
-                                                    src={`${API_BASE_URL}/uploads/${variant.productVariantImage}`}
+                                                    src={`${API_BASE_URL}/api/product-variants/${variant.productVariantId}/image`}
                                                     alt={
                                                         variant.Product
                                                             .productName
