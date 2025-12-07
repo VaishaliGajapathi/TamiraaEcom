@@ -110,7 +110,7 @@ app.use(cors({
     
   
 
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: false, alter: false });
     console.log('✅ All models synchronized successfully.');
     console.log(`🖼 Image Base URL: ${imageBaseUrl}`);
 
