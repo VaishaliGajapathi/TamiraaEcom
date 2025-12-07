@@ -1,13 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-declare global {
-  interface Window {
-    GlamAR?: {
-      tryOn: (config: { productImage: string; productName: string }) => void;
-    };
-  }
-}
-
 import { useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 // import { useNavigate } from 'react-router-dom'
@@ -687,28 +679,6 @@ export default function ProductDetails() {
                 </div>
             </div>
 
-            {/* GlamAR Try-On Button */}
-            {currentVariant?.productVariantId && (
-                <div className="flex justify-center my-8">
-                    <button
-                        onClick={() => {
-                            if (window.GlamAR && currentVariant?.productVariantId) {
-                                // Always use production URL for GlamAR to access the image
-                                const fullImageUrl = `https://tamiraaecom.onrender.com/api/product-variants/${currentVariant.productVariantId}/image`;
-                                window.GlamAR.tryOn({
-                                    productImage: fullImageUrl,
-                                    productName: product?.productName || 'Product',
-                                });
-                            } else {
-                                showModal('GlamAR plugin is loading. Please try again in a moment.');
-                            }
-                        }}
-                        className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition shadow-lg"
-                    >
-                        👓 Try On with GlamAR
-                    </button>
-                </div>
-            )}
 
             <div className="s-py-50">
                 <div className="container-fluid">
