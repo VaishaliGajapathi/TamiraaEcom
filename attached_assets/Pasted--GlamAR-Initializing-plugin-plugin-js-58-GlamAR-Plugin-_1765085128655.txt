@@ -1,0 +1,60 @@
+[GlamAR] Initializing plugin...
+plugin.js:58 [GlamAR] Plugin ready. Detected 0 product images
+6index-N0ORLzQm.js:265 Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters
+Ga @ index-N0ORLzQm.js:265Understand this warning
+index-N0ORLzQm.js:265 🔍 Product Variants: Object
+5index-N0ORLzQm.js:265 Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters
+Ga @ index-N0ORLzQm.js:265Understand this warning
+index-N0ORLzQm.js:332 Failed to load image: https://tamiraaecom.onrender.com/api/product-variants/6/image
+m @ index-N0ORLzQm.js:332Understand this warning
+index-N0ORLzQm.js:332 Failed to load image: https://tamiraaecom.onrender.com/api/product-variants/7/image
+m @ index-N0ORLzQm.js:332Understand this warning
+index-N0ORLzQm.js:332 Failed to load image: https://tamiraaecom.onrender.com/api/product-variants/8/image
+m @ index-N0ORLzQm.js:332Understand this warning
+index-N0ORLzQm.js:332 Failed to load image: https://tamiraaecom.onrender.com/api/product-variants/9/image
+m @ index-N0ORLzQm.js:332Understand this warning
+9index-N0ORLzQm.js:265 Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters
+Ga @ index-N0ORLzQm.js:265Understand this warning
+4index-N0ORLzQm.js:37 Uncaught TypeError: window.GlamAR.tryOn is not a function
+    at onClick (index-N0ORLzQm.js:340:6496)
+    at Object.m2 (index-N0ORLzQm.js:37:9835)
+    at h2 (index-N0ORLzQm.js:37:9989)
+    at f2 (index-N0ORLzQm.js:37:10046)
+    at hu (index-N0ORLzQm.js:37:31379)
+    at fu (index-N0ORLzQm.js:37:31796)
+    at index-N0ORLzQm.js:37:36873
+    at Xo (index-N0ORLzQm.js:40:37044)
+    at bd (index-N0ORLzQm.js:37:8972)
+    at Kl (index-N0ORLzQm.js:37:33082)Understand this error
+index-N0ORLzQm.js:265 Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters
+Ga @ index-N0ORLzQm.js:265Understand this warning
+6?variant=6:1  Failed to load resource: the server responded with a status of 503 ()Understand this error
+9index-N0ORLzQm.js:265 Swiper Loop Warning: The number of slides is not enough for loop mode, it will be disabled or not function properly. You need to add more slides (or make duplicates) or lower the values of slidesPerView and slidesPerGroup parameters
+Ga @ index-N0ORLzQm.js:265
+Vy @ index-N0ORLzQm.js:265
+Oy @ index-N0ORLzQm.js:265
+G0 @ index-N0ORLzQm.js:265
+(anonymous) @ index-N0ORLzQm.js:265
+(anonymous) @ index-N0ORLzQm.js:265
+emit @ index-N0ORLzQm.js:265
+P @ index-N0ORLzQm.js:265
+requestAnimationFrame
+(anonymous) @ index-N0ORLzQm.js:265
+attributes
+(anonymous) @ index-N0ORLzQm.js:265
+g @ index-N0ORLzQm.js:265
+H @ index-N0ORLzQm.js:261
+B @ index-N0ORLzQm.js:265
+te @ index-N0ORLzQm.js:265
+Q @ index-N0ORLzQm.js:265Understand this warning
+index-N0ORLzQm.js:340 Uncaught TypeError: window.GlamAR.tryOn is not a function
+    at onClick (index-N0ORLzQm.js:340:6496)
+    at Object.m2 (index-N0ORLzQm.js:37:9835)
+    at h2 (index-N0ORLzQm.js:37:9989)
+    at f2 (index-N0ORLzQm.js:37:10046)
+    at hu (index-N0ORLzQm.js:37:31379)
+    at fu (index-N0ORLzQm.js:37:31796)
+    at index-N0ORLzQm.js:37:36873
+    at Xo (index-N0ORLzQm.js:40:37044)
+    at bd (index-N0ORLzQm.js:37:8972)
+    at Kl (index-N0ORLzQm.js:37:33082)
