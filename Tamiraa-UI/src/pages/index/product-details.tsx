@@ -693,8 +693,10 @@ export default function ProductDetails() {
                     <button
                         onClick={() => {
                             if (window.GlamAR && currentVariant?.productVariantId) {
+                                // Always use production URL for GlamAR to access the image
+                                const fullImageUrl = `https://tamiraaecom.onrender.com/api/product-variants/${currentVariant.productVariantId}/image`;
                                 window.GlamAR.tryOn({
-                                    productImage: `${API_BASE_URL}/api/product-variants/${currentVariant.productVariantId}/image`,
+                                    productImage: fullImageUrl,
                                     productName: product?.productName || 'Product',
                                 });
                             } else {
