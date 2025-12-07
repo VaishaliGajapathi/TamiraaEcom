@@ -14,7 +14,12 @@ Tamiraa is a full-stack e-commerce platform for furniture and home decor. The pr
 - ✅ GlamAR virtual try-on integrated and working
 - ✅ Neon PostgreSQL database for production
 
-## Latest Updates (December 6, 2025)
+## Latest Updates (December 7, 2025)
+- **CRITICAL FIX: Backend multer middleware** - Changed `appStorageMiddleware.js` from `diskStorage` to `memoryStorage` to enable BLOB storage in database
+- **Fixed Dashboard form submission** - ProductVariants.tsx now correctly handles File objects instead of converting to strings
+- **Updated E-commerce UI image URLs** - cart.tsx, wishlist.tsx, and invoice.tsx now use `/api/product-variants/:id/image` endpoint
+
+## Previous Updates (December 6, 2025)
 - **Fixed persistent image storage** - Images stored as BLOB in Neon, served via `/api/product-variants/:id/image` endpoint
 - **Fixed GlamAR button positioning** - Now appears correctly after product details, works with database images
 - **Implemented Vite API proxy** - Dev server proxies API requests through Vite to avoid CORS issues
