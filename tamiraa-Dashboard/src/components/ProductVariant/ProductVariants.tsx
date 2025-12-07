@@ -320,16 +320,13 @@ export default function ProductVariants() {
       formData.append("productColor", getColorHex(form.productColor) || form.productColor);
       formData.append("stockQuantity", form.stockQuantity?.toString() || "0");
       formData.append("lowStock", form.lowStock?.toString() || "0");
-      formData.append(
-        "productVariantImage",
-        form.productVariantImage?.toString() || "0"
-      );
 
+      // Only append the actual File or existing image, not a string
       if (form.productVariantImage instanceof File) {
-  formData.append("productVariantImage", form.productVariantImage);
-} else if (typeof form.productVariantImage === "string") {
-  formData.append("existingImage", form.productVariantImage); // backend must handle this
-}
+        formData.append("productVariantImage", form.productVariantImage);
+      } else if (typeof form.productVariantImage === "string" && editingId) {
+        // Only keep existing image if editing (don't append, backend will use current)
+      }
 
       formData.append("isNewArrival", String(form.isNewArrival));
       formData.append("isBestSeller", String(form.isBestSeller));
