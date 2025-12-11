@@ -830,7 +830,7 @@ export default function ProductVariants() {
             {/* Image Upload */}
             <div className="mb-10">
               <label className="block mb-1 text-sm font-medium">
-                Variant Image (726 × 967)
+                Variant Image
               </label>
               <div
                 className="preview-container"
@@ -938,7 +938,7 @@ export default function ProductVariants() {
             {/* Child Images */}
             {/* Child Images */}
             <label className="block mt-4 text-sm font-semibold">
-              Thumb Images (726 × 967)
+              Thumb Images
             </label>
 
             {childImages.map((_, index) => (
